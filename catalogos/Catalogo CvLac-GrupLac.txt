@@ -1,0 +1,79 @@
+# Catalogo de Datos del Proyecto
+# Datos Cvlac/GrupLac
+# ================================
+# Cada entrada incluye el identificador Socrata, la URL, campos clave
+# y la periodicidad de actualizacion.
+#
+# fuentes:
+#   - nombre: "Producción Grupos Investigación"
+#     plataforma: "datos.gov.co"
+#     socrata_id: "33dq-ab5a"
+#     url: "https://www.datos.gov.co/Ciencia-Tecnolog-a-e-Innovaci-n/Producci-n-Grupos-Investigaci-n/33dq-ab5a"
+#     formato: "csv"
+#     campos_clave:
+#       - ID_PERSONA_PD
+#       - COD_GRUPO_GR
+#	- FCREACION_PD
+#     periodicidad: "Trienio"
+#     ultimo_pull: "19 de diciembre de 2025"
+#     notas: "Información sobre los productos, grupos y el Id de los docentes líderes de los grupos de investigación"
+#
+#
+#   - nombre: "Grupos de Investigación Reconocidos"
+#     plataforma: "datos.gov.co"
+#     socrata_id: "hrhc-c4wu"
+#     url: "https://www.datos.gov.co/Ciencia-Tecnolog-a-e-Innovaci-n/Grupos-de-Investigaci-n-Reconocidos/hrhc-c4wu"
+#     formato: "xlsx"
+#     campos_clave:
+#       - COD_GRUPO_GR
+#       - NME_GRUPO_GR
+#       - FCREACION_GR
+#       - NME_CLASIFICACION_GR
+#       - NME_MUNICIPIO_GR
+#       - NME_DEPARTAMENTO_GR
+#       - NME_PAIS_GR
+#       - INST_AVAL
+#       - NME_GRAN_AREA_GR
+#       - ANO_CONVO
+#     periodicidad: "Anual"
+#     ultimo_pull: "25 de septiembre de 2022"
+#     notas: "Grupos de investigación reconocidos por Colciencias en la
+#             convocatoria 2013. Contiene clasificación del grupo (A1, A, B, C),
+#             área y gran área del conocimiento, institución avaladora, ubicación
+#             geográfica (municipio/departamento/región/país, con código DANE),
+#             edad del grupo en años y programas Colciencias asociados (COLC1, COLC2).
+#             Se cruza con 'Producción Grupos Investigación' (33dq-ab5a) mediante
+#             COD_GRUPO_GR para caracterizar los grupos activos de la Universidad
+#             Santo Tomás y evaluar su clasificación y posicionamiento relativo."
+#
+#
+#   - nombre: "Registro de Estrategias de Investigación USTA"
+#     plataforma: "Interna Universidad Santo Tomás"
+#     url: "https://unidadinvestigacion.usta.edu.co/images/Estrategias_Registradas_por_Division_I-2020.xlsx"
+#     formato: "xlsx"
+#     campos_clave:
+#       - Identificación
+#       - Nombre completo del Docente líder de la estrategia
+#       - Código Colciencias del Grupo de investigación
+#       - Grupo de Investigación al que pertenece
+#       - Facultad
+#       - Programa
+#       - División
+#       - Tipo de Vinculación
+#       - Horas nómina asignadas a la estrategia
+#       - Escalafón Docente
+#       - Campo de acción de la estrategia
+#       - Convenio con otra institución
+#       - Linea de Investigación asociada a la Estrategia
+#     periodicidad: "Anual"
+#     ultimo_pull: "30 de abril de 2020"
+#     notas: "Fuente interna USTA. Registra estrategias de formación en CTI declaradas por
+#             docentes. Incluye misión, visión, objetivos y plan de trabajo de cada estrategia.
+#             Permite identificar docentes-investigadores por facultad/programa y vincularlos
+#             con grupos Colciencias vía Código Colciencias del Grupo. Clave para mapear
+#             capacidad instalada de investigación por unidad académica. Requiere gestión
+#             directa con la Vicerrectoría de Investigación para acceso."
+
+
+
+
