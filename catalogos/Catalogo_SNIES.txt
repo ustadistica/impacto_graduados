@@ -1,0 +1,202 @@
+# Catalogo de Datos del Proyecto
+# Datos SNIES - Graduados Educacion Superior Colombia
+# ================================
+# Cada entrada incluye la fuente, URL, campos clave
+# y la periodicidad de actualizacion.
+#
+# fuentes:
+#
+#   - nombre: "Graduados Educacion Superior 2018"
+#     plataforma: "Sistema Nacional de Informacion de la Educacion Superior (SNIES)"
+#     url: "https://snies.mineducacion.gov.co/portal/ESTADISTICAS/Bases-consolidadas/"
+#     formato: "xlsx"
+#     version_estructura: "v1"
+#     num_columnas: 33
+#     campos_clave:
+#       - Codigo de la Institucion
+#       - Codigo SNIES del programa
+#       - Programa Academico
+#       - Nivel Academico
+#       - Nivel de Formacion
+#       - Metodologia
+#       - Area de Conocimiento
+#       - Nucleo Basico del Conocimiento (NBC)
+#       - Departamento de Oferta del Programa
+#       - Municipio de Oferta del Programa
+#       - Sexo
+#       - Ano
+#       - Semestre
+#       - Graduados
+#     periodicidad: "Anual (por semestre)"
+#     ultimo_pull: "2025"
+#     notas: "Estructura base v1. Columnas en formato titulo (primera letra mayuscula).
+#             No incluye clasificacion CINE ni campos de acreditacion.
+#             Sexo codificado como Hombre/Mujer."
+#
+#
+#   - nombre: "Graduados Educacion Superior 2019-2020"
+#     plataforma: "Sistema Nacional de Informacion de la Educacion Superior (SNIES)"
+#     url: "https://snies.mineducacion.gov.co/portal/ESTADISTICAS/Bases-consolidadas/"
+#     formato: "xlsx"
+#     version_estructura: "v2"
+#     num_columnas: 39
+#     campos_clave:
+#       - CODIGO DE LA INSTITUCION
+#       - CODIGO SNIES DEL PROGRAMA
+#       - PROGRAMA ACADEMICO
+#       - NIVEL ACADEMICO
+#       - NIVEL DE FORMACION
+#       - METODOLOGIA
+#       - AREA DE CONOCIMIENTO
+#       - NUCLEO BASICO DEL CONOCIMIENTO (NBC)
+#       - ID CINE CAMPO AMPLIO
+#       - DESC CINE CAMPO AMPLIO
+#       - ID CINE CAMPO ESPECIFICO
+#       - DESC CINE CAMPO ESPECIFICO
+#       - ID CINE CODIGO DETALLADO
+#       - DESC CINE CODIGO DETALLADO
+#       - DEPARTAMENTO DE OFERTA DEL PROGRAMA
+#       - MUNICIPIO DE OFERTA DEL PROGRAMA
+#       - SEXO
+#       - ANO
+#       - SEMESTRE
+#       - GRADUADOS
+#     periodicidad: "Anual (por semestre)"
+#     ultimo_pull: "2025"
+#     notas: "Estructura v2. Columnas en MAYUSCULAS. Incorpora clasificacion CINE
+#             (campo amplio, especifico y detallado) pero sin campos de acreditacion.
+#             Sexo codificado como Hombre/Mujer.
+#             Diferencia entre 2019 y 2020: codigo municipio IES cambia de
+#             CODIGO DEL MUNICIPIO a CODIGO DEL MUNICIPIO (IES)."
+#
+#
+#   - nombre: "Graduados Educacion Superior 2021-2022"
+#     plataforma: "Sistema Nacional de Informacion de la Educacion Superior (SNIES)"
+#     url: "https://snies.mineducacion.gov.co/portal/ESTADISTICAS/Bases-consolidadas/"
+#     formato: "xlsx"
+#     version_estructura: "v3"
+#     num_columnas: 41
+#     campos_clave:
+#       - CODIGO DE LA INSTITUCION
+#       - CODIGO SNIES DEL PROGRAMA
+#       - PROGRAMA ACADEMICO
+#       - NIVEL ACADEMICO
+#       - NIVEL DE FORMACION
+#       - METODOLOGIA
+#       - AREA DE CONOCIMIENTO
+#       - NUCLEO BASICO DEL CONOCIMIENTO (NBC)
+#       - IES ACREDITADA
+#       - PROGRAMA ACREDITADO
+#       - ID CINE CAMPO AMPLIO
+#       - DESC CINE CAMPO AMPLIO
+#       - ID CINE CAMPO ESPECIFICO
+#       - DESC CINE CAMPO ESPECIFICO
+#       - ID CINE CODIGO DETALLADO
+#       - DESC CINE CODIGO DETALLADO
+#       - DEPARTAMENTO DE OFERTA DEL PROGRAMA
+#       - MUNICIPIO DE OFERTA DEL PROGRAMA
+#       - SEXO
+#       - ANO
+#       - SEMESTRE
+#       - GRADUADOS
+#     periodicidad: "Anual (por semestre)"
+#     ultimo_pull: "2025"
+#     notas: "Estructura v3. Incorpora campos de acreditacion institucional
+#             (IES ACREDITADA) y de programa (PROGRAMA ACREDITADO) respecto a v2.
+#             Sexo codificado como Hombre/Mujer.
+#             Diferencia entre 2021 y 2022: el campo ID AREA aparece como
+#             ID AREA DE CONOCIMIENTO en 2021. En 2022 IES PADRE aparece
+#             como IES_PADRE (con guion bajo) y codigo municipio programa
+#             aparece como CDIGO DEL MUNICIPIO (PROGRAMA) con typo."
+#
+#
+#   - nombre: "Graduados Educacion Superior 2023-2024"
+#     plataforma: "Sistema Nacional de Informacion de la Educacion Superior (SNIES)"
+#     url: "https://snies.mineducacion.gov.co/portal/ESTADISTICAS/Bases-consolidadas/"
+#     formato: "xlsx"
+#     version_estructura: "v4"
+#     num_columnas: 41
+#     campos_clave:
+#       - CODIGO DE LA INSTITUCION
+#       - CODIGO SNIES DEL PROGRAMA
+#       - PROGRAMA ACADEMICO
+#       - NIVEL ACADEMICO
+#       - NIVEL DE FORMACION
+#       - MODALIDAD
+#       - AREA DE CONOCIMIENTO
+#       - NUCLEO BASICO DEL CONOCIMIENTO (NBC)
+#       - IES ACREDITADA
+#       - PROGRAMA ACREDITADO
+#       - ID CINE CAMPO AMPLIO
+#       - DESC CINE CAMPO AMPLIO
+#       - ID CINE CAMPO ESPECIFICO
+#       - DESC CINE CAMPO ESPECIFICO
+#       - ID CINE CAMPO DETALLADO
+#       - DESC CINE CAMPO DETALLADO
+#       - DEPARTAMENTO DE OFERTA DEL PROGRAMA
+#       - MUNICIPIO DE OFERTA DEL PROGRAMA
+#       - SEXO
+#       - ANO
+#       - SEMESTRE
+#       - GRADUADOS
+#     periodicidad: "Anual (por semestre)"
+#     ultimo_pull: "2025"
+#     notas: "Estructura v4. Renombra METODOLOGIA por MODALIDAD e ID METODOLOGIA
+#             por ID MODALIDAD respecto a v3. Renombra CARACTER IES por CARACTER IES
+#             e ID CARACTER por ID CARACTER IES. Agrega columna TIPO IES.
+#             Elimina PRINCIPAL O SECCIONAL. Sexo codificado como Masculino/Femenino.
+#             Codigo municipio IES aparece como CODIGO DEL MUNICIPIO IES (sin parentesis)."
+#
+#
+#   - nombre: "SNIES_contexto (Dataset consolidado 2018-2024)"
+#     plataforma: "Procesado interno - Proyecto USTA"
+#     ruta_local: "data/processed/SNIES_contexto.xlsx"
+#     formato: "xlsx"
+#     version_estructura: "consolidada"
+#     num_columnas: 33
+#     campos_clave:
+#       - codigo_institucion
+#       - ies_padre
+#       - institucion
+#       - principal_seccional
+#       - id_sector
+#       - sector
+#       - id_caracter
+#       - caracter
+#       - cod_dpto_ies
+#       - dpto_ies
+#       - cod_mpio_ies
+#       - mpio_ies
+#       - cod_snies_programa
+#       - programa
+#       - id_nivel_academico
+#       - nivel_academico
+#       - id_nivel_formacion
+#       - nivel_formacion
+#       - id_metodologia
+#       - metodologia
+#       - id_area
+#       - area_conocimiento
+#       - id_nbc
+#       - nbc
+#       - cod_dpto_programa
+#       - dpto_programa
+#       - cod_mpio_programa
+#       - mpio_programa
+#       - id_sexo
+#       - sexo
+#       - anio
+#       - semestre
+#       - graduados
+#     periodicidad: "Anual"
+#     script_generacion: "src/consolidar_snies.py"
+#     notas: "Dataset unificado generado a partir de las 7 bases anuales SNIES (2018-2024).
+#             Estandarizacion aplicada:
+#               - Nombres de columnas normalizados a snake_case en minusculas.
+#               - Sexo unificado a Masculino/Femenino (Hombre->Masculino, Mujer->Femenino).
+#               - Nivel de formacion unificado (ej. Universitaria->Universitario).
+#               - Ano convertido a entero Int64 (soporta nulos).
+#               - Columnas exclusivas de versiones nuevas (CINE, acreditacion) excluidas
+#                 para mantener compatibilidad con el formato 2018.
+#             Uso previsto: analisis de graduados USTA 2018-2024, cruce con catalogo
+#             de programas activos e inactivos del SNIES para construir Dataset_SNIES_contexto."
