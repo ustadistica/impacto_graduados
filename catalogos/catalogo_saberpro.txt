@@ -1,0 +1,97 @@
+# Catalogo de Datos del Proyecto
+# ================================
+# Proyecto: Análisis de resultados Saber Pro - Universidad Santo Tomás
+# Cada entrada incluye la fuente, URL, campos clave
+# y la periodicidad de actualización.
+
+fuentes:
+
+  - nombre: "Saber Pro - Resultados Competencias Genéricas"
+    plataforma: "DataIcfes 2.0 (SharePoint ICFES)"
+    socrata_id: null
+    url: "https://icfesgovco.sharepoint.com/sites/DataIcfes2.0/SitePages/Examen-Saber-Pro.aspx"
+    acceso: "Requiere registro y autenticación en el portal DataIcfes 2.0"
+    formato: "txt"
+    descripcion_formato: >
+      Archivo de texto plano delimitado por coma, descargado desde el portal
+      DataIcfes 2.0 del ICFES, sección Examen Saber Pro. Se renombra como
+      Saber_pro_<año>.xlsx tras conversión para procesamiento local.
+
+    campos_clave:
+      # Identificación y periodo
+      - periodo                        # Año y semestre del examen (ej: 20241)
+      - estu_consecutivo               # Identificador único del estudiante
+      - estu_snies_prgmacademico       # Código SNIES del programa académico
+      - estu_prgm_academico            # Nombre del programa académico
+      - estu_nivel_prgm_academico      # Nivel del programa (universitario, etc.)
+      - estu_metodo_prgm               # Metodología (presencial, distancia)
+
+      # Institución
+      - inst_cod_institucion           # Código de la institución
+      - inst_nombre_institucion        # Nombre de la IES (filtro: SANTO TOMAS)
+      - inst_caracter_academico        # Carácter académico (universidad, etc.)
+      - inst_origen                    # Origen (oficial / no oficial)
+      - estu_inst_departamento         # Departamento de la IES
+      - estu_inst_municipio            # Municipio de la IES
+
+      # Puntajes globales
+      - punt_global                    # Puntaje global del estudiante
+      - percentil_global               # Percentil nacional
+      - percentil_nbc                  # Percentil núcleo básico de conocimiento
+
+      # Módulo: Lectura Crítica
+      - mod_lectura_critica_punt       # Puntaje lectura crítica
+      - mod_lectura_critica_desem      # Nivel de desempeño
+      - mod_lectura_critica_pnal       # Percentil nacional
+      - mod_lectura_critica_pnbc       # Percentil NBC
+
+      # Módulo: Razonamiento Cuantitativo
+      - mod_razona_cuantitat_punt      # Puntaje razonamiento cuantitativo
+      - mod_razona_cuantitat_desem     # Nivel de desempeño
+      - mod_razona_cuantitativo_pnal   # Percentil nacional
+      - mod_razona_cuantitativo_pnbc   # Percentil NBC
+
+      # Módulo: Comunicación Escrita
+      - mod_comuni_escrita_punt        # Puntaje comunicación escrita
+      - mod_comuni_escrita_desem       # Nivel de desempeño
+      - mod_comuni_escrita_pnal        # Percentil nacional
+      - mod_comuni_escrita_pnbc        # Percentil NBC
+
+      # Módulo: Inglés
+      - mod_ingles_punt                # Puntaje inglés
+      - mod_ingles_desem               # Nivel de desempeño (A-, A1, A2, B1, B+)
+      - mod_ingles_pnal                # Percentil nacional
+      - mod_ingles_pnbc                # Percentil NBC
+
+      # Módulo: Competencias Ciudadanas
+      - mod_competen_ciudada_punt      # Puntaje competencias ciudadanas
+      - mod_competen_ciudada_desem     # Nivel de desempeño
+      - mod_competen_ciudada_pnal      # Percentil nacional
+      - mod_competen_ciudada_pnbc      # Percentil NBC
+
+      # Variables socioeconómicas (contexto)
+      - estu_genero                    # Género del estudiante
+      - fami_estratovivienda           # Estrato socioeconómico
+      - fami_educacionpadre            # Nivel educativo del padre
+      - fami_educacionmadre            # Nivel educativo de la madre
+      - fami_tieneinternet             # Acceso a internet en el hogar
+      - fami_tienecomputador           # Acceso a computador en el hogar
+      - estu_horassemanatrabaja        # Horas semanales que trabaja
+
+    periodicidad: "semestral"
+    cobertura_temporal: "2018 - 2024"
+    ultimo_pull: "2025-07-31"
+    filtro_aplicado: "inst_nombre_institucion CONTAINS 'SANTO TOMAS'"
+    sedes_usta:
+      - "UNIVERSIDAD SANTO TOMAS-BOGOTÁ D.C."
+      - "UNIVERSIDAD SANTO TOMAS-BUCARAMANGA"
+      - "UNIVERSIDAD SANTO TOMAS-TUNJA"
+    notas: >
+      Dataset descargado por año desde el portal DataIcfes 2.0 del ICFES,
+      sección Examen Saber Pro (pruebas genéricas). Requiere registro y
+      autenticación en la plataforma SharePoint del ICFES. Cada archivo
+      descargado en formato .txt (delimitado por coma) cubre un periodo
+      semestral y se nombra localmente como Saber_pro_<año>.xlsx tras
+      conversión. Para el análisis se filtra por Universidad Santo Tomás
+      (3 sedes) conservando variables de puntajes, competencias genéricas
+      y grupo de referencia.

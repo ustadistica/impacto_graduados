@@ -1,0 +1,116 @@
+# Catalogo de Datos del Proyecto
+# ================================
+# Proyecto: Análisis de creación empresarial - Universidad Santo Tomás
+# Cada entrada incluye la fuente, URL, campos clave
+# y la periodicidad de actualización.
+
+fuentes:
+
+  - nombre: "Personas Naturales, Personas Jurídicas y Entidades Sin Animo de Lucro"
+    plataforma: "datos.gov.co"
+    socrata_id: "c82u-588k"
+    url: "https://www.datos.gov.co/Comercio-Industria-y-Turismo/Personas-Naturales-Personas-Jur-dicas-y-Entidades-/c82u-588k"
+    acceso: "Descarga pública sin autenticación desde datos.gov.co"
+    formato: "csv"
+    descripcion_formato: >
+      Archivo CSV descargado desde el portal datos.gov.co.
+      Contiene los datos básicos del Registro Mercantil administrado
+      por las Cámaras de Comercio a nivel nacional, sincronizados
+      en el Registro Único Empresarial y Social (RUES).
+      Suministrado por CONFECAMARAS - Vicepresidencia de Tecnología.
+
+    campos_clave:
+      # Identificación de la cámara y registro
+      - codigo_camara               # Código de la cámara de comercio
+      - camara_comercio             # Nombre de la cámara (filtro: sedes USTA)
+      - matricula                   # Número de matrícula mercantil
+      - razon_social                # Razón social de la empresa
+      - primer_nombre               # Primer nombre (personas naturales)
+      - primer_apellido             # Primer apellido (personas naturales)
+
+      # Identificación tributaria
+      - codigo_clase_identificacion # Código tipo de documento
+      - clase_identificacion        # Tipo de documento (CC, NIT, etc.)
+      - numero_identificacion       # Número de documento
+      - nit                         # NIT de la empresa
+      - digito_verificacion         # Dígito de verificación del NIT
+
+      # Actividad económica
+      - cod_ciiu_act_econ_pri       # Código CIIU actividad principal (filtro análisis)
+      - cod_ciiu_act_econ_sec       # Código CIIU actividad secundaria
+
+      # Fechas clave
+      - fecha_matricula             # Fecha de matrícula (base para año de creación)
+      - fecha_renovacion            # Fecha de última renovación
+      - ultimo_ano_renovado         # Último año renovado
+      - fecha_vigencia              # Fecha de vigencia
+      - fecha_cancelacion           # Fecha de cancelación (si aplica)
+      - fecha_actualizacion         # Fecha de última actualización del registro
+
+      # Clasificación jurídica
+      - codigo_tipo_sociedad        # Código tipo de sociedad
+      - tipo_sociedad               # Tipo de sociedad (comercial, etc.)
+      - codigo_organizacion_juridica# Código organización jurídica
+      - organizacion_juridica       # Tipo de organización (persona natural, jurídica, ESADL)
+      - codigo_categoria_matricula  # Código categoría de matrícula
+      - categoria_matricula         # Categoría de la matrícula
+      - codigo_estado_matricula     # Código estado de la matrícula
+      - estado_matricula            # Estado (activa, cancelada, etc.)
+
+      # Representante legal
+      - clase_identificacion_RL             # Tipo doc. representante legal
+      - Num Identificacion Representante Legal  # Número doc. representante legal
+      - Representante Legal                 # Nombre del representante legal
+
+    periodicidad: "mensual"
+    cobertura_geografica: "Nacional"
+    fecha_creacion_dataset: "2021-10-26"
+    ultima_actualizacion_datos: "2026-02-27"
+    ultima_actualizacion_metadatos: "2025-12-19"
+    ultimo_pull: "2026-03-27"
+    propietario: "serviciorues"
+    entidad_suministradora: "CONFECAMARAS"
+    dependencia: "Vicepresidencia de Tecnología"
+    sector: "Comercio, Industria y Turismo"
+    idioma: "Español"
+    etiquetas:
+      - camaras de comercio
+      - personas naturales
+      - personas juridicas
+      - entidades sin animo de lucro
+      - confecamaras
+      - registro mercantil
+      - rues
+
+    filtro_aplicado: "camara_comercio IN (sedes y centros de atención USTA)"
+    camaras_usta_incluidas:
+      - "BOGOTA"
+      - "BUCARAMANGA"
+      - "TUNJA"
+      - "MEDELLIN PARA ANTIOQUIA"
+      - "VILLAVICENCIO"
+      - "MANIZALES"
+      - "CUCUTA"
+      - "IBAGUE"
+      - "HUILA"
+      - "PASTO"
+      - "PEREIRA"
+      - "BARRANQUILLA"
+      - "CARTAGENA"
+      - "ARMENIA"
+      - "SOGAMOSO"
+      - "CALI"
+      - "SANTA MARTA PARA EL MAGDALENA"
+
+    notas: >
+      Dataset descargado desde el portal de datos abiertos de Colombia
+      (datos.gov.co), sección Comercio, Industria y Turismo.
+      Contiene registros de Personas Naturales, Personas Jurídicas y
+      Entidades Sin Ánimo de Lucro (ESADLs) del Registro Mercantil,
+      administrado por las Cámaras de Comercio y sincronizado en el RUES.
+      Para el análisis se filtra por las cámaras de comercio correspondientes
+      a los municipios donde la USTA tiene sede o centro de atención,
+      conservando variables de actividad CIIU, fecha de matrícula,
+      tipo de organización y estado del registro.
+      El archivo descargado supera los 9 millones de registros y se
+      procesa con DuckDB por limitaciones de Excel.
