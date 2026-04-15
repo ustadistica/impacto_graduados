@@ -19,14 +19,15 @@ RESULTADO:
 import pandas as pd
 import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.normpath(os.path.join(BASE_DIR, '..', '..', 'data'))
+
 # Años disponibles (sin 2016 ni 2018)
 AÑOS = [2017, 2019, 2020, 2021]
 
 NOMBRE_ARCHIVO = "Producción_Grupos_Investigación_{año}.xlsx"
 ARCHIVO_SALIDA = os.path.join(DATA_DIR, "Produccion_Consolidada_2017_2021.csv")
 
-# Ruta a la carpeta de datos
-DATA_DIR = "../../data"
 
 def main():
     print("=" * 55)
