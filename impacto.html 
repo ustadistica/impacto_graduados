@@ -1,0 +1,491 @@
+
+python3 << 'PYEOF'
+import re
+
+with open('/mnt/user-data/uploads/USTA_GRUPLAC_CVLAC.html','r',encoding='utf-8') as f:
+    gruplac = f.read()
+with open('/mnt/user-data/uploads/usta_presentacion__1_.html','r',encoding='utf-8') as f:
+    snies = f.read()
+
+gruplac_script = re.search(r'<script>(.*?)</script>', gruplac, re.DOTALL).group(1)
+snies_script = re.search(r'<script>(.*?)</script>', snies, re.DOTALL).group(1)
+
+# Fix SNIES color palette to match GRUPLAC blues
+snies_script_fixed = snies_script
+for old, new in [
+    ("const AZUL='#1A3E6B'", "const AZUL='#1A4E8A'"),
+    ("const AZUL2='#0D2240'", "const AZUL2='#003366'"),
+    ("const ORO='#C8A951'", "const ORO='#C49A22'"),
+    ("Chart.defaults.font.family='Outfit'", "Chart.defaults.font.family='DM Sans'"),
+    ("'#C25B8A'", "'#7B9ED9'"),  # pink -> blue for gender bars
+]:
+    snies_script_fixed = snies_script_fixed.replace(old, new)
+
+# Remove SNIES slide navigation logic (we use GRUPLAC scroll)
+snies_script_fixed = re.sub(r'const TOTAL\s*=.*?(?=const AZUL=)', '', snies_script_fixed, flags=re.DOTALL)
+snies_script_fixed = re.sub(r'const slides\s*=.*?(?=// ══)', '', snies_script_fixed, flags=re.DOTALL)
+snies_script_fixed = re.sub(r'function goTo.*?function changeSlide.*?\}', '', snies_script_fixed, flags=re.DOTALL)
+snies_script_fixed = re.sub(r'document\.addEventListener\(\'keydown\'.*?\}\);', '', snies_script_fixed, flags=re.DOTALL)
+snies_script_fixed = re.sub(r'const dotsEl.*?dotsEl\.appendChild.*?\}', '', snies_script_fixed, flags=re.DOTALL)
+
+# Extract gruplac sections
+gruplac_secs = re.findall(r'(<section[^>]*class="slide[^"]*"[^>]*>.*?)(?=<section[^>]*class="slide|<script|$)', gruplac, re.DOTALL)
+
+def to_blue(html):
+    pairs = [
+        ('#0a1f0a','#001a3d'),('#0f3318','#001433'),('#16512a','#002255'),('#0d2d1a','#001a44'),
+        ('rgba(22,163,74,0.35)','rgba(46,117,182,0.35)'),('rgba(22,163,74,0.3)','rgba(46,117,182,0.3)'),
+        ('rgba(22,163,74,0.2)','rgba(46,117,182,0.25)'),('rgba(22,163,74,0.15)','rgba(46,117,182,0.15)'),
+        ('rgba(22,163,74,0.12)','rgba(46,117,182,0.12)'),('rgba(22,163,74,0.10)','rgba(46,117,182,0.1)'),
+        ('rgba(22,163,74,0.08)','rgba(46,117,182,0.08)'),
+        ('rgba(74,222,128,0.08)','rgba(96,165,250,0.08)'),('rgba(74,222,128,0.2)','rgba(96,165,250,0.2)'),
+        ('rgba(74,222,128,0.4)','rgba(96,165,250,0.4)'),('rgba(74,222,128,0.5)','rgba(96,165,250,0.5)'),
+        ('rgba(74,222,128,','rgba(96,165,250,'),('#4ade80','#60a5fa'),
+        ('color:#15803d','color:var(--azul-med)'),
+        ('background:linear-gradient(135deg,#f0fdf4,#dcfce7)','background:linear-gradient(135deg,#eff6ff,#dbeafe)'),
+        ('border:1px solid rgba(22,163,74,0.3)','border:1px solid rgba(46,117,182,0.3)'),
+        ('border:1px solid rgba(74,222,128,0.2)','border:1px solid rgba(96,165,250,0.25)'),
+        ('border-left:4px solid var(--verde)','border-left:4px solid var(--azul-claro)'),
+        ('border-left:3px solid var(--verde)','border-left:3px solid var(--azul-claro)'),
+        ('border-bottom:2px solid rgba(22,163,74,0.2)','border-bottom:2px solid rgba(46,117,182,0.3)'),
+        ('color:rgba(22,163,74,0.5)','color:rgba(46,117,182,0.5)'),
+        ('background:rgba(22,163,74,0.15)','background:rgba(46,117,182,0.15)'),
+        ('border-color:rgba(22,163,74,0.4)','border-color:rgba(46,117,182,0.4)'),
+        ('style="color:var(--verde);"','style="color:var(--azul-claro);"'),
+        ('style="color:var(--verde)"','style="color:var(--azul-claro)"'),
+        ('"color:var(--verde)','"color:var(--azul-claro)'),
+        ('background:linear-gradient(145deg,#0a1f0a 0%,#0f3318 45%,#0d2d1a 100%)','background:var(--grad-port)'),
+        ('background:rgba(22,163,74,0.12)','background:rgba(46,117,182,0.12)'),
+        ('background:rgba(22,163,74,0.08)','background:rgba(46,117,182,0.08)'),
+    ]
+    for o,n in pairs:
+        html = html.replace(o,n)
+    return html
+
+# Build SNIES slides in GRUPLAC style
+# Map original SNIES content to GRUPLAC section structure
+snies_slides_html = []
+
+slide_configs = [
+    # (section_num, title_em, subtitle, body_html)
+]
+
+# S1 - PORTADA (special)
+s1_portada = '''
+<section class="slide slide-portada" id="snies-slide-0" style="background:var(--grad-snies);">
+  <div class="portada-ornament" style="background:linear-gradient(135deg,transparent 30%,rgba(46,117,182,0.12) 100%);"></div>
+  <div class="portada-lines">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="portada-badge" style="background:rgba(46,117,182,0.2);border-color:rgba(46,117,182,0.5);color:var(--azul-claro);">
+    SNIES · Sistema Nacional de Información de Educación Superior
+  </div>
+  <h1 class="portada-title">Análisis de<br><em style="color:var(--azul-claro);">Graduados</em><br>2018–2024</h1>
+  <p class="portada-sub">Siete años de datos del SNIES: tendencias, programas, género, cobertura geográfica y proyecciones de la Universidad Santo Tomás.</p>
+  <div class="portada-kpis">
+    <div class="portada-kpi"><span class="portada-kpi-val" style="color:var(--azul-claro);">49.342</span><span class="portada-kpi-lbl">Graduados totales</span></div>
+    <div class="portada-divider"></div>
+    <div class="portada-kpi"><span class="portada-kpi-val" style="color:var(--azul-claro);">+15%</span><span class="portada-kpi-lbl">Crecimiento 18–24</span></div>
+    <div class="portada-divider"></div>
+    <div class="portada-kpi"><span class="portada-kpi-val" style="color:var(--azul-claro);">37%</span><span class="portada-kpi-lbl">Son posgrado</span></div>
+    <div class="portada-divider"></div>
+    <div class="portada-kpi"><span class="portada-kpi-val" style="color:var(--azul-claro);">54,7%</span><span class="portada-kpi-lbl">Son mujeres</span></div>
+  </div>
+  <div class="portada-footer">
+    <span class="portada-footer-txt">Fuente: SNIES · MEN Colombia · 307.602 registros analizados</span>
+    <span class="portada-scroll">Continuar</span>
+  </div>
+</section>
+'''
+
+# S2 - Evolución
+s2 = '''
+<section class="slide slide-content" id="snies-slide-1">
+  <div class="sec-header" style="background:linear-gradient(135deg,#001a3d,#002a5e);">
+    <div class="sec-number">S01 · SNIES 2018–2024</div>
+    <h2 class="sec-title">Evolución de Graduados <em>por Año</em></h2>
+    <p class="sec-sub">Comportamiento anual de graduados USTA vs universidades pares multicampus · 2018–2024</p>
+  </div>
+  <div class="sec-body">
+    <div class="cards-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px;">
+      <div class="kpi-card azul"><div class="kpi-val">6.208</div><div class="kpi-lbl">Mínimo 2020 · Impacto COVID</div></div>
+      <div class="kpi-card azul2"><div class="kpi-val">8.013</div><div class="kpi-lbl">Máximo 2024 · Récord histórico</div></div>
+      <div class="kpi-card dorado"><div class="kpi-val">+15%</div><div class="kpi-lbl">Crecimiento acumulado 2018–2024</div></div>
+      <div class="kpi-card gris"><div class="kpi-val">#12</div><div class="kpi-lbl">Ranking nacional entre 287 IES</div></div>
+    </div>
+    <div class="chart-grid chart-grid-2">
+      <div class="chart-box" style="grid-column:1/-1;">
+        <div class="chart-title">Graduados por año — USTA vs pares nacionales</div>
+        <div class="chart-sub">Valores absolutos · Universidad Santo Tomás destacada</div>
+        <div class="chart-wrap" style="height:320px;"><canvas id="c2"></canvas></div>
+      </div>
+    </div>
+    <div class="insight" style="margin-top:16px;">
+      La USTA superó el impacto del COVID con una recuperación sostenida. <strong>8.013 graduados en 2024</strong> es el máximo histórico del período. Frente a pares: UNIMINUTO creció +25%, U. Cooperativa cayó –10%; la USTA mantiene crecimiento positivo real con <strong>+218 graduados/año de pendiente</strong>.
+    </div>
+  </div>
+</section>
+'''
+
+# S3 - Programas
+s3 = '''
+<section class="slide slide-content" id="snies-slide-2">
+  <div class="sec-header" style="background:linear-gradient(135deg,#001a3d,#002a5e);">
+    <div class="sec-number">S02 · SNIES 2018–2024</div>
+    <h2 class="sec-title">Programas con más <em>Graduados</em></h2>
+    <p class="sec-sub">Top 10 programas por número de graduados acumulados 2018–2024</p>
+  </div>
+  <div class="sec-body">
+    <div class="chart-grid chart-grid-2">
+      <div class="chart-box">
+        <div class="chart-title">Ranking de programas — graduados acumulados</div>
+        <div class="chart-sub">Top 10 · 2018–2024 · Derecho lidera con amplia diferencia</div>
+        <div class="chart-wrap" style="height:380px;"><canvas id="c3"></canvas></div>
+      </div>
+      <div class="chart-box" style="display:flex;flex-direction:column;gap:10px;">
+        <div class="chart-title">Top 5 programas</div>
+        <div class="chart-sub">Detalle de los programas más representativos</div>
+        <div class="prog-card"><div class="prog-rank top">1</div><div class="prog-info"><div class="pname">Derecho</div><div class="pn">9.578 · 19,4% del total</div></div></div>
+        <div class="prog-card"><div class="prog-rank">2</div><div class="prog-info"><div class="pname">Negocios Internacionales</div><div class="pn">2.675 graduados</div></div></div>
+        <div class="prog-card"><div class="prog-rank">3</div><div class="prog-info"><div class="pname">Arquitectura</div><div class="pn">1.866 graduados</div></div></div>
+        <div class="prog-card"><div class="prog-rank">4</div><div class="prog-info"><div class="pname">Esp. Derecho Administrativo</div><div class="pn">1.830 graduados</div></div></div>
+        <div class="prog-card"><div class="prog-rank">5</div><div class="prog-info"><div class="pname">Ingeniería Civil</div><div class="pn">1.820 graduados</div></div></div>
+        <div class="insight"><strong>Derecho</strong> concentra casi 1 de cada 5 graduados USTA — peso único frente a pares como Javeriana o Libre donde ningún programa domina tanto.</div>
+      </div>
+    </div>
+  </div>
+</section>
+'''
+
+# S4 - Género
+s4 = '''
+<section class="slide slide-content" id="snies-slide-3">
+  <div class="sec-header" style="background:linear-gradient(135deg,#001a3d,#002a5e);">
+    <div class="sec-number">S03 · SNIES 2018–2024</div>
+    <h2 class="sec-title">Perfil por <em>Género</em></h2>
+    <p class="sec-sub">Distribución por género y comparativo con universidades pares · 2018–2024</p>
+  </div>
+  <div class="sec-body">
+    <div class="chart-grid chart-grid-2">
+      <div class="chart-box">
+        <div class="chart-title">Brecha de género — USTA vs pares</div>
+        <div class="chart-sub">% mujeres graduadas por institución</div>
+        <div class="big-stat" style="margin-bottom:16px;"><div class="num">54,7%</div><div class="lbl">de los graduados USTA son mujeres — por encima del promedio de pares privados</div></div>
+        <div style="font-size:13px;font-weight:600;color:var(--gris-txt);margin-bottom:8px;">Comparativo por institución</div>
+        <div style="font-size:12px;color:var(--gris-muted);margin-bottom:4px;">U. Santo Tomás</div>
+        <div class="gender-bar"><div class="female" style="width:54.7%"><span>54,7%</span></div><div class="male" style="width:45.3%"><span>45,3%</span></div></div>
+        <div style="font-size:12px;color:var(--gris-muted);margin-top:8px;margin-bottom:4px;">P. U. Javeriana</div>
+        <div class="gender-bar"><div class="female" style="width:56.3%"><span>56,3%</span></div><div class="male" style="width:43.7%"><span>43,7%</span></div></div>
+        <div style="font-size:12px;color:var(--gris-muted);margin-top:8px;margin-bottom:4px;">U. de los Andes</div>
+        <div class="gender-bar"><div class="female" style="width:45.2%"><span>45,2%</span></div><div class="male" style="width:54.8%"><span>54,8%</span></div></div>
+        <div style="font-size:12px;color:var(--gris-muted);margin-top:8px;margin-bottom:4px;">UNIMINUTO</div>
+        <div class="gender-bar"><div class="female" style="width:70.8%"><span>70,8%</span></div><div class="male" style="width:29.2%"><span>29,2%</span></div></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Brecha por programa USTA</div>
+        <div class="chart-sub">% mujeres vs hombres por programa · 2018–2024</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+          <div class="brecha-prog"><div class="pname">Derecho</div><div class="brecha-bar"><div class="f" style="width:62%"></div><div class="m" style="width:38%"></div></div><div class="brecha-pcts"><span>62% Mujeres</span><span>38% Hombres</span></div></div>
+          <div class="brecha-prog"><div class="pname">Contaduría Pública</div><div class="brecha-bar"><div class="f" style="width:55%"></div><div class="m" style="width:45%"></div></div><div class="brecha-pcts"><span>55% Mujeres</span><span>45% Hombres</span></div></div>
+          <div class="brecha-prog"><div class="pname">Negocios Internacionales</div><div class="brecha-bar"><div class="f" style="width:52%"></div><div class="m" style="width:48%"></div></div><div class="brecha-pcts"><span>52% Mujeres</span><span>48% Hombres</span></div></div>
+          <div class="brecha-prog"><div class="pname">Arquitectura</div><div class="brecha-bar"><div class="f" style="width:50%"></div><div class="m" style="width:50%"></div></div><div class="brecha-pcts"><span>50% Mujeres</span><span>50% Hombres</span></div></div>
+          <div class="brecha-prog"><div class="pname">Ingeniería Civil</div><div class="brecha-bar"><div class="f" style="width:35%"></div><div class="m" style="width:65%"></div></div><div class="brecha-pcts"><span>35% Mujeres</span><span>65% Hombres</span></div></div>
+        </div>
+        <div class="chart-wrap" style="height:180px;"><canvas id="c4"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
+'''
+
+# S5 - Nivel y Modalidad
+s5 = '''
+<section class="slide slide-content" id="snies-slide-4">
+  <div class="sec-header" style="background:linear-gradient(135deg,#001a3d,#002a5e);">
+    <div class="sec-number">S04 · SNIES 2018–2024</div>
+    <h2 class="sec-title">Nivel de Formación y <em>Modalidad</em></h2>
+    <p class="sec-sub">Distribución por nivel académico y modalidad de estudio · Acumulado 2018–2024</p>
+  </div>
+  <div class="sec-body">
+    <div class="chart-grid chart-grid-2">
+      <div class="chart-box" style="display:flex;flex-direction:column;gap:12px;">
+        <div class="chart-title">Indicadores clave</div>
+        <div class="chart-sub">Nivel y modalidad — Universidad Santo Tomás</div>
+        <div class="metric-card"><div class="circle">54%</div><div class="info"><div class="val">54,3%</div><div class="lbl">Pregrado universitario</div></div></div>
+        <div class="metric-card"><div class="circle" style="background:var(--dorado);color:white;">37%</div><div class="info"><div class="val">37,0%</div><div class="lbl">Posgrado — alto para Colombia (promedio sistema: ~22%)</div></div></div>
+        <div class="metric-card"><div class="circle" style="background:var(--azul-claro);">83%</div><div class="info"><div class="val">82,6%</div><div class="lbl">Modalidad presencial</div></div></div>
+        <div class="metric-card"><div class="circle" style="background:var(--azul-med);font-size:1em;">12%</div><div class="info"><div class="val">11,9%</div><div class="lbl">Distancia (tradicional)</div></div></div>
+        <div class="insight">El <strong>37% de posgrado</strong> supera el promedio nacional (~22%) y es comparable con U. Libre (47%) y Javeriana (44%), reflejando una apuesta estratégica por formación avanzada.</div>
+      </div>
+      <div class="chart-box" style="display:flex;flex-direction:column;gap:16px;">
+        <div class="chart-title">Distribución gráfica</div>
+        <div class="chart-sub">Por nivel académico y por modalidad</div>
+        <div class="chart-wrap" style="flex:1;min-height:180px;"><canvas id="c5a"></canvas></div>
+        <div class="chart-wrap" style="flex:1;min-height:180px;"><canvas id="c5b"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
+'''
+
+# S6 - Geografía
+s6 = '''
+<section class="slide slide-content" id="snies-slide-5">
+  <div class="sec-header" style="background:linear-gradient(135deg,#001a3d,#002a5e);">
+    <div class="sec-number">S05 · SNIES 2018–2024</div>
+    <h2 class="sec-title">Distribución <em>Geográfica</em></h2>
+    <p class="sec-sub">Cobertura territorial USTA comparada con universidades de referencia · 2018–2024</p>
+  </div>
+  <div class="sec-body">
+    <div class="chart-grid chart-grid-2">
+      <div class="chart-box">
+        <div class="chart-title">Departamentos cubiertos — comparativo</div>
+        <div class="chart-sub">N.° de departamentos con graduados por institución</div>
+        <div class="chart-wrap" style="height:360px;"><canvas id="c6"></canvas></div>
+      </div>
+      <div class="chart-box" style="display:flex;flex-direction:column;gap:10px;">
+        <div class="chart-title">Graduados por región USTA</div>
+        <div class="chart-sub">Distribución geográfica acumulada 2018–2024</div>
+        <div class="geo-card"><div class="city">Bogotá D.C.</div><div class="nums"><span class="n">18.120</span><span class="pct">36,7%</span></div></div>
+        <div class="geo-card"><div class="city">Santander (Bucaramanga)</div><div class="nums"><span class="n">14.422</span><span class="pct">29,2%</span></div></div>
+        <div class="geo-card"><div class="city">Boyacá (Tunja)</div><div class="nums"><span class="n">8.476</span><span class="pct">17,2%</span></div></div>
+        <div class="geo-card"><div class="city">Meta (Villavicencio)</div><div class="nums"><span class="n">4.830</span><span class="pct">9,8%</span></div></div>
+        <div class="geo-card"><div class="city">Otras regiones</div><div class="nums"><span class="n">3.594</span><span class="pct">7,3%</span></div></div>
+        <div class="insight"><strong>63% de graduados fuera de Bogotá.</strong> La USTA cubre <strong>26 departamentos</strong>, más que la Javeriana (12) y los Andes (7). Vocación regional única entre privadas de élite.</div>
+      </div>
+    </div>
+  </div>
+</section>
+'''
+
+# S7 - Posgrados
+s7 = '''
+<section class="slide slide-content" id="snies-slide-6">
+  <div class="sec-header" style="background:linear-gradient(135deg,#001a3d,#002a5e);">
+    <div class="sec-number">S06 · SNIES 2018–2024</div>
+    <h2 class="sec-title">Posgrados: <em>Especializaciones y Maestrías</em></h2>
+    <p class="sec-sub">Programas de posgrado con mayor número de graduados y posición comparativa USTA</p>
+  </div>
+  <div class="sec-body">
+    <div class="chart-grid chart-grid-2">
+      <div class="chart-box">
+        <div class="chart-title">% de posgrado por institución</div>
+        <div class="chart-sub">Porcentaje de graduados de posgrado sobre el total 2018–2024</div>
+        <div class="chart-wrap" style="height:380px;"><canvas id="c7"></canvas></div>
+      </div>
+      <div class="chart-box" style="display:flex;flex-direction:column;gap:8px;">
+        <div class="chart-title">Top programas de posgrado USTA</div>
+        <div class="chart-sub">Especializaciones y maestrías con más graduados</div>
+        <div style="font-size:11px;font-weight:700;color:var(--gris-muted);text-transform:uppercase;letter-spacing:1px;padding:4px 0 2px;">Top Especializaciones</div>
+        <div class="posg-row"><span class="pname">Esp. Derecho Administrativo</span><span class="pn">2.209</span></div>
+        <div class="posg-row"><span class="pname">Patología de la Construcción</span><span class="pn">587</span></div>
+        <div class="posg-row"><span class="pname">Gerencia de Proyectos</span><span class="pn">429</span></div>
+        <div class="posg-row"><span class="pname">Gerencia Empresarial</span><span class="pn">407</span></div>
+        <div class="posg-row"><span class="pname">Psicología Jurídica y Forense</span><span class="pn">397</span></div>
+        <div style="font-size:11px;font-weight:700;color:var(--gris-muted);text-transform:uppercase;letter-spacing:1px;padding:8px 0 2px;">Top Maestrías</div>
+        <div class="posg-row"><span class="pname">Maestría en Educación</span><span class="pn">501</span></div>
+        <div class="posg-row"><span class="pname">Maestría en Didáctica</span><span class="pn">412</span></div>
+        <div class="posg-row"><span class="pname">Dir. y Gestión de Proyectos</span><span class="pn">314</span></div>
+        <div class="posg-row"><span class="pname">Derecho Administrativo</span><span class="pn">275</span></div>
+        <div class="insight" style="margin-top:8px;">El <strong>37% de posgrado</strong> de la USTA la posiciona como referente en formación avanzada dentro del sistema multicampus colombiano.</div>
+      </div>
+    </div>
+  </div>
+</section>
+'''
+
+# S8 - Sedes
+s8 = '''
+<section class="slide slide-content" id="snies-slide-7">
+  <div class="sec-header" style="background:linear-gradient(135deg,#001a3d,#002a5e);">
+    <div class="sec-number">S07 · SNIES 2018–2024</div>
+    <h2 class="sec-title">Evolución por <em>Sede / Seccional</em></h2>
+    <p class="sec-sub">Graduados por sede principal: Bogotá, Santander, Boyacá y Meta · 2018–2024</p>
+  </div>
+  <div class="sec-body">
+    <div class="chart-grid chart-grid-2">
+      <div class="chart-box">
+        <div class="chart-title">Graduados por sede — series apiladas</div>
+        <div class="chart-sub">Evolución anual por seccional · 2018–2024</div>
+        <div class="chart-wrap" style="height:380px;"><canvas id="c8"></canvas></div>
+      </div>
+      <div class="chart-box" style="display:flex;flex-direction:column;gap:12px;">
+        <div class="chart-title">Indicadores por sede</div>
+        <div class="chart-sub">Crecimiento y tendencias 2018–2024</div>
+        <div class="sede-card bog"><div class="city">Bogotá</div><div class="crec">+56%</div><div class="desc">De 1.947 a 3.038 grad. Lidera desde 2020. Mayor concentración de posgrados del sistema.</div></div>
+        <div class="sede-card buc"><div class="city">Santander (Bucaramanga)</div><div class="crec">recuperación</div><div class="desc">Cayó un 61% en 2020 por COVID. Se recupera gradualmente. Sede con mayor base histórica.</div></div>
+        <div class="sede-card tun"><div class="city">Boyacá (Tunja)</div><div class="crec">+76%</div><div class="desc">La más estable. Crecimiento constante de 866 a 1.524. Sin grandes caídas en ningún año.</div></div>
+        <div class="insight">Meta es la sede de <strong>mayor crecimiento relativo: +90%</strong> (510→967). Las sedes regionales representan la fortaleza diferencial de la USTA.</div>
+      </div>
+    </div>
+  </div>
+</section>
+'''
+
+# S9 - Brecha género
+s9 = '''
+<section class="slide slide-content" id="snies-slide-8">
+  <div class="sec-header" style="background:linear-gradient(135deg,#001a3d,#002a5e);">
+    <div class="sec-number">S08 · SNIES 2018–2024</div>
+    <h2 class="sec-title">Análisis de <em>Brecha de Género</em></h2>
+    <p class="sec-sub">Evolución del % de mujeres graduadas vs universidades pares · 2018–2024</p>
+  </div>
+  <div class="sec-body">
+    <div class="chart-grid chart-grid-2">
+      <div class="chart-box">
+        <div class="chart-title">Evolución % mujeres — series comparativas</div>
+        <div class="chart-sub">USTA vs Javeriana, U. Libre · Línea de paridad 50%</div>
+        <div class="chart-wrap" style="height:340px;"><canvas id="c9"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Brecha por programa USTA</div>
+        <div class="chart-sub">% mujeres vs hombres por programa · 2018–2024</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="brecha-prog"><div class="pname">Derecho</div><div class="brecha-bar"><div class="f" style="width:62%"></div><div class="m" style="width:38%"></div></div><div class="brecha-pcts"><span>62% Mujeres</span><span>38% Hombres</span></div></div>
+          <div class="brecha-prog"><div class="pname">Contaduría Pública</div><div class="brecha-bar"><div class="f" style="width:55%"></div><div class="m" style="width:45%"></div></div><div class="brecha-pcts"><span>55% Mujeres</span><span>45% Hombres</span></div></div>
+          <div class="brecha-prog"><div class="pname">Negocios Internacionales</div><div class="brecha-bar"><div class="f" style="width:52%"></div><div class="m" style="width:48%"></div></div><div class="brecha-pcts"><span>52% Mujeres</span><span>48% Hombres</span></div></div>
+          <div class="brecha-prog"><div class="pname">Arquitectura</div><div class="brecha-bar"><div class="f" style="width:50%"></div><div class="m" style="width:50%"></div></div><div class="brecha-pcts"><span>50% Mujeres</span><span>50% Hombres</span></div></div>
+          <div class="brecha-prog"><div class="pname">Ingeniería Civil</div><div class="brecha-bar"><div class="f" style="width:35%"></div><div class="m" style="width:65%"></div></div><div class="brecha-pcts"><span>35% Mujeres</span><span>65% Hombres</span></div></div>
+        </div>
+        <div class="insight" style="margin-top:12px;">La brecha de género se redujo de <strong>12 pp en 2018</strong> a <strong>8,4 pp en 2024</strong>, tendencia positiva y sostenida.</div>
+      </div>
+    </div>
+  </div>
+</section>
+'''
+
+# S10 - Dinámica
+s10 = '''
+<section class="slide slide-content" id="snies-slide-9">
+  <div class="sec-header" style="background:linear-gradient(135deg,#001a3d,#002a5e);">
+    <div class="sec-number">S09 · SNIES 2018–2024</div>
+    <h2 class="sec-title">Dinámica de Programas <em>2018→2024</em></h2>
+    <p class="sec-sub">Programas en mayor crecimiento y mayor descenso por número de graduados</p>
+  </div>
+  <div class="sec-body">
+    <div class="chart-grid chart-grid-2">
+      <div class="chart-box">
+        <div class="chart-title">Cambio % por programa</div>
+        <div class="chart-sub">Verde = crecimiento · Rojo = descenso · 2018→2024</div>
+        <div class="chart-wrap" style="height:380px;"><canvas id="c10"></canvas></div>
+      </div>
+      <div class="chart-box" style="display:flex;gap:14px;">
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:6px 12px;border-radius:6px;background:rgba(22,163,74,0.1);color:var(--verde);">↑ En ascenso</div>
+          <div class="prog-dyn"><div class="pct pos">+149%</div><div class="info"><div class="pname">Esp. Gerencia Proyectos</div><div class="from">35 → 87 grad.</div></div></div>
+          <div class="prog-dyn"><div class="pct pos">+136%</div><div class="info"><div class="pname">Ingeniería Civil</div><div class="from">55 → 130 grad.</div></div></div>
+          <div class="prog-dyn"><div class="pct pos">+109%</div><div class="info"><div class="pname">Psicología</div><div class="from">43 → 90 grad.</div></div></div>
+          <div class="prog-dyn"><div class="pct pos">+65%</div><div class="info"><div class="pname">Diseño Gráfico</div><div class="from">37 → 61 grad.</div></div></div>
+          <div class="prog-dyn"><div class="pct pos">+50%</div><div class="info"><div class="pname">Cultura Física</div><div class="from">147 → 221 grad.</div></div></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:6px 12px;border-radius:6px;background:rgba(220,38,38,0.08);color:var(--rojo);">↓ En descenso</div>
+          <div class="prog-dyn"><div class="pct neg">–98%</div><div class="info"><div class="pname">Maestría en Educación</div><div class="from">302 → 5 grad.</div></div></div>
+          <div class="prog-dyn"><div class="pct neg">–98%</div><div class="info"><div class="pname">Lic. Fil. y Ed. Religiosa</div><div class="from">59 → 1 grad.</div></div></div>
+          <div class="prog-dyn"><div class="pct neg">–80%</div><div class="info"><div class="pname">Lic. Ed. Preescolar</div><div class="from">51 → 10 grad.</div></div></div>
+          <div class="prog-dyn"><div class="pct neg">–63%</div><div class="info"><div class="pname">Maest. Calidad y Gestión</div><div class="from">35 → 13 grad.</div></div></div>
+          <div class="prog-dyn"><div class="pct neg">–59%</div><div class="info"><div class="pname">Esp. Finanzas</div><div class="from">61 → 25 grad.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+'''
+
+# S11 - Proyección
+s11 = '''
+<section class="slide slide-content" id="snies-slide-10">
+  <div class="sec-header" style="background:linear-gradient(135deg,#001a3d,#002a5e);">
+    <div class="sec-number">S10 · SNIES 2018–2024</div>
+    <h2 class="sec-title">Proyección de Graduados <em>2025–2027</em></h2>
+    <p class="sec-sub">Regresión lineal sobre 7 años · IC 95% ±683 · Pendiente: +218 graduados/año</p>
+  </div>
+  <div class="sec-body">
+    <div class="chart-grid chart-grid-2">
+      <div class="chart-box">
+        <div class="chart-title">Graduados reales y proyectados</div>
+        <div class="chart-sub">2018–2024 real · 2025–2027 proyectado con IC 95%</div>
+        <div class="chart-wrap" style="height:380px;"><canvas id="c11"></canvas></div>
+      </div>
+      <div class="chart-box" style="display:flex;flex-direction:column;gap:14px;">
+        <div class="chart-title">Valores proyectados</div>
+        <div class="chart-sub">Estimaciones para los próximos 3 años</div>
+        <div class="proj-card"><div class="yr">2025</div><div class="val">7.921</div><div class="lbl">Estabilización post-pico</div></div>
+        <div class="proj-card"><div class="yr">2026</div><div class="val">8.139</div><div class="lbl">Recuperación sostenida</div></div>
+        <div class="proj-card pico"><div class="yr">2027</div><div class="val">8.358</div><div class="lbl">Nuevo máximo proyectado</div></div>
+        <div class="insight"><strong>Método:</strong> regresión lineal · Pendiente: +218 grad/año · IC 95%: ±683<br><br>El patrón semestral es estable: el <strong>58–63% de graduados</strong> se concentra en el 2.° semestre.</div>
+      </div>
+    </div>
+  </div>
+</section>
+'''
+
+# S12 - Contexto nacional
+s12 = '''
+<section class="slide slide-content" id="snies-slide-11">
+  <div class="sec-header" style="background:linear-gradient(135deg,#001a3d,#002a5e);">
+    <div class="sec-number">S11 · SNIES 2018–2024</div>
+    <h2 class="sec-title">USTA en el <em>Contexto Nacional</em></h2>
+    <p class="sec-sub">Indicadores clave frente a universidades multicampus y top privadas Colombia · Acumulado 2018–2024</p>
+  </div>
+  <div class="sec-body">
+    <div class="chart-box">
+      <div class="chart-title">Total graduados vs % posgrado vs % mujeres — comparativo multicampus</div>
+      <div class="chart-sub">USTA destacada en azul oscuro · Fuente: SNIES · MEN Colombia · 307.602 registros</div>
+      <div class="chart-wrap" style="height:440px;"><canvas id="c12"></canvas></div>
+    </div>
+  </div>
+</section>
+'''
+
+# S13 - Conclusiones
+s13 = '''
+<section class="slide slide-dark" id="snies-slide-12" style="background:linear-gradient(145deg,#001a3d 0%,#002a5e 50%,#001433 100%);">
+  <div class="sec-header" style="background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.08);">
+    <div class="sec-number" style="color:rgba(255,255,255,0.3);">S12 · Síntesis SNIES</div>
+    <h2 class="sec-title" style="color:#fff;">Conclusiones <em>Clave</em></h2>
+    <p class="sec-sub" style="color:rgba(255,255,255,0.5);">Hallazgos principales del análisis de 49.342 graduados USTA · 2018–2024</p>
+  </div>
+  <div class="sec-body" style="display:flex;flex-direction:column;gap:14px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div class="paso-card" style="border-left:4px solid var(--azul-claro);background:rgba(255,255,255,0.04);border-top:1px solid rgba(255,255,255,0.08);border-right:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);">
+        <div class="paso-num" style="color:var(--azul-claro);">01</div>
+        <div><div class="paso-title" style="color:#fff;">Crecimiento sostenido</div><div class="paso-desc" style="color:rgba(255,255,255,0.55);">49.342 graduados en 7 años con pico en 2024 (+15% vs 2018), superando el impacto COVID. Posición #12 en ranking nacional de 287 IES.</div></div>
+      </div>
+      <div class="paso-card" style="border-left:4px solid var(--dorado-cl);background:rgba(255,255,255,0.04);border-top:1px solid rgba(255,255,255,0.08);border-right:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);">
+        <div class="paso-num" style="color:var(--dorado-cl);">02</div>
+        <div><div class="paso-title" style="color:#fff;">Derecho como eje institucional</div><div class="paso-desc" style="color:rgba(255,255,255,0.55);">Con 9.578 graduados, Derecho concentra casi 1 de cada 5 egresados USTA, dominando pregrado y posgrado de forma única frente a pares.</div></div>
+      </div>
+      <div class="paso-card" style="border-left:4px solid var(--azul-claro);background:rgba(255,255,255,0.04);border-top:1px solid rgba(255,255,255,0.08);border-right:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);">
+        <div class="paso-num" style="color:var(--azul-claro);">03</div>
+        <div><div class="paso-title" style="color:#fff;">Liderazgo femenino</div><div class="paso-desc" style="color:rgba(255,255,255,0.55);">54,7% de graduados son mujeres. La brecha de género se redujo de 12 pp (2018) a 8,4 pp (2024). Tendencia positiva y sostenida.</div></div>
+      </div>
+      <div class="paso-card" style="border-left:4px solid var(--dorado-cl);background:rgba(255,255,255,0.04);border-top:1px solid rgba(255,255,255,0.08);border-right:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);">
+        <div class="paso-num" style="color:var(--dorado-cl);">04</div>
+        <div><div class="paso-title" style="color:#fff;">Fortaleza regional diferencial</div><div class="paso-desc" style="color:rgba(255,255,255,0.55);">26 departamentos cubiertos, 63% graduados fuera de Bogotá. Mayor cobertura territorial entre grandes privadas nacionales.</div></div>
+      </div>
+    </div>
+    <div class="paso-card" style="border-left:4px solid var(--azul-claro);background:rgba(255,255,255,0.04);border-top:1px solid rgba(255,255,255,0.08);border-right:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);">
+      <div class="paso-num" style="color:var(--azul-claro);">05</div>
+      <div><div class="paso-title" style="color:#fff;">Proyección positiva con ingenierías al alza</div><div class="paso-desc" style="color:rgba(255,255,255,0.55);">Se proyectan 8.358 graduados para 2027 (+218/año). Ingenierías y Ciencias Sociales ganan peso; Licenciaturas requieren atención estratégica.</div></div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <div style="font-size:12px;color:rgba(255,255,255,0.3);">Fuente: SNIES · MEN Colombia · 307.602 registros · Dirección de Graduados USTA 2024</div>
+      <div style="display:flex;gap:10px;"><span class="stat-badge info">SNIES ✓</span><span class="stat-badge info">307.602 registros ✓</span></div>
+    </div>
+  </div>
+</section>
+'''
+
+snies_sections = [s1_portada, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13]
+
+print(f"Built {len(snies_sections)} SNIES sections in GRUPLAC style")
+print("Saving all sections...")
+
+with open('/home/claude/snies_sections.py', 'w') as f:
+    f.write(f"snies_sections = {repr(snies_sections)}\n")
+    f.write(f"gruplac_script = {repr(gruplac_script)}\n")
+    f.write(f"snies_script_fixed = {repr(snies_script_fixed)}\n")
+
+print("Done!")
+PYEOF
