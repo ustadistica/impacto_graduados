@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis RUES — Emprendimiento en Colombia</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --azul-oscuro:   #0D2B5E;
+    --azul-medio:    #1A4A9C;
+    --azul-claro:    #3A7BD5;
+    --azul-suave:    #D8E8F8;
+    --azul-card:     #EAF2FC;
+    --azul-ultra:    #F0F5FD;
+    --acento:        #1DAAFF;
+    --acento-suave:  #D6EEFF;
+    --gris-texto:    #3D4966;
+    --gris-claro:    #7888A8;
+    --blanco:        #FFFFFF;
+    --sombra:        0 2px 12px rgba(13,43,94,0.10);
+  }
+
+  html, body { width:100%; height:100%; overflow:hidden; font-family:'DM Sans',sans-serif; background:var(--azul-oscuro); color:var(--gris-texto); }
+  #deck { width:100%; height:100%; position:relative; }
+
+  .slide { position:absolute; inset:0; display:none; flex-direction:column; overflow:hidden; }
+  .slide.active { display:flex; }
+
+  .slide-bg {
+    position:absolute; inset:0;
+    background:linear-gradient(140deg, #F5F0E8 0%, #FAF7F2 55%, #F0EAE0 100%);
+    z-index:0;
+  }
+  .slide-bg::before {
+    content:''; position:absolute;
+    width:700px; height:700px; border-radius:50%;
+    background:radial-gradient(circle, rgba(180,150,100,0.08) 0%, transparent 70%);
+    top:-250px; right:-120px;
+  }
+  .slide-bg::after {
+    content:''; position:absolute;
+    width:450px; height:450px; border-radius:50%;
+    background:radial-gradient(circle, rgba(200,170,120,0.06) 0%, transparent 70%);
+    bottom:-120px; left:-80px;
+  }
+
+  .slide-inner {
+    position:relative; z-index:1; height:100%;
+    display:flex; flex-direction:column; padding:0 56px;
+  }
+
+  .header-bar {
+    display:flex; align-items:center;
+    padding:16px 0 12px;
+    border-bottom:1.5px solid rgba(58,123,213,0.15);
+    flex-shrink:0;
+  }
+  .logo-dot { width:9px; height:9px; border-radius:50%; background:var(--azul-claro); margin-right:10px; }
+  .logo-text { font-size:11px; font-weight:600; color:var(--azul-medio); letter-spacing:0.09em; text-transform:uppercase; }
+
+  .content { flex:1; display:flex; flex-direction:column; justify-content:center; padding:14px 0 14px; gap:14px; overflow:hidden; }
+
+  .slide-label { font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--azul-claro); }
+  h2.section-title { font-family:'Playfair Display',serif; font-size:clamp(20px,2.6vw,32px); font-weight:600; color:var(--azul-oscuro); line-height:1.2; }
+  .subtitle { font-size:13px; font-weight:300; color:var(--gris-claro); line-height:1.6; }
+
+  /* KPI CARDS — fondo azul suave */
+  .kpi-card {
+    background:#FAFAF8;
+    border-radius:14px; padding:18px 18px 14px;
+    border-top:3px solid var(--azul-claro);
+    display:flex; flex-direction:column; gap:5px;
+  }
+  .kpi-card.accent { border-top-color:var(--acento); }
+  .kpi-label { font-size:10px; font-weight:600; color:var(--azul-medio); text-transform:uppercase; letter-spacing:0.07em; }
+  .kpi-value { font-family:'Playfair Display',serif; font-size:30px; font-weight:700; color:var(--azul-oscuro); line-height:1; }
+  .kpi-sub { font-size:11px; color:var(--gris-claro); }
+
+  /* CHART CARDS — fondo azul muy suave */
+  .chart-card {
+    background:#FAFAF8;
+    border-radius:14px; padding:20px 20px 16px;
+    display:flex; flex-direction:column; gap:10px;
+    border:1px solid rgba(58,123,213,0.15);
+  }
+  .chart-card-title { font-size:13px; font-weight:600; color:var(--azul-oscuro); }
+  .chart-card-sub { font-size:11px; color:var(--gris-claro); margin-top:-6px; }
+
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; flex:1; min-height:0; }
+
+  /* PORTADA */
+  .portada-bg {
+    position:absolute; inset:0;
+    background:linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-medio) 60%, var(--azul-claro) 100%);
+    z-index:0;
+  }
+  .portada-bg::before {
+    content:''; position:absolute; width:800px; height:800px; border-radius:50%;
+    background:radial-gradient(circle, rgba(29,170,255,0.14) 0%, transparent 60%);
+    top:-300px; right:-200px;
+  }
+  .portada-bg::after {
+    content:''; position:absolute; width:500px; height:500px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+    bottom:-100px; left:50px;
+  }
+  .portada-inner { position:relative; z-index:1; height:100%; display:flex; flex-direction:column; justify-content:space-between; padding:36px 80px; }
+  .portada-header { display:flex; align-items:center; justify-content:space-between; }
+  .usta-badge { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); border-radius:8px; padding:8px 16px; font-size:11px; font-weight:500; color:rgba(255,255,255,0.85); letter-spacing:0.06em; text-transform:uppercase; }
+  .rues-tag { font-size:10px; font-weight:700; color:var(--acento); letter-spacing:0.15em; text-transform:uppercase; }
+  .portada-main { display:flex; flex-direction:column; gap:18px; }
+  .portada-title { font-family:'Playfair Display',serif; font-size:clamp(36px,5vw,62px); font-weight:700; color:#fff; line-height:1.1; }
+  .portada-title span { color:var(--acento); }
+  .portada-subtitle { font-size:15px; font-weight:300; color:rgba(255,255,255,0.68); max-width:520px; line-height:1.7; }
+  .portada-pills { display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
+  .pill { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:100px; padding:5px 14px; font-size:11px; color:rgba(255,255,255,0.78); }
+  .portada-footer { display:flex; align-items:flex-end; justify-content:space-between; }
+  .portada-stats { display:flex; gap:40px; }
+  .portada-stat-val { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:#fff; }
+  .portada-stat-lbl { font-size:10px; color:rgba(255,255,255,0.45); margin-top:2px; }
+
+  /* NAVEGACIÓN — solo flechas en los bordes */
+  .nav-arrow {
+    position:fixed; top:50%; transform:translateY(-50%);
+    background:rgba(13,43,94,0.80);
+    border:1px solid rgba(255,255,255,0.14);
+    border-radius:50%; width:44px; height:44px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; z-index:100;
+    font-size:20px; color:rgba(255,255,255,0.75);
+    transition:background 0.2s, color 0.2s;
+    font-family:sans-serif;
+  }
+  .nav-arrow:hover { background:rgba(13,43,94,0.95); color:#fff; }
+  #navPrev { left:14px; }
+  #navNext { right:14px; }
+
+  /* RANK TABLE */
+  .rank-table { width:100%; border-collapse:collapse; }
+  .rank-table tr { border-bottom:1px solid rgba(58,123,213,0.10); }
+  .rank-table tr:last-child { border-bottom:none; }
+  .rank-table td { padding:7px 5px; font-size:12px; }
+  .rank-num { font-weight:700; color:var(--azul-claro); width:20px; font-size:11px; }
+  .rank-name { color:var(--azul-oscuro); font-weight:500; }
+  .rank-bar-wrap { width:90px; background:rgba(58,123,213,0.15); border-radius:4px; height:5px; overflow:hidden; }
+  .rank-bar-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,var(--azul-claro),var(--acento)); }
+  .rank-pct { font-size:11px; font-weight:600; color:var(--azul-medio); text-align:right; width:42px; }
+
+  /* TIPO EMPRESA */
+  .tipo-row { display:flex; flex-direction:column; gap:9px; }
+  .tipo-item { display:flex; flex-direction:column; gap:3px; }
+  .tipo-top { display:flex; justify-content:space-between; align-items:center; }
+  .tipo-name { font-size:12px; font-weight:500; color:var(--azul-oscuro); }
+  .tipo-pct-label { font-size:11px; font-weight:700; color:var(--azul-claro); }
+  .tipo-bar-wrap { height:7px; border-radius:4px; background:rgba(58,123,213,0.15); overflow:hidden; }
+  .tipo-bar-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,var(--azul-medio),var(--azul-claro)); }
+
+  /* AGENDA */
+  .agenda-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .agenda-item { background:#FAFAF8; border-radius:12px; padding:18px; border-left:4px solid var(--azul-claro); display:flex; flex-direction:column; gap:5px; border:1px solid rgba(58,123,213,0.10); border-left-width:4px; }
+  .agenda-num { font-size:10px; font-weight:700; color:var(--azul-claro); letter-spacing:0.1em; }
+  .agenda-name { font-size:13px; font-weight:600; color:var(--azul-oscuro); }
+  .agenda-desc { font-size:11px; color:var(--gris-claro); line-height:1.5; }
+
+  /* CIIU */
+  .ciiu-tag { display:inline-block; background:rgba(58,123,213,0.08); color:var(--azul-medio); border-radius:6px; padding:4px 9px; font-size:11px; font-weight:600; margin:2px; }
+
+  /* INSIGHT BOX */
+  .insight-box { background:linear-gradient(135deg,var(--azul-oscuro),var(--azul-medio)); border-radius:14px; padding:18px 22px; display:flex; flex-direction:column; gap:6px; }
+  .insight-highlight { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; color:var(--acento); }
+  .insight-text { font-size:13px; color:rgba(255,255,255,0.82); line-height:1.6; }
+
+  /* CLOSING */
+  .closing-bg { position:absolute; inset:0; background:linear-gradient(160deg,var(--azul-oscuro) 0%,#0a2050 50%,#061535 100%); z-index:0; }
+  .closing-inner { position:relative; z-index:1; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px 64px; gap:22px; }
+  .closing-line { width:60px; height:3px; border-radius:2px; background:var(--acento); }
+  .closing-title { font-family:'Playfair Display',serif; font-size:clamp(26px,4vw,46px); font-weight:700; color:#fff; line-height:1.2; }
+  .closing-sub { font-size:14px; color:rgba(255,255,255,0.52); max-width:480px; line-height:1.7; }
+  .closing-grid { display:flex; gap:48px; margin-top:8px; }
+  .closing-stat { display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .closing-stat-v { font-family:'Playfair Display',serif; font-size:34px; font-weight:700; color:var(--acento); }
+  .closing-stat-l { font-size:11px; color:rgba(255,255,255,0.4); }
+
+  /* INTERPRETACION BOX */
+  .interp-box {
+    background:#FAFAF8;
+    border-radius:12px; padding:14px 18px;
+    border-left:4px solid var(--azul-claro);
+    border:1px solid rgba(58,123,213,0.15); border-left-width:4px;
+    display:flex; flex-direction:column; gap:5px;
+  }
+  .interp-title { font-size:11px; font-weight:700; color:var(--azul-claro); text-transform:uppercase; letter-spacing:0.08em; }
+  .interp-text { font-size:12px; color:var(--gris-texto); line-height:1.6; }
+  .interp-text strong { color:var(--azul-oscuro); font-weight:600; }
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- ══ SLIDE 1 — PORTADA ══ -->
+<div class="slide active" id="s1">
+  <div class="portada-bg"></div>
+  <div class="portada-inner">
+    <div class="portada-header">
+      <div class="rues-tag">Base RUES · Confecámaras</div>
+      <div class="usta-badge">Comité de Egresados USTA</div>
+    </div>
+    <div class="portada-main">
+      <div style="font-size:10px;font-weight:700;color:var(--acento);letter-spacing:0.16em;text-transform:uppercase;">Análisis exploratorio</div>
+      <div class="portada-title" style="font-size:clamp(48px,7vw,84px);">Emprendimiento<br>en <span>Colombia</span></div>
+      <div class="portada-subtitle" style="max-width:700px;font-size:16px;">Análisis de la base del Registro Único Empresarial y Social (RUES) para entender el tejido empresarial colombiano: actividad, sectores, geografía y evolución.</div>
+      <div class="portada-pills">
+        <span class="pill">10 000 registros analizados</span>
+        <span class="pill">2000 – 2024</span>
+        <span class="pill">36 variables</span>
+        <span class="pill">Todo el país</span>
+      </div>
+    </div>
+    <div class="portada-footer">
+      <div class="portada-stats">
+        <div><div class="portada-stat-val">9 736</div><div class="portada-stat-lbl">empresas en la muestra</div></div>
+        <div><div class="portada-stat-val">31.5%</div><div class="portada-stat-lbl">tasa de actividad</div></div>
+        <div><div class="portada-stat-val">58</div><div class="portada-stat-lbl">cámaras representadas</div></div>
+      </div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.28);">Mayo 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 2 — AGENDA ══ -->
+<div class="slide" id="s2">
+  <div class="slide-bg"></div>
+  <div class="slide-inner">
+    <div class="header-bar"><div class="logo-dot"></div><span class="logo-text">RUES · Emprendimiento Colombia</span></div>
+    <div class="content" style="justify-content:center;gap:20px;">
+      <div>
+        <div class="slide-label">Contenido</div>
+        <h2 class="section-title" style="font-size:clamp(28px,3.5vw,44px);">Ejes del análisis</h2>
+        <p class="subtitle" style="margin-top:6px;">Seis dimensiones para entender el emprendimiento colombiano desde la base de datos oficial.</p>
+      </div>
+      <div class="agenda-grid">
+        <div class="agenda-item"><div class="agenda-num">01</div><div class="agenda-name">Tasa de emprendimiento</div><div class="agenda-desc">Empresas activas vs canceladas y top cámaras de comercio.</div></div>
+        <div class="agenda-item" style="border-left-color:var(--acento);"><div class="agenda-num" style="color:var(--acento);">02</div><div class="agenda-name">Sectores económicos CIIU</div><div class="agenda-desc">Actividades donde se concentra el emprendimiento nacional.</div></div>
+        <div class="agenda-item" style="border-left-color:var(--azul-oscuro);"><div class="agenda-num" style="color:var(--azul-oscuro);">03</div><div class="agenda-name">Distribución geográfica</div><div class="agenda-desc">Ciudades con mayor volumen y mayor tasa de actividad.</div></div>
+        <div class="agenda-item"><div class="agenda-num">04</div><div class="agenda-name">Supervivencia empresarial</div><div class="agenda-desc">Curva de sobrevivencia por cohorte de año de matrícula.</div></div>
+        <div class="agenda-item" style="border-left-color:var(--acento);"><div class="agenda-num" style="color:var(--acento);">05</div><div class="agenda-name">Evolución temporal</div><div class="agenda-desc">Nuevas matrículas año a año y tendencias 2000–2024.</div></div>
+        <div class="agenda-item" style="border-left-color:var(--azul-oscuro);"><div class="agenda-num" style="color:var(--azul-oscuro);">06</div><div class="agenda-name">Tipo de empresa</div><div class="agenda-desc">Persona natural, SAS, Ltda. y formas jurídicas prevalentes.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 3 — TASA DE EMPRENDIMIENTO ══ -->
+<div class="slide" id="s3">
+  <div class="slide-bg"></div>
+  <div class="slide-inner">
+    <div class="header-bar"><div class="logo-dot"></div><span class="logo-text">RUES · Emprendimiento Colombia</span></div>
+    <div class="content" style="gap:12px;">
+      <div style="width:100%;">
+        <div class="slide-label">Indicador 01</div>
+        <h2 class="section-title" style="font-size:clamp(24px,3vw,40px);">Tasa de emprendimiento</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;flex-shrink:0;">
+        <div class="kpi-card"><div class="kpi-label">Total muestra</div><div class="kpi-value">9 736</div><div class="kpi-sub">empresas registradas</div></div>
+        <div class="kpi-card accent"><div class="kpi-label">Activas</div><div class="kpi-value" style="color:var(--azul-claro);">3 067</div><div class="kpi-sub">tasa: 31.5%</div></div>
+        <div class="kpi-card" style="border-top-color:var(--gris-claro);"><div class="kpi-label">Canceladas</div><div class="kpi-value" style="color:var(--gris-claro);">6 196</div><div class="kpi-sub">68.5% del total</div></div>
+      </div>
+      <div class="two-col" style="flex:0 0 auto;">
+        <div class="chart-card">
+          <div class="chart-card-title">Estado de matrículas</div>
+          <div style="position:relative;height:200px;"><canvas id="donutEstados" role="img" aria-label="Donut activas vs canceladas"></canvas></div>
+          <div style="display:flex;gap:14px;justify-content:center;font-size:11px;color:var(--gris-claro);flex-shrink:0;">
+            <span style="display:flex;align-items:center;gap:4px;"><span style="width:9px;height:9px;border-radius:2px;background:#3A7BD5;display:inline-block;"></span>Activas 31.5%</span>
+            <span style="display:flex;align-items:center;gap:4px;"><span style="width:9px;height:9px;border-radius:2px;background:#A8C0E0;display:inline-block;"></span>Canceladas 63.6%</span>
+            <span style="display:flex;align-items:center;gap:4px;"><span style="width:9px;height:9px;border-radius:2px;background:#C8D8EE;display:inline-block;"></span>Otro 5%</span>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Top 10 cámaras de comercio</div>
+          <div class="chart-card-sub">Volumen total de matrículas</div>
+          <div style="position:relative;height:220px;"><canvas id="barCamaras" role="img" aria-label="Cámaras de comercio por volumen"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 4 — SECTORES CIIU ══ -->
+<div class="slide" id="s4">
+  <div class="slide-bg"></div>
+  <div class="slide-inner">
+    <div class="header-bar"><div class="logo-dot"></div><span class="logo-text">RUES · Emprendimiento Colombia</span></div>
+    <div class="content" style="gap:12px;">
+      <div style="width:100%;">
+        <div class="slide-label">Indicador 02</div>
+        <h2 class="section-title" style="font-size:clamp(24px,3vw,40px);">Sectores económicos más activos</h2>
+      </div>
+      <div class="two-col" style="flex:0 0 auto;">
+        <div class="chart-card">
+          <div class="chart-card-title">Top 10 actividades CIIU</div>
+          <div class="chart-card-sub">Por número de matrículas</div>
+          <div style="position:relative;height:270px;"><canvas id="barCIIU" role="img" aria-label="Top 10 CIIU"></canvas></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="chart-card" style="flex:0 0 auto;">
+            <div class="chart-card-title">¿Qué hacen esas empresas?</div>
+            <div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:5px;">
+              <span class="ciiu-tag">4711 · Supermercados</span><span class="ciiu-tag">5611 · Restaurantes</span>
+              <span class="ciiu-tag">5630 · Bares</span><span class="ciiu-tag">9499 · Otras asoc.</span>
+              <span class="ciiu-tag">9602 · Peluquerías</span><span class="ciiu-tag">4771 · Ropa</span>
+              <span class="ciiu-tag">4773 · Farmacias</span><span class="ciiu-tag">1410 · Confección</span>
+            </div>
+          </div>
+          <div class="insight-box" style="flex:0 0 auto;">
+            <div class="insight-highlight">Comercio y servicios</div>
+            <div class="insight-text">Dominan el tejido empresarial. Los sectores <strong style="color:#fff;">retail, alimentos y servicios personales</strong> concentran la mayoría de matrículas, reflejando un emprendimiento orientado al consumo local y a la economía del cuidado.</div>
+          </div>
+          <div class="chart-card" style="flex:0 0 auto;">
+            <div class="chart-card-title">Secciones CIIU dominantes</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+              <div style="background:rgba(58,123,213,0.08);border-radius:8px;padding:7px 12px;text-align:center;"><div style="font-size:17px;font-weight:700;color:var(--azul-medio);">G</div><div style="font-size:10px;color:var(--gris-claro);">Comercio</div></div>
+              <div style="background:rgba(58,123,213,0.08);border-radius:8px;padding:7px 12px;text-align:center;"><div style="font-size:17px;font-weight:700;color:var(--azul-medio);">I</div><div style="font-size:10px;color:var(--gris-claro);">Aliment.</div></div>
+              <div style="background:rgba(58,123,213,0.08);border-radius:8px;padding:7px 12px;text-align:center;"><div style="font-size:17px;font-weight:700;color:var(--azul-medio);">S</div><div style="font-size:10px;color:var(--gris-claro);">Servicios</div></div>
+              <div style="background:rgba(58,123,213,0.08);border-radius:8px;padding:7px 12px;text-align:center;"><div style="font-size:17px;font-weight:700;color:var(--azul-medio);">C</div><div style="font-size:10px;color:var(--gris-claro);">Manufactura</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 5 — GEOGRAFÍA ══ -->
+<div class="slide" id="s5">
+  <div class="slide-bg"></div>
+  <div class="slide-inner">
+    <div class="header-bar"><div class="logo-dot"></div><span class="logo-text">RUES · Emprendimiento Colombia</span></div>
+    <div class="content" style="gap:14px;justify-content:center;">
+      <div>
+        <div class="slide-label">Indicador 03</div>
+        <h2 class="section-title">Distribución geográfica</h2>
+        <p class="subtitle" style="margin-top:4px;">Volumen de matrículas y tasa de actividad por cámara de comercio</p>
+      </div>
+      <div class="two-col" style="flex:0 0 auto;">
+        <div class="chart-card" style="overflow-y:auto;">
+          <div class="chart-card-title">Ranking por volumen</div>
+          <div class="chart-card-sub" style="margin-top:-4px;margin-bottom:6px;">Matrículas totales · % activas</div>
+          <table class="rank-table"><tbody id="rankBody"></tbody></table>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Tasa de actividad por ciudad</div>
+          <div class="chart-card-sub">% de empresas activas sobre el total</div>
+          <div style="position:relative;height:240px;"><canvas id="barGeo" role="img" aria-label="Tasa de actividad por ciudad">Tasa activa por ciudad</canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 6 — SUPERVIVENCIA ══ -->
+<div class="slide" id="s6">
+  <div class="slide-bg"></div>
+  <div class="slide-inner">
+    <div class="header-bar"><div class="logo-dot"></div><span class="logo-text">RUES · Emprendimiento Colombia</span></div>
+    <div class="content" style="gap:12px;">
+      <div style="width:100%;">
+        <div class="slide-label">Indicador 04</div>
+        <h2 class="section-title" style="font-size:clamp(24px,3vw,40px);">Supervivencia empresarial por cohorte</h2>
+        <p class="subtitle" style="margin-top:4px;">¿Qué porcentaje de empresas de cada año siguen activas hoy?</p>
+      </div>
+      <div class="chart-card" style="flex:0 0 auto;">
+        <div class="chart-card-title">Curva de supervivencia 2000–2024</div>
+        <div style="position:relative;height:240px;"><canvas id="lineSuper" role="img" aria-label="Curva de supervivencia"></canvas></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;flex-shrink:0;">
+        <div class="kpi-card" style="border-top-color:var(--gris-claro);">
+          <div class="kpi-label">Cohorte 2000</div>
+          <div class="kpi-value" style="font-size:22px;color:var(--gris-claro);">19.6%</div>
+          <div class="kpi-sub">aún activas — empresas con más de 24 años de vida tienen una tasa de supervivencia baja.</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Cohorte 2010</div>
+          <div class="kpi-value" style="font-size:22px;">26.2%</div>
+          <div class="kpi-sub">aún activas — solo 1 de cada 4 empresas de hace 14 años sigue operando.</div>
+        </div>
+        <div class="kpi-card accent">
+          <div class="kpi-label">Cohorte 2020</div>
+          <div class="kpi-value" style="font-size:22px;color:var(--azul-claro);">46.3%</div>
+          <div class="kpi-sub">aún activas — tendencia al alza, posiblemente por surgimiento post-pandemia.</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--acento);">
+          <div class="kpi-label">Cohorte 2024</div>
+          <div class="kpi-value" style="font-size:22px;color:var(--acento);">90.2%</div>
+          <div class="kpi-sub">aún activas — empresas recientes: refleja matrículas que aún no han tenido tiempo de cancelarse.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 7 — EVOLUCIÓN + TIPO EMPRESA ══ -->
+<div class="slide" id="s7">
+  <div class="slide-bg"></div>
+  <div class="slide-inner">
+    <div class="header-bar"><div class="logo-dot"></div><span class="logo-text">RUES · Emprendimiento Colombia</span></div>
+    <div class="content" style="gap:12px;">
+      <div style="width:100%;">
+        <div class="slide-label">Indicadores 05 · 06</div>
+        <h2 class="section-title" style="font-size:clamp(24px,3vw,40px);">Evolución temporal y tipo de empresa</h2>
+      </div>
+      <div class="two-col" style="flex:0 0 auto;">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="chart-card">
+            <div class="chart-card-title">Nuevas matrículas por año — 2000–2024</div>
+            <div style="position:relative;height:200px;"><canvas id="lineEvol" role="img" aria-label="Matrículas anuales"></canvas></div>
+          </div>
+          <div class="interp-box">
+            <div class="interp-title">Interpretación · Evolución temporal</div>
+            <div class="interp-text">El pico de registros ocurrió en <strong>2019 (367 empresas)</strong> antes de la caída por la pandemia en 2020 (–18%). La recuperación en <strong>2021 fue rápida (+17%)</strong>, impulsada por emprendimiento de necesidad y programas de formalización. A partir de 2022 hay una leve desaceleración que puede reflejar <strong>consolidación del mercado</strong> más que contracción real.</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="chart-card">
+            <div class="chart-card-title">Distribución por forma jurídica</div>
+            <div class="chart-card-sub">Top 6 categorías</div>
+            <div class="tipo-row" style="margin-top:6px;" id="tipoRows"></div>
+          </div>
+          <div class="interp-box">
+            <div class="interp-title">Interpretación · Tipo de empresa</div>
+            <div class="interp-text">El <strong>77.5% son personas naturales</strong>, lo que indica un emprendimiento individual, informal y de subsistencia. Las <strong>SAS (11.7%)</strong> crecen con fuerza — es la figura jurídica más adoptada por nuevos empresarios desde su popularización. La baja proporción de <strong>Ltda. y S.A.</strong> sugiere poca tendencia a asociarse en empresas con mayor capital.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 8 — CIERRE ══ -->
+<div class="slide" id="s8">
+  <div class="closing-bg"></div>
+  <div class="closing-inner">
+    <div class="closing-line"></div>
+    <div style="font-size:10px;font-weight:700;color:var(--acento);letter-spacing:0.16em;text-transform:uppercase;">Análisis RUES · 2026</div>
+    <div class="closing-title">El emprendimiento colombiano<br>en perspectiva</div>
+    <div class="closing-sub">Un tejido empresarial activo, concentrado en servicios y comercio, con oportunidades claras de fortalecimiento en supervivencia, formalización jurídica y diversificación sectorial.</div>
+    <div class="closing-grid">
+      <div class="closing-stat"><div class="closing-stat-v">31.5%</div><div class="closing-stat-l">tasa de actividad nacional</div></div>
+      <div class="closing-stat"><div class="closing-stat-v">77%</div><div class="closing-stat-l">personas naturales</div></div>
+      <div class="closing-stat"><div class="closing-stat-v">Bogotá</div><div class="closing-stat-l">mayor concentración</div></div>
+      <div class="closing-stat"><div class="closing-stat-v">+90%</div><div class="closing-stat-l">supervivencia cohorte 2024</div></div>
+    </div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.22);margin-top:4px;">Fuente: RUES — Confecámaras · Muestra 10 000 registros · Mayo 2026</div>
+  </div>
+</div>
+
+</div>
+
+<!-- FLECHAS DE NAVEGACIÓN -->
+<button class="nav-arrow" id="navPrev" onclick="goSlide(current-1)" aria-label="Anterior">&#8592;</button>
+<button class="nav-arrow" id="navNext" onclick="goSlide(current+1)" aria-label="Siguiente">&#8594;</button>
+
+<script>
+const TOTAL=8; let current=1;
+const rendered={1:true};
+
+function goSlide(n){
+  if(n<1||n>TOTAL) return;
+  document.getElementById('s'+current).classList.remove('active');
+  current=n;
+  document.getElementById('s'+current).classList.add('active');
+  document.getElementById('navPrev').style.opacity=current===1?'0.3':'1';
+  document.getElementById('navNext').style.opacity=current===TOTAL?'0.3':'1';
+  if(!rendered[current]){renderSlide(current);rendered[current]=true;}
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') goSlide(current+1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') goSlide(current-1);
+});
+
+document.getElementById('navPrev').style.opacity='0.3';
+
+const CAMARAS=[
+  {n:'Bogotá',total:2724,activas:1110,tasa:40.7},
+  {n:'Medellín',total:794,activas:258,tasa:32.5},
+  {n:'Cali',total:556,activas:209,tasa:37.6},
+  {n:'Bucaramanga',total:435,activas:125,tasa:28.7},
+  {n:'Barranquilla',total:435,activas:144,tasa:33.1},
+  {n:'Villavicencio',total:294,activas:90,tasa:30.6},
+  {n:'Cúcuta',total:283,activas:80,tasa:28.3},
+  {n:'Huila',total:257,activas:50,tasa:19.5},
+  {n:'Ibagué',total:233,activas:42,tasa:18.0},
+  {n:'Pereira',total:229,activas:51,tasa:22.3},
+];
+const CIIU=[{c:'4711',n:417},{c:'5611',n:281},{c:'5630',n:255},{c:'9499',n:216},{c:'9602',n:196},{c:'4771',n:193},{c:'4719',n:188},{c:'4773',n:169},{c:'1410',n:136},{c:'8299',n:133}];
+const EVOL=[[2000,179],[2001,186],[2002,213],[2003,252],[2004,302],[2005,266],[2006,286],[2007,295],[2008,252],[2009,271],[2010,275],[2011,312],[2012,322],[2013,325],[2014,356],[2015,308],[2016,326],[2017,361],[2018,352],[2019,367],[2020,300],[2021,351],[2022,324],[2023,281],[2024,254]];
+const SUPER=[[2000,19.6],[2001,16.7],[2002,17.8],[2003,18.3],[2004,17.9],[2005,15.4],[2006,14.7],[2007,16.3],[2008,27.4],[2009,25.8],[2010,26.2],[2011,27.2],[2012,24.2],[2013,25.2],[2014,22.5],[2015,28.9],[2016,30.1],[2017,26.6],[2018,33.0],[2019,37.1],[2020,46.3],[2021,48.7],[2022,69.1],[2023,81.5],[2024,90.2]];
+const TIPOS=[{t:'Persona Natural',p:77.5},{t:'SAS',p:11.7},{t:'Soc. Limitada',p:5.8},{t:'Emp. Unipersonal',p:0.9},{t:'ESAL / Corp.',p:0.8},{t:'S.A.',p:0.6}];
+
+const B1='#3A7BD5',B2='#1A4A9C',LB='#A8C0E0',AC='#1DAAFF';
+
+function renderSlide(n){
+  if(n===3)s3();if(n===4)s4();if(n===5)s5();if(n===6)s6();if(n===7)s7();
+}
+
+function s3(){
+  new Chart(document.getElementById('donutEstados'),{
+    type:'doughnut',
+    data:{labels:['Activas','Canceladas','Otro'],datasets:[{data:[3067,6196,473],backgroundColor:[B1,LB,'#C8D8EE'],borderWidth:0,hoverOffset:4}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.label+': '+c.raw.toLocaleString('es-CO')}}}}
+  });
+  new Chart(document.getElementById('barCamaras'),{
+    type:'bar',
+    data:{labels:CAMARAS.map(d=>d.n),datasets:[{data:CAMARAS.map(d=>d.total),backgroundColor:CAMARAS.map((_,i)=>i===0?B2:B1),borderRadius:4,borderWidth:0}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9}}},y:{grid:{display:false},ticks:{font:{size:10}}}}}
+  });
+}
+
+function s4(){
+  new Chart(document.getElementById('barCIIU'),{
+    type:'bar',
+    data:{labels:CIIU.map(d=>d.c),datasets:[{data:CIIU.map(d=>d.n),backgroundColor:CIIU.map((_,i)=>`rgba(58,123,213,${(0.4+0.6*(1-i/CIIU.length)).toFixed(2)})`),borderRadius:4,borderWidth:0}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` CIIU ${c.label}: ${c.raw} empresas`}}},scales:{x:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9}}},y:{grid:{display:false},ticks:{font:{size:10}}}}}
+  });
+}
+
+function s5(){
+  const body=document.getElementById('rankBody');
+  const maxT=CAMARAS[0].total;
+  CAMARAS.forEach((d,i)=>{
+    body.innerHTML+=`<tr><td class="rank-num">${i+1}</td><td class="rank-name">${d.n}</td><td><div class="rank-bar-wrap"><div class="rank-bar-fill" style="width:${Math.round(d.total/maxT*100)}%"></div></div></td><td class="rank-pct">${Math.round(d.tasa)}%</td></tr>`;
+  });
+  new Chart(document.getElementById('barGeo'),{
+    type:'bar',
+    data:{labels:CAMARAS.map(d=>d.n),datasets:[{data:CAMARAS.map(d=>+d.tasa.toFixed(1)),backgroundColor:CAMARAS.map(d=>d.tasa>=35?B2:d.tasa>=28?B1:LB),borderRadius:4,borderWidth:0}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{min:0,max:55,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:v=>v+'%'}},y:{grid:{display:false},ticks:{font:{size:10}}}}}
+  });
+}
+
+function s6(){
+  new Chart(document.getElementById('lineSuper'),{
+    type:'line',
+    data:{labels:SUPER.map(d=>d[0]),datasets:[{data:SUPER.map(d=>d[1]),borderColor:B1,backgroundColor:'rgba(58,123,213,0.10)',fill:true,tension:0.35,pointRadius:2,pointHoverRadius:5,borderWidth:2.5}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw.toFixed(1)}% activas`}}},scales:{x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:12}},y:{min:0,max:100,grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:9},callback:v=>v+'%'}}}}
+  });
+}
+
+function s7(){
+  const vals=EVOL.map(d=>d[1]);
+  const maxV=Math.max(...vals);
+  new Chart(document.getElementById('lineEvol'),{
+    type:'bar',
+    data:{labels:EVOL.map(d=>d[0]),datasets:[{data:vals,backgroundColor:vals.map((v,i)=>i===vals.indexOf(maxV)?B2:`rgba(58,123,213,${(0.35+0.45*(v/maxV)).toFixed(2)})`),borderRadius:3,borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:8},maxTicksLimit:12,maxRotation:0}},y:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:9}}}}}
+  });
+  const container=document.getElementById('tipoRows');
+  const maxP=TIPOS[0].p;
+  TIPOS.forEach(t=>{
+    const div=document.createElement('div');
+    div.className='tipo-item';
+    div.innerHTML=`<div class="tipo-top"><span class="tipo-name">${t.t}</span><span class="tipo-pct-label">${t.p.toFixed(1)}%</span></div><div class="tipo-bar-wrap"><div class="tipo-bar-fill" style="width:${Math.round(t.p/maxP*100)}%"></div></div>`;
+    container.appendChild(div);
+  });
+}
+</script>
+</body>
+</html>
