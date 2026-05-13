@@ -417,11 +417,17 @@ def generate_html(
 ) -> None:
     """Genera la presentación HTML interactiva completa."""
 
-    div_labels = div_df["division"].tolist()
-    div_pct    = div_df["pct_egr"].tolist()
-    div_prod_egr   = [round(v, 1) if pd.notna(v) else 0 for v in div_df["media_egr"]]
-    div_prod_noegr = [round(v, 1) if pd.notna(v) else 0 for v in div_df["media_noegr"]]
+    # Ordenar por % egresados descendente para la gráfica de barras horizontales
+    div_sorted_pct = div_df.copy()
+    div_sorted_pct["media_egr_clean"]   = div_sorted_pct["media_egr"].apply(lambda v: round(v, 1) if pd.notna(v) else 0)
+    div_sorted_pct["media_noegr_clean"] = div_sorted_pct["media_noegr"].apply(lambda v: round(v, 1) if pd.notna(v) else 0)
+    div_sorted_pct = div_sorted_pct.sort_values("pct_egr", ascending=True)  # ascending=True porque las barras horizontales se renderizan de abajo a arriba
 
+    div_labels     = div_sorted_pct["division"].tolist()
+    div_pct        = div_sorted_pct["pct_egr"].tolist()
+    div_prod_egr   = div_sorted_pct["media_egr_clean"].tolist()
+    div_prod_noegr = div_sorted_pct["media_noegr_clean"].tolist()
+    
     # Mann-Whitney por división — texto para la diapositiva
     sig_divs  = div_df[div_df["sig_mann_whitney"] == True][["division","p_mann_whitney"]].to_dict("records")
     nsig_divs = div_df[div_df["sig_mann_whitney"] == False][["division","p_mann_whitney"]].to_dict("records")
@@ -625,11 +631,6 @@ body{{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-t
             <div style="font-size:12px;color:var(--gris-txt);margin-top:4px">Estadístico U = {glob['stat_u']:,} · Tamaño de efecto r = {glob['effect_r']}</div>
             <div style="font-size:11px;color:var(--gris-m);margin-top:4px">Si tomamos un egresado y un no egresado al azar, hay un {round(glob['effect_r']*100,1)}% de probabilidad de que el egresado produzca más.</div>
           </div>
-          <div style="padding:14px;background:#EFF6FF;border-radius:8px;border-left:3px solid var(--azul-cl)">
-            <div style="font-size:20px;font-weight:700;font-family:'DM Mono';color:var(--azul-med)">ρ = {glob['rho']}</div>
-            <div style="font-size:12px;color:var(--gris-txt);margin-top:4px">Correlación Spearman: nivel académico ↔ producción · p &lt; 0.001</div>
-            <div style="font-size:11px;color:var(--gris-m);margin-top:4px">El nivel académico explica el {round(glob['r2']*100,1)}% de la varianza en producción.</div>
-          </div>
         </div>
       </div>
     </div>
@@ -653,6 +654,11 @@ body{{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-t
       <div class="cb"><div class="ct">Producción promedio por nivel de formación</div><div class="cs">A mayor nivel, mayor producción — Correlación Spearman ρ={glob['rho']}</div>
         <div class="leg"><div class="li"><div class="ld" style="background:#1A4E8A"></div>Egresado USTA</div><div class="li"><div class="ld" style="background:#94A3B8"></div>No Egresado</div></div>
         <div class="cw"><canvas id="cProdNiv"></canvas></div></div>
+    </div>
+    <div style="padding:14px 16px;background:#EFF6FF;border-radius:8px;border-left:4px solid var(--azul-cl);margin-bottom:10px">
+      <div style="font-size:20px;font-weight:700;font-family:'DM Mono';color:var(--azul-med)">ρ = {glob['rho']}</div>
+      <div style="font-size:12px;color:var(--gris-txt);margin-top:4px">Correlación Spearman: nivel académico ↔ producción · p &lt; 0.001</div>
+      <div style="font-size:11px;color:var(--gris-m);margin-top:4px">El nivel académico explica el {round(glob['r2']*100,1)}% de la varianza en producción.</div>
     </div>
     <div class="ins"><strong>Hallazgo:</strong> Los egresados USTA presentan una ventaja sistemática en formación posgradual: el {round(sum(pct_egr_ord[2:]),1)}% tiene maestría o doctorado, frente al {round(sum(pct_noegr_ord[2:]),1)}% de los no egresados — una brecha de {round(sum(pct_egr_ord[2:])-sum(pct_noegr_ord[2:]),1)} puntos porcentuales. Además, solo el {nivel['pct_egr'][0]}% de los egresados USTA tiene formación no identificada, vs. el {nivel['pct_noegr'][0]}% en no egresados, lo que sugiere trayectorias académicas más documentadas y consolidadas. Este perfil de mayor cualificación es consistente con la mayor producción científica observada en la diapositiva anterior.</div>
   </div>
@@ -729,7 +735,7 @@ body{{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-t
       <div style="font-size:28px;color:rgba(196,154,34,.5)">→</div>
       <div style="flex:1;min-width:220px">
         <div style="font-size:11px;font-weight:700;color:var(--dorado-cl);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px">Alcance objetivo</div>
-        <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:var(--dorado-cl)">Todos los grupos · 80.000+ integrantes</div>
+        <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:var(--dorado-cl)">Todos los grupos</div>
         <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:3px">Todos los grupos reconocidos por Minciencias a nivel nacional</div>
       </div>
     </div>

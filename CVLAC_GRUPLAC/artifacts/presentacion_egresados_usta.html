@@ -185,11 +185,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-tx
             <div style="font-size:12px;color:var(--gris-txt);margin-top:4px">Estadístico U = 801,976 · Tamaño de efecto r = 0.53</div>
             <div style="font-size:11px;color:var(--gris-m);margin-top:4px">Si tomamos un egresado y un no egresado al azar, hay un 53.0% de probabilidad de que el egresado produzca más.</div>
           </div>
-          <div style="padding:14px;background:#EFF6FF;border-radius:8px;border-left:3px solid var(--azul-cl)">
-            <div style="font-size:20px;font-weight:700;font-family:'DM Mono';color:var(--azul-med)">ρ = 0.5564</div>
-            <div style="font-size:12px;color:var(--gris-txt);margin-top:4px">Correlación Spearman: nivel académico ↔ producción · p &lt; 0.001</div>
-            <div style="font-size:11px;color:var(--gris-m);margin-top:4px">El nivel académico explica el 31.0% de la varianza en producción.</div>
-          </div>
         </div>
       </div>
     </div>
@@ -213,6 +208,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-tx
       <div class="cb"><div class="ct">Producción promedio por nivel de formación</div><div class="cs">A mayor nivel, mayor producción — Correlación Spearman ρ=0.5564</div>
         <div class="leg"><div class="li"><div class="ld" style="background:#1A4E8A"></div>Egresado USTA</div><div class="li"><div class="ld" style="background:#94A3B8"></div>No Egresado</div></div>
         <div class="cw"><canvas id="cProdNiv"></canvas></div></div>
+    </div>
+    <div style="padding:14px 16px;background:#EFF6FF;border-radius:8px;border-left:4px solid var(--azul-cl);margin-bottom:10px">
+      <div style="font-size:20px;font-weight:700;font-family:'DM Mono';color:var(--azul-med)">ρ = 0.5564</div>
+      <div style="font-size:12px;color:var(--gris-txt);margin-top:4px">Correlación Spearman: nivel académico ↔ producción · p &lt; 0.001</div>
+      <div style="font-size:11px;color:var(--gris-m);margin-top:4px">El nivel académico explica el 31.0% de la varianza en producción.</div>
     </div>
     <div class="ins"><strong>Hallazgo:</strong> Los egresados USTA presentan una ventaja sistemática en formación posgradual: el 86.2% tiene maestría o doctorado, frente al 74.4% de los no egresados — una brecha de 11.8 puntos porcentuales. Además, solo el 0.0% de los egresados USTA tiene formación no identificada, vs. el 14.7% en no egresados, lo que sugiere trayectorias académicas más documentadas y consolidadas. Este perfil de mayor cualificación es consistente con la mayor producción científica observada en la diapositiva anterior.</div>
   </div>
@@ -289,7 +289,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-tx
       <div style="font-size:28px;color:rgba(196,154,34,.5)">→</div>
       <div style="flex:1;min-width:220px">
         <div style="font-size:11px;font-weight:700;color:var(--dorado-cl);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px">Alcance objetivo</div>
-        <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:var(--dorado-cl)">Todos los grupos · 80.000+ integrantes</div>
+        <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:var(--dorado-cl)">Todos los grupos</div>
         <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:3px">Todos los grupos reconocidos por Minciencias a nivel nacional</div>
       </div>
     </div>
@@ -339,7 +339,7 @@ new Chart(document.getElementById('cNivPct'),{type:'bar',data:{labels:nivOrd,dat
 
 new Chart(document.getElementById('cProdNiv'),{type:'bar',data:{labels:nivOrd,datasets:[{label:'Egresado USTA',data:[2.3, 3.9, 6.9, 19.8, 33.0],backgroundColor:AZUL,borderRadius:4},{label:'No Egresado',data:[6.6, 5.8, 8.9, 22.8, 55.3],backgroundColor:GRIS,borderRadius:4}]},options:{...DEF,plugins:{...DEF.plugins,legend:{display:true,position:'top',labels:{font:{size:11},usePointStyle:true}}},scales:{y:{grid:{color:'#E2E8F0'},ticks:{font:{family:"'DM Mono'"}}},x:{grid:{display:false}}}}});
 
-const divL=["Ingenierías", "Ciencias de la Educación", "Ciencias Económicas y Administrativas", "Ciencias Jurídicas y Políticas", "Humanidades", "Comunicación y Ciencias Sociales", "Arquitectura y Diseño", "Ciencias Humanas y Sociales", "Ciencias de la Salud", "Ciencias Básicas", "Interdisciplinar"],divPct=[33.6, 41.5, 37.2, 50.9, 58.7, 41.0, 35.2, 59.3, 31.5, 8.0, 26.3],divPE=[12.2, 15.7, 7.5, 10.9, 16.9, 8.0, 2.3, 11.4, 12.9, 26.0, 0.8],divPN=[12.6, 13.0, 10.2, 13.7, 12.1, 10.7, 4.8, 30.9, 24.4, 11.0, 5.9];
+const divL=["Ciencias Básicas", "Interdisciplinar", "Ciencias de la Salud", "Ingenierías", "Arquitectura y Diseño", "Ciencias Económicas y Administrativas", "Comunicación y Ciencias Sociales", "Ciencias de la Educación", "Ciencias Jurídicas y Políticas", "Humanidades", "Ciencias Humanas y Sociales"],divPct=[8.0, 26.3, 31.5, 33.6, 35.2, 37.2, 41.0, 41.5, 50.9, 58.7, 59.3],divPE=[26.0, 0.8, 12.9, 12.2, 2.3, 7.5, 8.0, 15.7, 10.9, 16.9, 11.4],divPN=[11.0, 5.9, 24.4, 12.6, 4.8, 10.2, 10.7, 13.0, 13.7, 12.1, 30.9];
 new Chart(document.getElementById('cDivPct'),{type:'bar',data:{labels:divL,datasets:[{data:divPct,backgroundColor:divPct.map(v=>v>=50?AZUL:v>=40?AZUL_CL:GRIS),borderRadius:5}]},options:{...DEF,indexAxis:'y',scales:{x:{grid:{color:'#E2E8F0'},ticks:{callback:v=>v+'%',font:{family:"'DM Mono'",size:10}},max:75},y:{grid:{display:false},ticks:{font:{size:10}}}},plugins:{...DEF.plugins,tooltip:{...DEF.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.raw}% egresados USTA`}}}}});
 
 new Chart(document.getElementById('cDivProd'),{type:'bar',data:{labels:divL,datasets:[{label:'Egresado USTA',data:divPE,backgroundColor:AZUL,borderRadius:3},{label:'No Egresado',data:divPN,backgroundColor:GRIS,borderRadius:3}]},options:{...DEF,indexAxis:'y',plugins:{...DEF.plugins,legend:{display:true,position:'top',labels:{font:{size:10},usePointStyle:true}}},scales:{x:{grid:{color:'#E2E8F0'},ticks:{font:{family:"'DM Mono'",size:10}}},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
