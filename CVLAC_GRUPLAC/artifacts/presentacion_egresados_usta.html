@@ -5,94 +5,407 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Egresados USTA · Grupos de Investigación</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --azul:#003366;--azul-med:#1A4E8A;--azul-cl:#2E75B6;
-  --dorado:#C49A22;--dorado-cl:#F0C94A;--crema:#FDF8EF;
-  --blanco:#FFFFFF;--gris-bg:#F4F7FB;--gris-line:#E2E8F0;
-  --gris-txt:#334155;--gris-m:#64748B;--verde:#16A34A;--rojo:#DC2626;
+:root {
+  --azul:        #002855;
+  --azul-med:    #1A4B8C;
+  --azul-cl:     #3A72C2;
+  --azul-tint:   #EFF4FB;
+  --dorado:      #B8860B;
+  --dorado-cl:   #E8C04A;
+  --dorado-tint: #FDF8E8;
+  --crema:       #F8F5EF;
+  --blanco:      #FFFFFF;
+  --gris-bg:     #F2F5FA;
+  --gris-line:   #DDE4EF;
+  --gris-txt:    #1E2A3A;
+  --gris-m:      #5A6880;
+  --gris-light:  #8898AA;
+  --verde:       #146C3A;
+  --verde-tint:  #EBF7EE;
+  --rojo:        #C0392B;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-snap-type:y mandatory}
-body{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-txt);overflow-x:hidden}
-.slide{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;position:relative;overflow:hidden}
-.slide-content{background:var(--crema)}
-.slide-dark{background:#0a1628}
 
-/* portada */
-.slide-portada{background:linear-gradient(145deg,#001a3d 0%,#003366 45%,#0d2d5e 100%);justify-content:center;align-items:flex-start;padding:80px 10% 60px}
-.p-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(196,154,34,.15);border:1px solid rgba(196,154,34,.4);border-radius:30px;padding:6px 16px;font-size:12px;font-weight:500;color:var(--dorado-cl);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:28px}
-.p-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--dorado-cl)}
-.p-title{font-family:'Playfair Display',serif;font-size:clamp(36px,5.5vw,64px);font-weight:900;color:#fff;line-height:1.08;margin-bottom:16px}
-.p-title em{font-style:normal;color:var(--dorado-cl)}
-.p-sub{font-size:clamp(14px,1.8vw,18px);color:rgba(255,255,255,.65);font-weight:300;margin-bottom:48px;max-width:520px;line-height:1.6}
-.p-kpis{display:flex;gap:32px;flex-wrap:wrap}
-.p-kpi-val{font-family:'DM Mono',monospace;font-size:40px;font-weight:500;color:var(--dorado-cl);line-height:1}
-.p-kpi-lbl{font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
-.p-div{width:1px;height:52px;background:rgba(255,255,255,.15);align-self:center}
-.p-foot{position:absolute;bottom:28px;left:10%;right:10%;display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,.1);padding-top:16px;font-size:11px;color:rgba(255,255,255,.3)}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* sección */
-.sh{background:var(--azul);padding:28px 8% 24px;position:relative;overflow:hidden}
-.sh::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--dorado),transparent)}
-.sn{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
-.st{font-family:'Playfair Display',serif;font-size:clamp(20px,2.8vw,30px);color:#fff;font-weight:700}
-.st em{font-style:normal;color:var(--dorado-cl)}
-.ss{font-size:13px;color:rgba(255,255,255,.45);margin-top:4px;font-weight:300}
-.sb{padding:28px 8% 32px;flex:1;display:flex;flex-direction:column}
+html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
 
-/* cards */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:16px}
-.card{background:var(--blanco);border-radius:10px;padding:18px 20px;border:1px solid var(--gris-line);position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%}
-.card.a::before{background:var(--azul-med)}.card.d::before{background:var(--dorado)}
-.card.v::before{background:var(--verde)}.card.g::before{background:var(--gris-m)}
-.cv{font-family:'DM Mono',monospace;font-size:32px;font-weight:500;line-height:1;margin-bottom:5px}
-.card.a .cv{color:var(--azul-med)}.card.d .cv{color:var(--dorado)}
-.card.v .cv{color:var(--verde)}.card.g .cv{color:var(--gris-m)}
-.cl{font-size:11px;color:var(--gris-m);line-height:1.4}
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--azul);
+  color: var(--gris-txt);
+  overflow-x: hidden;
+  font-size: 14px;
+  line-height: 1.5;
+}
 
-/* chart grid */
-.cg{display:grid;gap:16px;flex:1}.cg2{grid-template-columns:1fr 1fr}.cg3{grid-template-columns:1fr 1fr 1fr}
-.cb{background:var(--blanco);border-radius:10px;padding:20px;border:1px solid var(--gris-line);box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;flex-direction:column}
-.ct{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--azul);margin-bottom:3px}
-.cs{font-size:11px;color:var(--gris-m);margin-bottom:14px}
-.cw{position:relative;flex:1;min-height:160px}
-.leg{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px}
-.li{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--gris-m)}
-.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+/* ── SLIDES ─────────────────────────────────────────── */
+.slide {
+  height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.slide-content { background: var(--crema); }
+.slide-dark     { background: #03122A; }
 
-/* insight */
-.ins{background:linear-gradient(135deg,#EFF6FF,#F0F9FF);border-left:4px solid var(--azul-cl);border-radius:0 8px 8px 0;padding:12px 16px;margin-top:14px;font-size:12.5px;color:var(--gris-txt);line-height:1.6}
-.ins strong{color:var(--azul)}.ins.d{background:linear-gradient(135deg,#FFFBEB,#FFF7ED);border-left-color:var(--dorado)}
-.ins.v{background:linear-gradient(135deg,#F0FDF4,#ECFDF5);border-left-color:var(--verde)}
-.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;font-family:'DM Mono',monospace}
-.badge.s{background:#F0FDF4;color:var(--verde);border:1px solid #BBF7D0}
-.badge.w{background:#FFF7ED;color:#C2410C;border:1px solid #FED7AA}
-.badge.i{background:#EFF6FF;color:var(--azul-med);border:1px solid #BFDBFE}
+/* ── PORTADA ─────────────────────────────────────────── */
+.slide-portada {
+  background: linear-gradient(150deg, #001533 0%, #002855 55%, #0A2148 100%);
+  justify-content: flex-end;
+  padding: 0;
+}
+.portada-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 9% 60px;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+.portada-inner::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -60px;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(184,134,11,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.p-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(232,192,74,.12);
+  border: 1px solid rgba(232,192,74,.35);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dorado-cl);
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  width: fit-content;
+}
+.p-badge::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--dorado-cl);
+}
+.p-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(38px, 5vw, 68px);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.05;
+  margin-bottom: 18px;
+  letter-spacing: -0.5px;
+}
+.p-title em { font-style: italic; color: var(--dorado-cl); }
+.p-sub {
+  font-size: clamp(13px, 1.4vw, 16px);
+  color: rgba(255,255,255,.55);
+  font-weight: 300;
+  margin-bottom: 52px;
+  max-width: 480px;
+  line-height: 1.7;
+}
+.p-kpis { display: flex; gap: 0; flex-wrap: wrap; }
+.p-kpi { padding: 0 32px; border-right: 1px solid rgba(255,255,255,.12); }
+.p-kpi:first-child { padding-left: 0; }
+.p-kpi:last-child  { border-right: none; }
+.p-kpi-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 38px;
+  font-weight: 600;
+  color: var(--dorado-cl);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+.p-kpi-lbl {
+  font-size: 10px;
+  color: rgba(255,255,255,.4);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-top: 6px;
+  font-weight: 500;
+}
+.p-foot {
+  background: rgba(0,0,0,.25);
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 14px 9%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: rgba(255,255,255,.25);
+  flex-shrink: 0;
+}
 
-/* tabla */
-.tbl{width:100%;border-collapse:collapse;font-size:12px}
-.tbl th{background:var(--azul);color:#fff;padding:9px 12px;text-align:left;font-weight:500;font-size:11px}
-.tbl td{padding:9px 12px;border-bottom:1px solid var(--gris-line)}
-.tbl tr:nth-child(even) td{background:#F8FAFC}
-.tbl tr:hover td{background:#EFF6FF}
-.ve{color:var(--azul-med);font-family:'DM Mono',monospace;font-weight:500}
-.vn{color:var(--gris-m);font-family:'DM Mono',monospace}
+/* ── SECTION HEADER ─────────────────────────────────── */
+.sh {
+  background: var(--azul);
+  padding: 20px 7% 18px;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+.sh::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--dorado-cl), rgba(232,192,74,0));
+}
+.sh-num {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: rgba(255,255,255,.1);
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: -4px;
+}
+.sh-text { flex: 1; }
+.sn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: rgba(255,255,255,.3);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.st {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(17px, 2.2vw, 24px);
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.st em { font-style: italic; color: var(--dorado-cl); }
+.ss {
+  font-size: 12px;
+  color: rgba(255,255,255,.38);
+  margin-top: 3px;
+  font-weight: 300;
+}
 
-/* paso */
-.paso{background:var(--blanco);border-radius:10px;padding:20px 22px;border:1px solid var(--gris-line);display:flex;gap:14px;align-items:flex-start;box-shadow:0 2px 8px rgba(0,0,0,.05);flex:1}
-.pnum{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;color:var(--dorado);line-height:1;min-width:34px}
-.ptit{font-size:14px;font-weight:600;color:var(--azul);margin-bottom:4px}
-.pdesc{font-size:12px;color:var(--gris-m);line-height:1.6}
+/* ── SLIDE BODY ─────────────────────────────────────── */
+.sb {
+  padding: 18px 7% 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow: hidden;
+  min-height: 0;
+}
 
-/* nav */
-.nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:9px;z-index:100}
-.nd{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;border:none;transition:all .25s}
-.nd.active{background:var(--dorado-cl);transform:scale(1.5)}
-.nd:hover{background:rgba(255,255,255,.6)}
-@media(max-width:768px){.cg2,.cg3{grid-template-columns:1fr}.sb{padding:20px 5% 28px}.sh{padding:20px 5% 18px}}
+/* ── STAT CARDS ─────────────────────────────────────── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  flex-shrink: 0;
+}
+.cards-2 { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--blanco);
+  border-radius: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--gris-line);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 1px 6px rgba(0,20,60,.06);
+}
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 10px 10px 0 0;
+}
+.card.a::after { background: var(--azul-med); }
+.card.d::after { background: var(--dorado); }
+.card.v::after { background: var(--verde); }
+.card.g::after { background: var(--gris-light); }
+.cv {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 5px;
+  letter-spacing: -0.5px;
+}
+.card.a .cv { color: var(--azul-med); }
+.card.d .cv { color: var(--dorado); }
+.card.v .cv { color: var(--verde); }
+.card.g .cv { color: var(--gris-m); }
+.cl { font-size: 11px; color: var(--gris-m); line-height: 1.4; font-weight: 400; }
+
+/* ── CHART GRID ─────────────────────────────────────── */
+.cg  { display: grid; gap: 12px; flex: 1; min-height: 0; }
+.cg2 { grid-template-columns: 1fr 1fr; }
+.cg3 { grid-template-columns: 1fr 1fr 1fr; }
+.cb {
+  background: var(--blanco);
+  border-radius: 10px;
+  padding: 16px 18px;
+  border: 1px solid var(--gris-line);
+  box-shadow: 0 1px 6px rgba(0,20,60,.06);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+.ct {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--azul);
+  margin-bottom: 2px;
+  flex-shrink: 0;
+}
+.cs { font-size: 11px; color: var(--gris-light); margin-bottom: 10px; flex-shrink: 0; }
+.cw { position: relative; flex: 1; min-height: 0; }
+.leg { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; flex-shrink: 0; }
+.li { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--gris-m); font-weight: 500; }
+.ld { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+/* ── INSIGHT ─────────────────────────────────────────── */
+.ins {
+  background: var(--azul-tint);
+  border-left: 3px solid var(--azul-cl);
+  border-radius: 0 7px 7px 0;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--gris-txt);
+  line-height: 1.6;
+  flex-shrink: 0;
+}
+.ins strong { color: var(--azul); }
+.ins.d { background: var(--dorado-tint); border-left-color: var(--dorado); }
+.ins.v { background: var(--verde-tint);  border-left-color: var(--verde);  }
+
+/* ── BADGE ───────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 10.5px;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+}
+.badge.s { background: var(--verde-tint); color: var(--verde);    border: 1px solid #9ED9B0; }
+.badge.w { background: #FFF3E0;           color: #B05A00;          border: 1px solid #FFCC80; }
+.badge.i { background: var(--azul-tint);  color: var(--azul-med); border: 1px solid #B8D0EF; }
+
+/* ── TABLE ───────────────────────────────────────────── */
+.tbl-wrap { overflow-x: auto; flex: 1; min-height: 0; }
+.tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.tbl th {
+  background: var(--azul);
+  color: #fff;
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 10.5px;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+.tbl td { padding: 8px 12px; border-bottom: 1px solid var(--gris-line); white-space: nowrap; }
+.tbl tr:nth-child(even) td { background: #F7FAFF; }
+.tbl tr:hover td { background: var(--azul-tint); }
+.ve { color: var(--azul-med); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+.vn { color: var(--gris-m);   font-family: 'JetBrains Mono', monospace; }
+.div-tag {
+  display: inline-block;
+  font-size: 9.5px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: var(--azul-tint);
+  color: var(--azul-med);
+  font-weight: 600;
+}
+
+/* ── STEPS (metodología) ─────────────────────────────── */
+.step { display: flex; gap: 12px; align-items: flex-start; padding: 11px 14px; background: var(--gris-bg); border-radius: 8px; }
+.step-num {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 12px; font-weight: 700; flex-shrink: 0;
+}
+.step-title { font-size: 12.5px; font-weight: 600; color: var(--azul); margin-bottom: 2px; }
+.step-desc  { font-size: 11px; color: var(--gris-m); line-height: 1.5; }
+
+/* ── SLIDE OSCURO ────────────────────────────────────── */
+.slide-dark .sh {
+  background: rgba(255,255,255,.04);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.slide-dark .sh::after { display: none; }
+.alcance-banner {
+  background: rgba(232,192,74,.1);
+  border: 1px solid rgba(232,192,74,.3);
+  border-radius: 12px;
+  padding: 16px 22px;
+  display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+  flex-shrink: 0;
+}
+.alcance-label {
+  font-size: 9.5px; font-weight: 700; color: var(--dorado-cl);
+  letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px;
+}
+.alcance-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px; font-weight: 600; color: #fff; line-height: 1.1;
+}
+.alcance-sub { font-size: 11px; color: rgba(255,255,255,.35); margin-top: 2px; }
+.paso-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 12px;
+  padding: 24px 22px;
+  display: flex; flex-direction: column; gap: 12px; flex: 1;
+}
+.paso-num {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 48px; font-weight: 700; color: var(--dorado-cl); line-height: 1; opacity: .7;
+}
+.paso-title { font-size: 16px; font-weight: 600; color: #fff; line-height: 1.35; }
+.paso-desc  { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.7; }
+.paso-tag   { margin-top: auto; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.07); }
+
+/* ── NAV DOTS ────────────────────────────────────────── */
+.nav {
+  position: fixed; right: 16px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 8px; z-index: 100;
+}
+.nd {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,.2);
+  cursor: pointer; border: none; transition: all .25s; padding: 0;
+}
+.nd.active { background: var(--dorado-cl); transform: scale(1.6); }
+.nd:hover  { background: rgba(255,255,255,.55); }
+
+@media (max-width: 840px) {
+  .cg2, .cg3 { grid-template-columns: 1fr; }
+  .cards      { grid-template-columns: repeat(2, 1fr); }
+  .sb         { padding: 14px 5% 16px; }
+  .sh         { padding: 16px 5% 14px; }
+}
 </style>
 </head>
 <body>
@@ -101,17 +414,35 @@ body{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-tx
 
 <!-- PORTADA -->
 <section class="slide slide-portada" id="s0">
-  <div class="p-badge">Dirección de Graduados · USTA · 2024</div>
-  <h1 class="p-title">Egresados USTA<br>en Grupos de<br><em>Investigación</em></h1>
-  <p class="p-sub">Análisis comparativo de participación, formación académica y producción científica. Período 2017–2021 · Fuente: GrupLAC / CvLAC · Minciencias</p>
-  <div class="p-kpis">
-    <div><div class="p-kpi-val">2,497</div><div class="p-kpi-lbl">Integrantes</div></div>
-    <div class="p-div"></div>
-    <div><div class="p-kpi-val">1,033</div><div class="p-kpi-lbl">Egresados USTA</div></div>
-    <div class="p-div"></div>
-    <div><div class="p-kpi-val">41.4%</div><div class="p-kpi-lbl">Participación</div></div>
-    <div class="p-div"></div>
-    <div><div class="p-kpi-val">107</div><div class="p-kpi-lbl">Grupos activos</div></div>
+  <div class="portada-inner">
+    <div class="p-badge">Dirección de Graduados · USTA · 2024</div>
+    <h1 class="p-title">
+      Egresados USTA<br>
+      en Grupos de<br>
+      <em>Investigación</em>
+    </h1>
+    <p class="p-sub">
+      Análisis comparativo de participación, formación académica y producción científica.<br>
+      Período 2017–2021 · Fuente: GrupLAC / CvLAC · Minciencias
+    </p>
+    <div class="p-kpis">
+      <div class="p-kpi">
+        <div class="p-kpi-val">2,497</div>
+        <div class="p-kpi-lbl">Integrantes</div>
+      </div>
+      <div class="p-kpi">
+        <div class="p-kpi-val">1,033</div>
+        <div class="p-kpi-lbl">Egresados USTA</div>
+      </div>
+      <div class="p-kpi">
+        <div class="p-kpi-val">41.4%</div>
+        <div class="p-kpi-lbl">Participación</div>
+      </div>
+      <div class="p-kpi">
+        <div class="p-kpi-val">107</div>
+        <div class="p-kpi-lbl">Grupos activos</div>
+      </div>
+    </div>
   </div>
   <div class="p-foot">
     <span>Fuente: GrupLAC / CvLAC · Convocatorias 781–894</span>
@@ -121,9 +452,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-tx
 
 <!-- 01 PANORAMA -->
 <section class="slide slide-content" id="s1">
-  <div class="sh"><div class="sn">01 · Panorama General</div>
-    <h2 class="st">Composición de <em>integrantes</em></h2>
-    <p class="ss">Distribución global egresados USTA vs. no egresados · metodología de extracción</p></div>
+  <div class="sh">
+    <div class="sh-num">01</div>
+    <div class="sh-text">
+      <div class="sn">Panorama General</div>
+      <h2 class="st">Composición de <em>integrantes</em></h2>
+      <p class="ss">Distribución global egresados USTA vs. no egresados · metodología de extracción</p>
+    </div>
+  </div>
   <div class="sb">
     <div class="cards">
       <div class="card a"><div class="cv">2,497</div><div class="cl">Total integrantes identificados</div></div>
@@ -132,22 +468,35 @@ body{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-tx
       <div class="card v"><div class="cv">107</div><div class="cl">Grupos con integrantes identificados</div></div>
     </div>
     <div class="cg cg2">
-      <div class="cb"><div class="ct">Proporción global de integrantes</div>
+      <div class="cb">
+        <div class="ct">Proporción global de integrantes</div>
         <div class="cs">Egresados USTA vs. No Egresados — n=2,497</div>
-        <div class="cw"><canvas id="cDonut"></canvas></div></div>
-      <div class="cb"><div class="ct">Metodología de extracción</div><div class="cs">Fuentes oficiales Minciencias</div>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
-          <div style="display:flex;gap:12px;padding:12px;background:var(--gris-bg);border-radius:8px">
-            <div style="min-width:28px;height:28px;border-radius:50%;background:var(--azul);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;flex-shrink:0">1</div>
-            <div><div style="font-size:12px;font-weight:600;color:var(--azul);margin-bottom:2px">GrupLAC · Minciencias</div><div style="font-size:11px;color:var(--gris-m)">123 grupos avalados por USTA identificados. Extracción de lista de integrantes por grupo.</div></div>
+        <div class="cw"><canvas id="cDonut"></canvas></div>
+      </div>
+      <div class="cb">
+        <div class="ct">Metodología de extracción</div>
+        <div class="cs">Fuentes oficiales Minciencias</div>
+        <div style="display:flex;flex-direction:column;gap:9px;margin-top:4px">
+          <div class="step">
+            <div class="step-num" style="background:var(--azul-med)">1</div>
+            <div>
+              <div class="step-title">GrupLAC · Minciencias</div>
+              <div class="step-desc">107 grupos avalados por USTA identificados. Extracción de lista de integrantes por grupo.</div>
+            </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:var(--gris-bg);border-radius:8px">
-            <div style="min-width:28px;height:28px;border-radius:50%;background:var(--dorado);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;flex-shrink:0">2</div>
-            <div><div style="font-size:12px;font-weight:600;color:var(--azul);margin-bottom:2px">CvLAC · Extracción automatizada</div><div style="font-size:11px;color:var(--gris-m)">Perfil de cada integrante: formación académica, institución de grado y producción registrada.</div></div>
+          <div class="step">
+            <div class="step-num" style="background:var(--dorado)">2</div>
+            <div>
+              <div class="step-title">CvLAC · Extracción automatizada</div>
+              <div class="step-desc">Perfil de cada integrante: formación académica, institución de grado y producción registrada.</div>
+            </div>
           </div>
-          <div style="display:flex;gap:12px;padding:12px;background:var(--gris-bg);border-radius:8px">
-            <div style="min-width:28px;height:28px;border-radius:50%;background:var(--verde);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;flex-shrink:0">3</div>
-            <div><div style="font-size:12px;font-weight:600;color:var(--azul);margin-bottom:2px">Identificación de egresados</div><div style="font-size:11px;color:var(--gris-m)">Si la institución de grado contiene "SANTO TOMAS" → egresado USTA.</div></div>
+          <div class="step">
+            <div class="step-num" style="background:var(--verde)">3</div>
+            <div>
+              <div class="step-title">Identificación de egresados</div>
+              <div class="step-desc">Si la institución de grado contiene "SANTO TOMAS" → egresado USTA.</div>
+            </div>
           </div>
         </div>
       </div>
@@ -157,9 +506,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-tx
 
 <!-- 02 PRODUCCIÓN -->
 <section class="slide slide-content" id="s2">
-  <div class="sh"><div class="sn">02 · Producción Científica</div>
-    <h2 class="st">Egresados USTA vs. <em>No Egresados</em></h2>
-    <p class="ss">Comparación de producción total registrada en CvLAC · período 2017–2021</p></div>
+  <div class="sh">
+    <div class="sh-num">02</div>
+    <div class="sh-text">
+      <div class="sn">Producción Científica</div>
+      <h2 class="st">Egresados USTA vs. <em>No Egresados</em></h2>
+      <p class="ss">Comparación de producción total registrada en CvLAC · período 2017–2021</p>
+    </div>
+  </div>
   <div class="sb">
     <div class="cards">
       <div class="card a"><div class="cv">12.07</div><div class="cl">Promedio productos · Egresados USTA</div></div>
@@ -168,21 +522,35 @@ body{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-tx
       <div class="card g"><div class="cv">4</div><div class="cl">Mediana · No Egresados</div></div>
     </div>
     <div class="cg cg2">
-      <div class="cb"><div class="ct">Distribución por percentiles</div>
+      <div class="cb">
+        <div class="ct">Distribución por percentiles</div>
         <div class="cs">P25 · P50 · P75 · P90 — total productos</div>
-        <div class="leg"><div class="li"><div class="ld" style="background:#1A4E8A"></div>Egresado USTA</div><div class="li"><div class="ld" style="background:#94A3B8"></div>No Egresado</div></div>
+        <div class="leg">
+          <div class="li"><div class="ld" style="background:#1A4B8C"></div>Egresado USTA</div>
+          <div class="li"><div class="ld" style="background:#94A3B8"></div>No Egresado</div>
+        </div>
         <div class="cw"><canvas id="cPerc"></canvas></div>
-        <div class="ins d"><strong>Mediana:</strong> egresados USTA 6 vs. no egresados 4 — diferencia del 50% a favor de los egresados.</div>
+        <div class="ins d" style="margin-top:10px">
+          <strong>Mediana:</strong> egresados USTA 6 vs. no egresados 4 —
+          diferencia del 50% a favor de los egresados.
+        </div>
       </div>
-      <div class="cb"><div class="ct">Significancia estadística</div><div class="cs">Prueba U de Mann-Whitney — distribución no normal confirmada</div>
-        <div style="display:flex;flex-direction:column;gap:12px;margin-top:10px">
-          <div style="padding:14px;background:var(--gris-bg);border-radius:8px">
-            <div style="font-size:11px;color:var(--gris-m);margin-bottom:4px">¿Por qué Mann-Whitney y no t de Student?</div>
-            <div style="font-size:12px;color:var(--gris-txt);line-height:1.6">El <strong>29.3% de integrantes tiene 0 productos</strong> y la media (12.07) supera ampliamente la mediana (6). La prueba de Shapiro-Wilk confirma no normalidad (p=0.00e+00). Mann-Whitney compara rangos, sin asumir normalidad.</div>
+      <div class="cb">
+        <div class="ct">Significancia estadística</div>
+        <div class="cs">Prueba U de Mann-Whitney — distribución no normal confirmada</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+          <div style="padding:12px 14px;background:var(--gris-bg);border-radius:8px;border-left:3px solid var(--gris-line)">
+            <div style="font-size:11px;color:var(--gris-m);margin-bottom:5px;font-weight:500">¿Por qué Mann-Whitney y no t de Student?</div>
+            <div style="font-size:12px;color:var(--gris-txt);line-height:1.65">
+              El <strong>29.3% de integrantes tiene 0 productos</strong> y la media (12.07) supera
+              ampliamente la mediana (6). La prueba de Shapiro-Wilk confirma no normalidad
+              <span style="font-family:'JetBrains Mono';font-size:11px">(p=0.00e+00)</span>.
+              Mann-Whitney compara rangos, sin asumir normalidad.
+            </div>
           </div>
-          <div style="padding:14px;background:#F0FDF4;border-radius:8px;border-left:3px solid var(--verde)">
-            <div style="font-size:20px;font-weight:700;font-family:'DM Mono';color:var(--verde)">p = 0.0088</div>
-            <div style="font-size:12px;color:var(--gris-txt);margin-top:4px">Estadístico U = 801,976 · Tamaño de efecto r = 0.53</div>
+          <div style="padding:14px 16px;background:var(--verde-tint);border-radius:8px;border-left:3px solid var(--verde)">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;color:var(--verde);line-height:1">p = 0.0088</div>
+            <div style="font-size:12px;color:var(--gris-txt);margin-top:6px">Estadístico U = 801,976 · Tamaño de efecto r = 0.53</div>
             <div style="font-size:11px;color:var(--gris-m);margin-top:4px">Si tomamos un egresado y un no egresado al azar, hay un 53.0% de probabilidad de que el egresado produzca más.</div>
           </div>
         </div>
@@ -193,58 +561,95 @@ body{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-tx
 
 <!-- 03 NIVEL ACADÉMICO -->
 <section class="slide slide-content" id="s3">
-  <div class="sh"><div class="sn">03 · Formación Académica</div>
-    <h2 class="st">Nivel de formación: <em>comparativa</em></h2>
-    <p class="ss">Distribución porcentual y absoluta — Egresados USTA vs. No Egresados</p></div>
+  <div class="sh">
+    <div class="sh-num">03</div>
+    <div class="sh-text">
+      <div class="sn">Formación Académica</div>
+      <h2 class="st">Nivel de formación: <em>comparativa</em></h2>
+      <p class="ss">Distribución porcentual y absoluta — Egresados USTA vs. No Egresados</p>
+    </div>
+  </div>
   <div class="sb">
-    <div class="cards">
+    <div class="cards cards-2">
       <div class="card a"><div class="cv">86.2%</div><div class="cl">Egresados con Maestría o Doctorado</div></div>
       <div class="card g"><div class="cv">74.4%</div><div class="cl">No Egresados con Maestría o Doctorado</div></div>
     </div>
     <div class="cg cg2">
-      <div class="cb"><div class="ct">Distribución porcentual por nivel</div><div class="cs">% según nivel de formación máxima</div>
-        <div class="leg"><div class="li"><div class="ld" style="background:#1A4E8A"></div>Egresado USTA</div><div class="li"><div class="ld" style="background:#94A3B8"></div>No Egresado</div></div>
-        <div class="cw"><canvas id="cNivPct"></canvas></div></div>
-      <div class="cb"><div class="ct">Producción promedio por nivel de formación</div><div class="cs">A mayor nivel, mayor producción — Correlación Spearman ρ=0.5564</div>
-        <div class="leg"><div class="li"><div class="ld" style="background:#1A4E8A"></div>Egresado USTA</div><div class="li"><div class="ld" style="background:#94A3B8"></div>No Egresado</div></div>
-        <div class="cw"><canvas id="cProdNiv"></canvas></div></div>
+      <div class="cb">
+        <div class="ct">Distribución porcentual por nivel</div>
+        <div class="cs">% según nivel de formación máxima</div>
+        <div class="leg">
+          <div class="li"><div class="ld" style="background:#1A4B8C"></div>Egresado USTA</div>
+          <div class="li"><div class="ld" style="background:#94A3B8"></div>No Egresado</div>
+        </div>
+        <div class="cw"><canvas id="cNivPct"></canvas></div>
+      </div>
+      <div class="cb">
+        <div class="ct">Producción promedio por nivel de formación</div>
+        <div class="cs">A mayor nivel, mayor producción — Correlación Spearman ρ=0.5564</div>
+        <div class="leg">
+          <div class="li"><div class="ld" style="background:#1A4B8C"></div>Egresado USTA</div>
+          <div class="li"><div class="ld" style="background:#94A3B8"></div>No Egresado</div>
+        </div>
+        <div class="cw"><canvas id="cProdNiv"></canvas></div>
+      </div>
     </div>
-    <div style="padding:14px 16px;background:#EFF6FF;border-radius:8px;border-left:4px solid var(--azul-cl);margin-bottom:10px">
-      <div style="font-size:20px;font-weight:700;font-family:'DM Mono';color:var(--azul-med)">ρ = 0.5564</div>
-      <div style="font-size:12px;color:var(--gris-txt);margin-top:4px">Correlación Spearman: nivel académico ↔ producción · p &lt; 0.001</div>
-      <div style="font-size:11px;color:var(--gris-m);margin-top:4px">El nivel académico explica el 31.0% de la varianza en producción.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="padding:12px 16px;background:var(--azul-tint);border-radius:8px;border-left:3px solid var(--azul-cl)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;color:var(--azul-med);line-height:1">ρ = 0.5564</div>
+        <div style="font-size:12px;color:var(--gris-txt);margin-top:5px">Correlación Spearman: nivel académico ↔ producción · p &lt; 0.001</div>
+        <div style="font-size:11px;color:var(--gris-m);margin-top:3px">El nivel académico explica el 31.0% de la varianza en producción.</div>
+      </div>
+      <div class="ins" style="margin-top:0">
+        <strong>Hallazgo:</strong> Los egresados USTA presentan una ventaja sistemática en formación posgradual:
+        el 86.2% tiene maestría o doctorado, frente al 74.4% de los no egresados
+        — una brecha de <strong>11.8 puntos porcentuales</strong>.
+      </div>
     </div>
-    <div class="ins"><strong>Hallazgo:</strong> Los egresados USTA presentan una ventaja sistemática en formación posgradual: el 86.2% tiene maestría o doctorado, frente al 74.4% de los no egresados — una brecha de 11.8 puntos porcentuales. Además, solo el 0.0% de los egresados USTA tiene formación no identificada, vs. el 14.7% en no egresados, lo que sugiere trayectorias académicas más documentadas y consolidadas. Este perfil de mayor cualificación es consistente con la mayor producción científica observada en la diapositiva anterior.</div>
   </div>
 </section>
 
 <!-- 04 POR DIVISIÓN -->
 <section class="slide slide-content" id="s4">
-  <div class="sh"><div class="sn">04 · Por División Académica</div>
-    <h2 class="st">Participación y producción por <em>área del conocimiento</em></h2>
-    <p class="ss">Distribución de egresados USTA y producción según división académica del grupo</p></div>
-  <div class="sb">
-    <div class="cg cg2" style="margin-bottom:16px">
-      <div class="cb"><div class="ct">% Egresados USTA por División</div><div class="cs">Proporción de integrantes que son egresados USTA</div>
-        <div class="cw"><canvas id="cDivPct"></canvas></div></div>
-      <div class="cb"><div class="ct">Producción promedio: Egresados vs. No Egresados</div><div class="cs">Promedio de total_productos por integrante según división</div>
-        <div class="leg"><div class="li"><div class="ld" style="background:#1A4E8A"></div>Egresado USTA</div><div class="li"><div class="ld" style="background:#94A3B8"></div>No Egresado</div></div>
-        <div class="cw"><canvas id="cDivProd"></canvas></div></div>
+  <div class="sh">
+    <div class="sh-num">04</div>
+    <div class="sh-text">
+      <div class="sn">Por División Académica</div>
+      <h2 class="st">Participación y producción por <em>área del conocimiento</em></h2>
+      <p class="ss">Distribución de egresados USTA y producción según división académica del grupo</p>
     </div>
-    <div class="cb">
+  </div>
+  <div class="sb">
+    <div class="cg cg2" style="flex:2">
+      <div class="cb">
+        <div class="ct">% Egresados USTA por División</div>
+        <div class="cs">Proporción de integrantes que son egresados USTA</div>
+        <div class="cw"><canvas id="cDivPct"></canvas></div>
+      </div>
+      <div class="cb">
+        <div class="ct">Producción promedio: Egresados vs. No Egresados</div>
+        <div class="cs">Promedio de total_productos por integrante según división</div>
+        <div class="leg">
+          <div class="li"><div class="ld" style="background:#1A4B8C"></div>Egresado USTA</div>
+          <div class="li"><div class="ld" style="background:#94A3B8"></div>No Egresado</div>
+        </div>
+        <div class="cw"><canvas id="cDivProd"></canvas></div>
+      </div>
+    </div>
+    <div class="cb" style="flex-shrink:0">
       <div class="ct" style="margin-bottom:10px">Significancia estadística por División (Mann-Whitney U)</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px">
-        <div style="padding:12px 14px;background:#F0FDF4;border-radius:8px;border-left:3px solid var(--verde)">
-          <div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:6px">✓ Significativa (p &lt; 0.05)</div>
-          <div style="font-size:12px;font-weight:600;color:var(--azul)">Ciencias de la Educación</div><div style="font-size:10px;color:var(--gris-m);margin-bottom:4px">p = 0.0</div><div style="font-size:12px;font-weight:600;color:var(--azul)">Humanidades</div><div style="font-size:10px;color:var(--gris-m);margin-bottom:4px">p = 0.0045</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+        <div style="padding:11px 13px;background:var(--verde-tint);border-radius:8px;border-left:3px solid var(--verde)">
+          <div style="font-size:10px;font-weight:700;color:#146C3A;margin-bottom:6px;letter-spacing:.5px">✓ SIGNIFICATIVA (p &lt; 0.05)</div>
+          <div style="font-size:12.5px;font-weight:600;color:var(--azul)">Ciencias de la Educación</div><div style="font-size:10.5px;color:var(--gris-m);font-family:'JetBrains Mono',monospace;margin-bottom:4px">p = 0.0</div><div style="font-size:12.5px;font-weight:600;color:var(--azul)">Humanidades</div><div style="font-size:10.5px;color:var(--gris-m);font-family:'JetBrains Mono',monospace;margin-bottom:4px">p = 0.0045</div>
         </div>
-        <div style="padding:12px 14px;background:#FFF7ED;border-radius:8px;border-left:3px solid var(--dorado)">
-          <div style="font-size:11px;font-weight:700;color:#92400E;margin-bottom:6px">— No significativa (p ≥ 0.05)</div>
-          <div style="font-size:10px;color:var(--gris-m);line-height:1.9">Ingenierías  ·  Ciencias Económicas y Administrativas  ·  Ciencias Jurídicas y Políticas  ·  Comunicación y Ciencias Sociales  ·  Arquitectura y Diseño  ·  Ciencias Humanas y Sociales  ·  Ciencias de la Salud</div>
+        <div style="padding:11px 13px;background:#FFF8EE;border-radius:8px;border-left:3px solid var(--dorado)">
+          <div style="font-size:10px;font-weight:700;color:#8B6300;margin-bottom:6px;letter-spacing:.5px">— NO SIGNIFICATIVA (p ≥ 0.05)</div>
+          <div style="font-size:11px;color:var(--gris-m);line-height:1.8">Ingenierías  ·  Ciencias Económicas y Administrativas  ·  Ciencias Jurídicas y Políticas  ·  Comunicación y Ciencias Sociales  ·  Arquitectura y Diseño  ·  Ciencias Humanas y Sociales  ·  Ciencias de la Salud</div>
         </div>
-        <div style="padding:12px 14px;background:#EFF6FF;border-radius:8px;border-left:3px solid var(--azul-cl)">
-          <div style="font-size:11px;font-weight:700;color:#1e40af;margin-bottom:4px">💡 Interpretación</div>
-          <div style="font-size:11px;color:var(--gris-m);line-height:1.6">La diferencia en producción es estadísticamente robusta en las divisiones con resultado significativo. En las demás, la diferencia existe pero puede estar limitada por tamaño de muestra o alta varianza interna.</div>
+        <div style="padding:11px 13px;background:var(--azul-tint);border-radius:8px;border-left:3px solid var(--azul-cl)">
+          <div style="font-size:10px;font-weight:700;color:var(--azul-med);margin-bottom:6px;letter-spacing:.5px">💡 INTERPRETACIÓN</div>
+          <div style="font-size:11px;color:var(--gris-m);line-height:1.65">La diferencia en producción es robusta en la división con resultado significativo. En las demás puede estar limitada por tamaño muestral o alta varianza interna.</div>
         </div>
       </div>
     </div>
@@ -253,114 +658,322 @@ body{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-tx
 
 <!-- 05 TOP 10 -->
 <section class="slide slide-content" id="s5">
-  <div class="sh"><div class="sn">05 · Top 10 Grupos · Facultad</div>
-    <h2 class="st">Los grupos más productivos y su <em>contexto disciplinar</em></h2>
-    <p class="ss">Producción total, % egresados USTA y producción promedio por persona — con facultad identificada</p></div>
-  <div class="sb">
-    <div class="cg cg2" style="margin-bottom:14px">
-      <div class="cb"><div class="ct">Producción total — Top 10 grupos</div><div class="cs">Coloreado por división académica</div>
-        <div class="cw"><canvas id="cT10P"></canvas></div></div>
-      <div class="cb"><div class="ct">Producción media por integrante</div><div class="cs">Egresado USTA vs. No Egresado en cada grupo</div>
-        <div class="leg"><div class="li"><div class="ld" style="background:#1A4E8A"></div>Egresado USTA</div><div class="li"><div class="ld" style="background:#94A3B8"></div>No Egresado</div></div>
-        <div class="cw"><canvas id="cT10M"></canvas></div></div>
+  <div class="sh">
+    <div class="sh-num">05</div>
+    <div class="sh-text">
+      <div class="sn">Top 10 Grupos · Facultad</div>
+      <h2 class="st">Los grupos más productivos y su <em>contexto disciplinar</em></h2>
+      <p class="ss">Producción total, % egresados USTA y producción promedio por persona — con facultad identificada</p>
     </div>
-    <div class="cb"><div class="ct" style="margin-bottom:10px">Resumen Top 10 — por facultad</div>
-      <table class="tbl"><thead><tr><th>Grupo</th><th>Facultad</th><th>División</th><th>N</th><th>% Egr.</th><th>Prod. total</th><th>Media Egr.</th><th>Media No Egr.</th></tr></thead>
-      <tbody id="t10body"></tbody></table></div>
+  </div>
+  <div class="sb">
+    <div class="cg cg2" style="flex:1.2">
+      <div class="cb">
+        <div class="ct">Producción total — Top 10 grupos</div>
+        <div class="cs">Coloreado por división académica</div>
+        <div class="cw"><canvas id="cT10P"></canvas></div>
+      </div>
+      <div class="cb">
+        <div class="ct">Producción media por integrante</div>
+        <div class="cs">Egresado USTA vs. No Egresado en cada grupo</div>
+        <div class="leg">
+          <div class="li"><div class="ld" style="background:#1A4B8C"></div>Egresado USTA</div>
+          <div class="li"><div class="ld" style="background:#94A3B8"></div>No Egresado</div>
+        </div>
+        <div class="cw"><canvas id="cT10M"></canvas></div>
+      </div>
+    </div>
+    <div class="cb" style="flex:1">
+      <div class="ct" style="margin-bottom:8px">Resumen Top 10 — por facultad</div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>Grupo</th><th>Facultad</th><th>División</th>
+              <th style="text-align:center">N</th>
+              <th style="text-align:center">% Egr.</th>
+              <th style="text-align:center">Prod. total</th>
+              <th style="text-align:center">Media Egr.</th>
+              <th style="text-align:center">Media No Egr.</th>
+            </tr>
+          </thead>
+          <tbody id="t10body"></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- 07 PRÓXIMOS PASOS -->
 <section class="slide slide-dark" id="s7">
-  <div class="sh" style="background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.08)">
-    <div class="sn" style="color:rgba(255,255,255,.3)">07 · Siguiente Etapa</div>
-    <h2 class="st" style="color:#fff">Hoja de ruta: <em>análisis ampliado</em></h2>
-    <p class="ss">Este análisis cubre grupos avalados por USTA. El siguiente paso es escalar al universo completo de grupos reconocidos por Minciencias.</p>
+  <div class="sh">
+    <div class="sh-num" style="color:rgba(255,255,255,.07)">07</div>
+    <div class="sh-text">
+      <div class="sn" style="color:rgba(255,255,255,.25)">Siguiente Etapa</div>
+      <h2 class="st" style="color:#fff">Hoja de ruta: <em>análisis ampliado</em></h2>
+      <p class="ss">Este análisis cubre grupos avalados por USTA. El siguiente paso es escalar al universo completo de grupos reconocidos por Minciencias.</p>
+    </div>
   </div>
-  <div class="sb" style="display:flex;flex-direction:column;gap:20px">
-
-    <!-- banner alcance -->
-    <div style="background:rgba(196,154,34,.12);border:1px solid rgba(196,154,34,.35);border-radius:12px;padding:18px 24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap">
-      <div style="flex:1;min-width:220px">
-        <div style="font-size:11px;font-weight:700;color:var(--dorado-cl);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px">Alcance actual</div>
-        <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:#fff">107 grupos · 2,497 integrantes</div>
-        <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:3px">Grupos avalados por USTA · Convocatorias 781–894</div>
+  <div class="sb">
+    <div class="alcance-banner">
+      <div style="flex:1;min-width:200px">
+        <div class="alcance-label">Alcance actual</div>
+        <div class="alcance-val">107 grupos · 2,497 integrantes</div>
+        <div class="alcance-sub">Grupos avalados por USTA · Convocatorias 781–894</div>
       </div>
-      <div style="font-size:28px;color:rgba(196,154,34,.5)">→</div>
-      <div style="flex:1;min-width:220px">
-        <div style="font-size:11px;font-weight:700;color:var(--dorado-cl);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px">Alcance objetivo</div>
-        <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:var(--dorado-cl)">Todos los grupos</div>
-        <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:3px">Todos los grupos reconocidos por Minciencias a nivel nacional</div>
+      <div style="font-size:28px;color:rgba(232,192,74,.4)">→</div>
+      <div style="flex:1;min-width:200px">
+        <div class="alcance-label">Alcance objetivo</div>
+        <div class="alcance-val" style="color:var(--dorado-cl)">Todos los grupos</div>
+        <div class="alcance-sub">Todos los grupos reconocidos por Minciencias a nivel nacional</div>
       </div>
     </div>
-
-    <!-- dos pasos grandes -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;flex:1">
-      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:32px 28px;display:flex;flex-direction:column;gap:16px">
-        <div style="font-family:'Playfair Display',serif;font-size:52px;font-weight:900;color:var(--dorado);line-height:1">1</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;min-height:0">
+      <div class="paso-card">
+        <div class="paso-num">1</div>
         <div>
-          <div style="font-size:17px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.3">Extracción masiva — todos los grupos</div>
-          <div style="font-size:13.5px;color:rgba(255,255,255,.55);line-height:1.75">Ampliar la extracción desde GrupLAC y CvLAC a todos los grupos reconocidos a nivel nacional. Identificar egresados USTA en grupos no avalados directamente por la universidad.</div>
+          <div class="paso-title">Extracción masiva — todos los grupos</div>
+          <div class="paso-desc">Ampliar la extracción desde GrupLAC y CvLAC a todos los grupos reconocidos a nivel nacional. Identificar egresados USTA en grupos no avalados directamente por la universidad.</div>
         </div>
-        <div style="margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.08)">
-          <span style="font-size:11px;font-weight:600;color:var(--dorado-cl);background:rgba(196,154,34,.12);border:1px solid rgba(196,154,34,.25);border-radius:20px;padding:4px 12px">GrupLAC + CvLAC Nacional</span>
+        <div class="paso-tag">
+          <span style="font-size:11px;font-weight:600;color:var(--dorado-cl);background:rgba(232,192,74,.1);border:1px solid rgba(232,192,74,.22);border-radius:100px;padding:4px 12px">GrupLAC + CvLAC Nacional</span>
         </div>
       </div>
-      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:32px 28px;display:flex;flex-direction:column;gap:16px">
-        <div style="font-family:'Playfair Display',serif;font-size:52px;font-weight:900;color:var(--dorado);line-height:1">2</div>
+      <div class="paso-card">
+        <div class="paso-num">2</div>
         <div>
-          <div style="font-size:17px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.3">Análisis estadístico inferencial completo</div>
-          <div style="font-size:13.5px;color:rgba(255,255,255,.55);line-height:1.75">Regresión logística para predecir probabilidad de alta producción según condición de egresado. Modelos multinivel por área del conocimiento y sede universitaria.</div>
+          <div class="paso-title">Análisis estadístico inferencial completo</div>
+          <div class="paso-desc">Regresión logística para predecir probabilidad de alta producción según condición de egresado. Modelos multinivel por área del conocimiento y sede universitaria.</div>
         </div>
-        <div style="margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.08)">
-          <span style="font-size:11px;font-weight:600;color:#a5f3c0;background:rgba(22,163,74,.12);border:1px solid rgba(22,163,74,.25);border-radius:20px;padding:4px 12px">Regresión · Modelos multinivel</span>
+        <div class="paso-tag">
+          <span style="font-size:11px;font-weight:600;color:#86efac;background:rgba(22,108,58,.12);border:1px solid rgba(22,108,58,.25);border-radius:100px;padding:4px 12px">Regresión · Modelos multinivel</span>
         </div>
       </div>
     </div>
-
-    <!-- pie -->
-    <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-      <div style="font-size:11px;color:rgba(255,255,255,.25)">GrupLAC / CvLAC · Minciencias · 2017–2021 · Dirección de Graduados USTA 2024</div>
-      <div style="display:flex;gap:8px"><span class="badge i">GrupLAC ✓</span><span class="badge i">CvLAC ✓</span><span class="badge w">Grupos nacionales · próximo</span></div>
+    <div style="border-top:1px solid rgba(255,255,255,.07);padding-top:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;flex-shrink:0">
+      <div style="font-size:11px;color:rgba(255,255,255,.2)">GrupLAC / CvLAC · Minciencias · 2017–2021 · Dirección de Graduados USTA 2024</div>
+      <div style="display:flex;gap:7px">
+        <span class="badge i">GrupLAC ✓</span>
+        <span class="badge i">CvLAC ✓</span>
+        <span class="badge w">Grupos nacionales · próximo</span>
+      </div>
     </div>
   </div>
 </section>
 
 <script>
-const AZUL='#1A4E8A',AZUL_CL='#2E75B6',DORADO='#C49A22',GRIS='#94A3B8',VERDE='#16A34A';
-const DEF={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(0,51,102,.95)',titleFont:{family:"'DM Sans'",size:12},bodyFont:{family:"'DM Mono'",size:12},padding:10,cornerRadius:6}}};
+const AZUL='#1A4B8C', AZUL_CL='#3A72C2', DORADO='#B8860B', GRIS='#94A3B8', VERDE='#146C3A';
 
-new Chart(document.getElementById('cDonut'),{type:'doughnut',data:{labels:['Egresado USTA','No Egresado'],datasets:[{data:[1033,1464],backgroundColor:[AZUL,GRIS],borderWidth:3,borderColor:'#fff',hoverOffset:8}]},options:{...DEF,cutout:'62%',plugins:{...DEF.plugins,legend:{display:true,position:'bottom',labels:{font:{family:"'DM Sans'",size:12},padding:16,usePointStyle:true}},tooltip:{...DEF.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.label}: ${ctx.raw.toLocaleString('es-CO')} (${(ctx.raw/2497*100).toFixed(1)}%)`}}}}});
+const DEF = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      backgroundColor: 'rgba(0,40,85,.96)',
+      titleFont:  { family: "'Outfit'", size: 12, weight: '600' },
+      bodyFont:   { family: "'JetBrains Mono'", size: 12 },
+      padding: 10, cornerRadius: 7,
+      borderColor: 'rgba(255,255,255,.08)', borderWidth: 1
+    }
+  }
+};
 
-new Chart(document.getElementById('cPerc'),{type:'bar',data:{labels:['P25','P50 (mediana)','P75','P90'],datasets:[{label:'Egresado USTA',data:[2,6,16,32],backgroundColor:AZUL,borderRadius:4},{label:'No Egresado',data:[0,4,14,33],backgroundColor:GRIS,borderRadius:4}]},options:{...DEF,plugins:{...DEF.plugins,legend:{display:true,position:'top',labels:{font:{size:11},usePointStyle:true}}},scales:{y:{grid:{color:'#E2E8F0'},ticks:{font:{family:"'DM Mono'"}}},x:{grid:{display:false}}}}});
+new Chart(document.getElementById('cDonut'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Egresado USTA', 'No Egresado'],
+    datasets: [{ data: [1033, 1464], backgroundColor: [AZUL, GRIS], borderWidth: 4, borderColor: '#fff', hoverOffset: 10 }]
+  },
+  options: {
+    ...DEF, cutout: '64%',
+    plugins: {
+      ...DEF.plugins,
+      legend: { display: true, position: 'bottom', labels: { font: { family: "'Outfit'", size: 12 }, padding: 18, usePointStyle: true, pointStyleWidth: 12 } },
+      tooltip: { ...DEF.plugins.tooltip, callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw.toLocaleString('es-CO')} (${(ctx.raw/2497*100).toFixed(1)}%)` } }
+    }
+  }
+});
 
-const nivOrd=["Pregrado", "Especialización", "Maestría", "Doctorado", "Posdoctorado"];
-new Chart(document.getElementById('cNivPct'),{type:'bar',data:{labels:nivOrd,datasets:[{label:'Egresado USTA',data:[10.2, 3.6, 44.6, 38.7, 2.9],backgroundColor:AZUL,borderRadius:4},{label:'No Egresado',data:[7.2, 3.7, 39.1, 34.5, 0.8],backgroundColor:GRIS,borderRadius:4}]},options:{...DEF,plugins:{...DEF.plugins,legend:{display:true,position:'top',labels:{font:{size:11},usePointStyle:true}}},scales:{y:{grid:{color:'#E2E8F0'},ticks:{callback:v=>v+'%',font:{family:"'DM Mono'"}}},x:{grid:{display:false},ticks:{font:{size:10}}}}}});
+new Chart(document.getElementById('cPerc'), {
+  type: 'bar',
+  data: {
+    labels: ['P25', 'Mediana (P50)', 'P75', 'P90'],
+    datasets: [
+      { label: 'Egresado USTA', data: [2, 6, 16, 32], backgroundColor: AZUL, borderRadius: 5 },
+      { label: 'No Egresado',   data: [0, 4, 14, 33], backgroundColor: GRIS, borderRadius: 5 }
+    ]
+  },
+  options: {
+    ...DEF,
+    plugins: { ...DEF.plugins, legend: { display: true, position: 'top', labels: { font: { size: 11 }, usePointStyle: true, padding: 12 } } },
+    scales: {
+      y: { grid: { color: '#E8EDF4' }, ticks: { font: { family: "'JetBrains Mono'" } } },
+      x: { grid: { display: false } }
+    }
+  }
+});
 
-new Chart(document.getElementById('cProdNiv'),{type:'bar',data:{labels:nivOrd,datasets:[{label:'Egresado USTA',data:[2.3, 3.9, 6.9, 19.8, 33.0],backgroundColor:AZUL,borderRadius:4},{label:'No Egresado',data:[6.6, 5.8, 8.9, 22.8, 55.3],backgroundColor:GRIS,borderRadius:4}]},options:{...DEF,plugins:{...DEF.plugins,legend:{display:true,position:'top',labels:{font:{size:11},usePointStyle:true}}},scales:{y:{grid:{color:'#E2E8F0'},ticks:{font:{family:"'DM Mono'"}}},x:{grid:{display:false}}}}});
+const nivOrd = ["Pregrado", "Especialización", "Maestría", "Doctorado", "Posdoctorado"];
+new Chart(document.getElementById('cNivPct'), {
+  type: 'bar',
+  data: {
+    labels: nivOrd,
+    datasets: [
+      { label: 'Egresado USTA', data: [10.2, 3.6, 44.6, 38.7, 2.9],   backgroundColor: AZUL, borderRadius: 5 },
+      { label: 'No Egresado',   data: [7.2, 3.7, 39.1, 34.5, 0.8], backgroundColor: GRIS, borderRadius: 5 }
+    ]
+  },
+  options: {
+    ...DEF,
+    plugins: { ...DEF.plugins, legend: { display: true, position: 'top', labels: { font: { size: 11 }, usePointStyle: true, padding: 12 } } },
+    scales: {
+      y: { grid: { color: '#E8EDF4' }, ticks: { callback: v => v + '%', font: { family: "'JetBrains Mono'" } } },
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    }
+  }
+});
 
-const divL=["Ciencias Básicas", "Interdisciplinar", "Ciencias de la Salud", "Ingenierías", "Arquitectura y Diseño", "Ciencias Económicas y Administrativas", "Comunicación y Ciencias Sociales", "Ciencias de la Educación", "Ciencias Jurídicas y Políticas", "Humanidades", "Ciencias Humanas y Sociales"],divPct=[8.0, 26.3, 31.5, 33.6, 35.2, 37.2, 41.0, 41.5, 50.9, 58.7, 59.3],divPE=[26.0, 0.8, 12.9, 12.2, 2.3, 7.5, 8.0, 15.7, 10.9, 16.9, 11.4],divPN=[11.0, 5.9, 24.4, 12.6, 4.8, 10.2, 10.7, 13.0, 13.7, 12.1, 30.9];
-new Chart(document.getElementById('cDivPct'),{type:'bar',data:{labels:divL,datasets:[{data:divPct,backgroundColor:divPct.map(v=>v>=50?AZUL:v>=40?AZUL_CL:GRIS),borderRadius:5}]},options:{...DEF,indexAxis:'y',scales:{x:{grid:{color:'#E2E8F0'},ticks:{callback:v=>v+'%',font:{family:"'DM Mono'",size:10}},max:75},y:{grid:{display:false},ticks:{font:{size:10}}}},plugins:{...DEF.plugins,tooltip:{...DEF.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.raw}% egresados USTA`}}}}});
+new Chart(document.getElementById('cProdNiv'), {
+  type: 'bar',
+  data: {
+    labels: nivOrd,
+    datasets: [
+      { label: 'Egresado USTA', data: [2.3, 3.9, 6.9, 19.8, 33.0],   backgroundColor: AZUL, borderRadius: 5 },
+      { label: 'No Egresado',   data: [6.6, 5.8, 8.9, 22.8, 55.3], backgroundColor: GRIS, borderRadius: 5 }
+    ]
+  },
+  options: {
+    ...DEF,
+    plugins: { ...DEF.plugins, legend: { display: true, position: 'top', labels: { font: { size: 11 }, usePointStyle: true, padding: 12 } } },
+    scales: {
+      y: { grid: { color: '#E8EDF4' }, ticks: { font: { family: "'JetBrains Mono'" } } },
+      x: { grid: { display: false } }
+    }
+  }
+});
 
-new Chart(document.getElementById('cDivProd'),{type:'bar',data:{labels:divL,datasets:[{label:'Egresado USTA',data:divPE,backgroundColor:AZUL,borderRadius:3},{label:'No Egresado',data:divPN,backgroundColor:GRIS,borderRadius:3}]},options:{...DEF,indexAxis:'y',plugins:{...DEF.plugins,legend:{display:true,position:'top',labels:{font:{size:10},usePointStyle:true}}},scales:{x:{grid:{color:'#E2E8F0'},ticks:{font:{family:"'DM Mono'",size:10}}},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
+const divL    = ["Ciencias Básicas", "Interdisciplinar", "Ciencias de la Salud", "Ingenierías", "Arquitectura y Diseño", "Ciencias Económicas y Administrativas", "Comunicación y Ciencias Sociales", "Ciencias de la Educación", "Ciencias Jurídicas y Políticas", "Humanidades", "Ciencias Humanas y Sociales"];
+const divPct  = [8.0, 26.3, 31.5, 33.6, 35.2, 37.2, 41.0, 41.5, 50.9, 58.7, 59.3];
+const divPE   = [26.0, 0.8, 12.9, 12.2, 2.3, 7.5, 8.0, 15.7, 10.9, 16.9, 11.4];
+const divPN   = [11.0, 5.9, 24.4, 12.6, 4.8, 10.2, 10.7, 13.0, 13.7, 12.1, 30.9];
 
-const t10=[{"cod_grupo": "COL0044205", "nombre": "Pedagogía - Ciencia - Espiritualidad", "nombre_corto": "Pedagogía - Ciencia - Espiritualidad", "facultad": "Educación", "division": "Ciencias de la Educación", "n_total": 36, "n_egr": 24, "pct_egr": 66.7, "total_prod": 1314, "con_doctorado": 24, "con_maestria": 6, "media_egr": 27.3, "media_noegr": 54.8, "nivel_egr": 4.08, "nivel_noegr": 3.42}, {"cod_grupo": "COL0082859", "nombre": "GICAEDS", "nombre_corto": "GICAEDS", "facultad": "Educación / Ciencias del Deporte", "division": "Ciencias de la Educación", "n_total": 25, "n_egr": 10, "pct_egr": 40.0, "total_prod": 1112, "con_doctorado": 13, "con_maestria": 6, "media_egr": 47.6, "media_noegr": 42.4, "nivel_egr": 3.1, "nivel_noegr": 3.13}, {"cod_grupo": "COL0071579", "nombre": "Grupo de Investigaciones Jurídicas y Socio-Jurídicas", "nombre_corto": "Grupo de Investigaciones Jurídicas y Soc…", "facultad": "Derecho", "division": "Ciencias Jurídicas y Políticas", "n_total": 80, "n_egr": 50, "pct_egr": 62.5, "total_prod": 1094, "con_doctorado": 23, "con_maestria": 31, "media_egr": 9.5, "media_noegr": 20.7, "nivel_egr": 3.08, "nivel_noegr": 2.23}, {"cod_grupo": "COL0036974", "nombre": "Grupo de Investigación y Desarrollo de Ingeniería en Nuevas Tecnologías (GIDINT)", "nombre_corto": "Grupo de Investigación y Desarrollo de I…", "facultad": "Ingeniería de Sistemas", "division": "Ingenierías", "n_total": 52, "n_egr": 25, "pct_egr": 48.1, "total_prod": 900, "con_doctorado": 21, "con_maestria": 23, "media_egr": 18.7, "media_noegr": 16.0, "nivel_egr": 3.32, "nivel_noegr": 3.04}, {"cod_grupo": "COL0027349", "nombre": "Psicología, salud, trabajo y calidad de vida", "nombre_corto": "Psicología, salud, trabajo y calidad de …", "facultad": "Psicología", "division": "Ciencias Humanas y Sociales", "n_total": 16, "n_egr": 6, "pct_egr": 37.5, "total_prod": 894, "con_doctorado": 7, "con_maestria": 8, "media_egr": 10.3, "media_noegr": 81.8, "nivel_egr": 3.17, "nivel_noegr": 3.27}, {"cod_grupo": "COL0044297", "nombre": "Derecho Público", "nombre_corto": "Derecho Público", "facultad": "Derecho", "division": "Ciencias Jurídicas y Políticas", "n_total": 49, "n_egr": 28, "pct_egr": 57.1, "total_prod": 800, "con_doctorado": 26, "con_maestria": 12, "media_egr": 18.4, "media_noegr": 14.0, "nivel_egr": 3.61, "nivel_noegr": 2.82}, {"cod_grupo": "COL0135589", "nombre": "INAM-USTA (Ingeniería Ambiental - Universidad Santo Tomás)", "nombre_corto": "INAM-USTA (Ingeniería Ambiental - Univer…", "facultad": "Ingeniería Ambiental", "division": "Ingenierías", "n_total": 35, "n_egr": 13, "pct_egr": 37.1, "total_prod": 788, "con_doctorado": 13, "con_maestria": 17, "media_egr": 33.7, "media_noegr": 15.9, "nivel_egr": 3.08, "nivel_noegr": 3.27}, {"cod_grupo": "COL0113483", "nombre": "ALETHEIA", "nombre_corto": "ALETHEIA", "facultad": "Filosofía y Letras", "division": "Humanidades", "n_total": 43, "n_egr": 31, "pct_egr": 72.1, "total_prod": 706, "con_doctorado": 23, "con_maestria": 18, "media_egr": 17.0, "media_noegr": 14.8, "nivel_egr": 3.61, "nivel_noegr": 3.25}, {"cod_grupo": "COL0030193", "nombre": "CUERPO, SUJETO Y EDUCACION", "nombre_corto": "CUERPO, SUJETO Y EDUCACION", "facultad": "Educación", "division": "Ciencias de la Educación", "n_total": 27, "n_egr": 12, "pct_egr": 44.4, "total_prod": 590, "con_doctorado": 5, "con_maestria": 16, "media_egr": 18.2, "media_noegr": 24.8, "nivel_egr": 3.25, "nivel_noegr": 2.73}, {"cod_grupo": "COL0042971", "nombre": "Comunicación, paz - conflicto", "nombre_corto": "Comunicación, paz - conflicto", "facultad": "Comunicación Social", "division": "Comunicación y Ciencias Sociales", "n_total": 51, "n_egr": 20, "pct_egr": 39.2, "total_prod": 586, "con_doctorado": 25, "con_maestria": 18, "media_egr": 12.1, "media_noegr": 11.1, "nivel_egr": 3.6, "nivel_noegr": 3.06}];
-const divCol={"Ciencias de la Educación":"#2E75B6","Ciencias Jurídicas y Políticas":"#7C3AED","Ingenierías":"#16A34A","Ciencias Humanas y Sociales":"#C49A22","Humanidades":"#0891B2","Comunicación y Ciencias Sociales":"#DC2626","Ciencias Económicas y Administrativas":"#0D9488","Arquitectura y Diseño":"#EA580C","Ciencias de la Salud":"#DB2777"};
+new Chart(document.getElementById('cDivPct'), {
+  type: 'bar',
+  data: { labels: divL, datasets: [{ data: divPct, backgroundColor: divPct.map(v => v >= 50 ? AZUL : v >= 40 ? AZUL_CL : GRIS), borderRadius: 4 }] },
+  options: {
+    ...DEF, indexAxis: 'y',
+    scales: {
+      x: { grid: { color: '#E8EDF4' }, ticks: { callback: v => v + '%', font: { family: "'JetBrains Mono'", size: 10 } }, max: 75 },
+      y: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    },
+    plugins: { ...DEF.plugins, tooltip: { ...DEF.plugins.tooltip, callbacks: { label: ctx => ` ${ctx.raw}% egresados USTA` } } }
+  }
+});
 
-new Chart(document.getElementById('cT10P'),{type:'bar',data:{labels:t10.map(d=>d.nombre_corto),datasets:[{data:t10.map(d=>d.total_prod),backgroundColor:t10.map(d=>divCol[d.division]||GRIS),borderRadius:4}]},options:{...DEF,indexAxis:'y',scales:{x:{grid:{color:'#E2E8F0'},ticks:{font:{family:"'DM Mono'",size:10}}},y:{grid:{display:false},ticks:{font:{size:9}}}},plugins:{...DEF.plugins,tooltip:{...DEF.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.raw.toLocaleString('es-CO')} productos · ${t10[ctx.dataIndex].facultad}`}}}}});
+new Chart(document.getElementById('cDivProd'), {
+  type: 'bar',
+  data: {
+    labels: divL,
+    datasets: [
+      { label: 'Egresado USTA', data: divPE, backgroundColor: AZUL, borderRadius: 3 },
+      { label: 'No Egresado',   data: divPN, backgroundColor: GRIS, borderRadius: 3 }
+    ]
+  },
+  options: {
+    ...DEF, indexAxis: 'y',
+    plugins: { ...DEF.plugins, legend: { display: true, position: 'top', labels: { font: { size: 10 }, usePointStyle: true, padding: 10 } } },
+    scales: {
+      x: { grid: { color: '#E8EDF4' }, ticks: { font: { family: "'JetBrains Mono'", size: 10 } } },
+      y: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    }
+  }
+});
 
-new Chart(document.getElementById('cT10M'),{type:'bar',data:{labels:t10.map(d=>d.nombre_corto),datasets:[{label:'Egresado USTA',data:t10.map(d=>d.media_egr),backgroundColor:AZUL,borderRadius:3},{label:'No Egresado',data:t10.map(d=>d.media_noegr),backgroundColor:GRIS,borderRadius:3}]},options:{...DEF,indexAxis:'y',plugins:{...DEF.plugins,legend:{display:true,position:'top',labels:{font:{size:10},usePointStyle:true}}},scales:{x:{grid:{color:'#E2E8F0'},ticks:{font:{family:"'DM Mono'",size:10}}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
+const t10 = [{"cod_grupo": "COL0044205", "nombre": "Pedagogía - Ciencia - Espiritualidad", "nombre_corto": "Pedagogía - Ciencia - Espiritualidad", "facultad": "Educación", "division": "Ciencias de la Educación", "n_total": 36, "n_egr": 24, "pct_egr": 66.7, "total_prod": 1314, "con_doctorado": 24, "con_maestria": 6, "media_egr": 27.3, "media_noegr": 54.8, "nivel_egr": 4.08, "nivel_noegr": 3.42}, {"cod_grupo": "COL0082859", "nombre": "GICAEDS", "nombre_corto": "GICAEDS", "facultad": "Educación / Ciencias del Deporte", "division": "Ciencias de la Educación", "n_total": 25, "n_egr": 10, "pct_egr": 40.0, "total_prod": 1112, "con_doctorado": 13, "con_maestria": 6, "media_egr": 47.6, "media_noegr": 42.4, "nivel_egr": 3.1, "nivel_noegr": 3.13}, {"cod_grupo": "COL0071579", "nombre": "Grupo de Investigaciones Jurídicas y Socio-Jurídicas", "nombre_corto": "Grupo de Investigaciones Jurídicas y Soc…", "facultad": "Derecho", "division": "Ciencias Jurídicas y Políticas", "n_total": 80, "n_egr": 50, "pct_egr": 62.5, "total_prod": 1094, "con_doctorado": 23, "con_maestria": 31, "media_egr": 9.5, "media_noegr": 20.7, "nivel_egr": 3.08, "nivel_noegr": 2.23}, {"cod_grupo": "COL0036974", "nombre": "Grupo de Investigación y Desarrollo de Ingeniería en Nuevas Tecnologías (GIDINT)", "nombre_corto": "Grupo de Investigación y Desarrollo de I…", "facultad": "Ingeniería de Sistemas", "division": "Ingenierías", "n_total": 52, "n_egr": 25, "pct_egr": 48.1, "total_prod": 900, "con_doctorado": 21, "con_maestria": 23, "media_egr": 18.7, "media_noegr": 16.0, "nivel_egr": 3.32, "nivel_noegr": 3.04}, {"cod_grupo": "COL0027349", "nombre": "Psicología, salud, trabajo y calidad de vida", "nombre_corto": "Psicología, salud, trabajo y calidad de …", "facultad": "Psicología", "division": "Ciencias Humanas y Sociales", "n_total": 16, "n_egr": 6, "pct_egr": 37.5, "total_prod": 894, "con_doctorado": 7, "con_maestria": 8, "media_egr": 10.3, "media_noegr": 81.8, "nivel_egr": 3.17, "nivel_noegr": 3.27}, {"cod_grupo": "COL0044297", "nombre": "Derecho Público", "nombre_corto": "Derecho Público", "facultad": "Derecho", "division": "Ciencias Jurídicas y Políticas", "n_total": 49, "n_egr": 28, "pct_egr": 57.1, "total_prod": 800, "con_doctorado": 26, "con_maestria": 12, "media_egr": 18.4, "media_noegr": 14.0, "nivel_egr": 3.61, "nivel_noegr": 2.82}, {"cod_grupo": "COL0135589", "nombre": "INAM-USTA (Ingeniería Ambiental - Universidad Santo Tomás)", "nombre_corto": "INAM-USTA (Ingeniería Ambiental - Univer…", "facultad": "Ingeniería Ambiental", "division": "Ingenierías", "n_total": 35, "n_egr": 13, "pct_egr": 37.1, "total_prod": 788, "con_doctorado": 13, "con_maestria": 17, "media_egr": 33.7, "media_noegr": 15.9, "nivel_egr": 3.08, "nivel_noegr": 3.27}, {"cod_grupo": "COL0113483", "nombre": "ALETHEIA", "nombre_corto": "ALETHEIA", "facultad": "Filosofía y Letras", "division": "Humanidades", "n_total": 43, "n_egr": 31, "pct_egr": 72.1, "total_prod": 706, "con_doctorado": 23, "con_maestria": 18, "media_egr": 17.0, "media_noegr": 14.8, "nivel_egr": 3.61, "nivel_noegr": 3.25}, {"cod_grupo": "COL0030193", "nombre": "CUERPO, SUJETO Y EDUCACION", "nombre_corto": "CUERPO, SUJETO Y EDUCACION", "facultad": "Educación", "division": "Ciencias de la Educación", "n_total": 27, "n_egr": 12, "pct_egr": 44.4, "total_prod": 590, "con_doctorado": 5, "con_maestria": 16, "media_egr": 18.2, "media_noegr": 24.8, "nivel_egr": 3.25, "nivel_noegr": 2.73}, {"cod_grupo": "COL0042971", "nombre": "Comunicación, paz - conflicto", "nombre_corto": "Comunicación, paz - conflicto", "facultad": "Comunicación Social", "division": "Comunicación y Ciencias Sociales", "n_total": 51, "n_egr": 20, "pct_egr": 39.2, "total_prod": 586, "con_doctorado": 25, "con_maestria": 18, "media_egr": 12.1, "media_noegr": 11.1, "nivel_egr": 3.6, "nivel_noegr": 3.06}];
+const divCol = {
+  "Ciencias de la Educación": "#2E75B6",
+  "Ciencias Jurídicas y Políticas": "#7C3AED",
+  "Ingenierías": "#16A34A",
+  "Ciencias Humanas y Sociales": "#C49A22",
+  "Humanidades": "#0891B2",
+  "Comunicación y Ciencias Sociales": "#DC2626",
+  "Ciencias Económicas y Administrativas": "#0D9488",
+  "Arquitectura y Diseño": "#EA580C",
+  "Ciencias de la Salud": "#DB2777"
+};
 
-const tbody=document.getElementById('t10body');
-t10.forEach(d=>{const tr=document.createElement('tr');tr.innerHTML=`<td><strong>${d.nombre_corto}</strong></td><td style="color:var(--azul-med);font-weight:500">${d.facultad}</td><td><span style="font-size:10px;padding:2px 7px;border-radius:3px;background:#EFF6FF;color:#1A4E8A">${d.division}</span></td><td style="text-align:center;font-family:'DM Mono'">${d.n_total}</td><td style="text-align:center;font-family:'DM Mono';color:${d.pct_egr>=50?'#1A4E8A':'#64748B'};font-weight:${d.pct_egr>=50?700:400}">${d.pct_egr}%</td><td style="text-align:center;font-family:'DM Mono';font-weight:700;color:#003366">${d.total_prod.toLocaleString('es-CO')}</td><td style="text-align:center;font-family:'DM Mono';color:#1A4E8A">${d.media_egr}</td><td style="text-align:center;font-family:'DM Mono';color:#64748B">${d.media_noegr}</td>`;tbody.appendChild(tr);});
+new Chart(document.getElementById('cT10P'), {
+  type: 'bar',
+  data: {
+    labels: t10.map(d => d.nombre_corto),
+    datasets: [{ data: t10.map(d => d.total_prod), backgroundColor: t10.map(d => divCol[d.division] || GRIS), borderRadius: 4 }]
+  },
+  options: {
+    ...DEF, indexAxis: 'y',
+    scales: {
+      x: { grid: { color: '#E8EDF4' }, ticks: { font: { family: "'JetBrains Mono'", size: 10 } } },
+      y: { grid: { display: false }, ticks: { font: { size: 9.5 } } }
+    },
+    plugins: { ...DEF.plugins, tooltip: { ...DEF.plugins.tooltip, callbacks: { label: ctx => ` ${ctx.raw.toLocaleString('es-CO')} productos · ${t10[ctx.dataIndex].facultad}` } } }
+  }
+});
 
-// nav
-const slides=document.querySelectorAll('.slide'),dots_c=document.querySelectorAll('.nd');
-const navEl=document.getElementById('navDots');
-slides.forEach((_,i)=>{const b=document.createElement('button');b.className='nd'+(i===0?' active':'');b.onclick=()=>slides[i].scrollIntoView({behavior:'smooth'});b.title=`Sección ${i+1}`;navEl.appendChild(b);});
-const allDots=document.querySelectorAll('.nd');
-const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){const i=Array.from(slides).indexOf(e.target);allDots.forEach((d,j)=>d.classList.toggle('active',i===j));}}),{threshold:0.5});
-slides.forEach(s=>obs.observe(s));
+new Chart(document.getElementById('cT10M'), {
+  type: 'bar',
+  data: {
+    labels: t10.map(d => d.nombre_corto),
+    datasets: [
+      { label: 'Egresado USTA', data: t10.map(d => d.media_egr),   backgroundColor: AZUL, borderRadius: 3 },
+      { label: 'No Egresado',   data: t10.map(d => d.media_noegr), backgroundColor: GRIS, borderRadius: 3 }
+    ]
+  },
+  options: {
+    ...DEF, indexAxis: 'y',
+    plugins: { ...DEF.plugins, legend: { display: true, position: 'top', labels: { font: { size: 10 }, usePointStyle: true, padding: 10 } } },
+    scales: {
+      x: { grid: { color: '#E8EDF4' }, ticks: { font: { family: "'JetBrains Mono'", size: 10 } } },
+      y: { grid: { display: false }, ticks: { font: { size: 9.5 } } }
+    }
+  }
+});
+
+const tbody = document.getElementById('t10body');
+t10.forEach(d => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><strong style="font-size:12px">${d.nombre_corto}</strong></td>
+    <td style="color:var(--azul-med);font-weight:500">${d.facultad}</td>
+    <td><span class="div-tag">${d.division}</span></td>
+    <td style="text-align:center;font-family:'JetBrains Mono',monospace">${d.n_total}</td>
+    <td style="text-align:center;font-family:'JetBrains Mono',monospace;color:${d.pct_egr>=50?'var(--azul-med)':'var(--gris-m)'};font-weight:${d.pct_egr>=50?700:400}">${d.pct_egr}%</td>
+    <td style="text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--azul)">${d.total_prod.toLocaleString('es-CO')}</td>
+    <td style="text-align:center;font-family:'JetBrains Mono',monospace;color:var(--azul-med)">${d.media_egr}</td>
+    <td style="text-align:center;font-family:'JetBrains Mono',monospace;color:var(--gris-m)">${d.media_noegr}</td>
+  `;
+  tbody.appendChild(tr);
+});
+
+const slides = document.querySelectorAll('.slide');
+const navEl  = document.getElementById('navDots');
+slides.forEach((_, i) => {
+  const b = document.createElement('button');
+  b.className = 'nd' + (i === 0 ? ' active' : '');
+  b.onclick   = () => slides[i].scrollIntoView({ behavior: 'smooth' });
+  b.title     = `Sección ${i + 1}`;
+  navEl.appendChild(b);
+});
+const allDots = document.querySelectorAll('.nd');
+const obs = new IntersectionObserver(
+  entries => entries.forEach(e => {
+    if (e.isIntersecting) {
+      const i = Array.from(slides).indexOf(e.target);
+      allDots.forEach((d, j) => d.classList.toggle('active', i === j));
+    }
+  }),
+  { threshold: 0.5 }
+);
+slides.forEach(s => obs.observe(s));
 </script>
 </body>
 </html>
