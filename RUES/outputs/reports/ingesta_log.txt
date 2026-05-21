@@ -1,0 +1,31 @@
+12:47:27  INFO      =======================================================
+12:47:27  INFO        RUES — Limpieza de muestra
+12:47:27  INFO      =======================================================
+12:47:27  INFO      Muestra cargada: 10,000 filas | 36 columnas
+12:47:27  INFO      Columnas raw normalizadas: ['CODIGO_CAMARA', 'CAMARA_COMERCIO', 'MATRICULA', 'INSCRIPCION_PROPONENTE', 'RAZON_SOCIAL', 'PRIMER_APELLIDO', 'SEGUNDO_APELLIDO', 'PRIMER_NOMBRE', 'SEGUNDO_NOMBRE', 'SIGLA', 'CODIGO_CLASE_IDENTIFICACION', 'CLASE_IDENTIFICACION', 'NUMERO_IDENTIFICACION', 'NIT', 'DIGITO_VERIFICACION', 'COD_CIIU_ACT_ECON_PRI', 'COD_CIIU_ACT_ECON_SEC', 'CIIU3', 'CIIU4', 'FECHA_MATRICULA', 'FECHA_RENOVACION', 'ULTIMO_ANO_RENOVADO', 'FECHA_VIGENCIA', 'FECHA_CANCELACION', 'CODIGO_TIPO_SOCIEDAD', 'TIPO_SOCIEDAD', 'CODIGO_ORGANIZACION_JURIDICA', 'ORGANIZACION_JURIDICA', 'CODIGO_CATEGORIA_MATRICULA', 'CATEGORIA_MATRICULA', 'CODIGO_ESTADO_MATRICULA', 'ESTADO_MATRICULA', 'CLASE_IDENTIFICACION_RL', 'NUM_IDENTIFICACION_REPRESENTANTE_LEGAL', 'REPRESENTANTE_LEGAL', 'FECHA_ACTUALIZACION']
+12:47:27  INFO      Columna duplicada eliminada: 'TIPO_SOCIEDAD' (ya existe 'ORGANIZACION_JURIDICA')
+12:47:27  INFO      Renombres aplicados: {'COD_CIIU_ACT_ECON_PRI': 'CIIU_PRINCIPAL', 'CLASE_IDENTIFICACION': 'TIPO_IDENTIFICACION'}
+12:47:27  WARNING   Estado 'OTRO': 496 registros
+12:47:27  INFO      Estados: {'CANCELADA': 6243, 'ACTIVA': 3261, 'OTRO': 496}
+12:47:27  INFO      Cámaras únicas: 58
+12:47:27  INFO      CIIU inválidos: 798 | únicos válidos: 560
+12:47:27  INFO      Años: 1941.0 – 2026.0 | nulos: 53
+12:47:27  INFO      Org. jurídica top5: {'Persona Natural': 7491, 'Sociedades Por Acciones Simplificadas Sas': 1151, 'Sociedad Limitada': 669, 'Empresas Unipersonales': 100, 'Las Demás Organizaciones Civiles,Corporaciones,Fundaciones': 98}
+12:47:27  WARNING   Renovación < matrícula: 1755 corregidos
+12:47:27  INFO      Deduplicación: -0 exactos, -264 por ID → 9,736 registros
+12:47:27  INFO      
+12:47:27  INFO        Nulos por columna clave:
+12:47:27  INFO          NUMERO_IDENTIFICACION                    0  (0.0%)
+12:47:27  INFO          CAMARA_COMERCIO                          0  (0.0%)
+12:47:27  INFO          CIIU_PRINCIPAL                         759  (7.8%)
+12:47:27  INFO          FECHA_MATRICULA                         46  (0.5%)
+12:47:27  INFO          ESTADO_MATRICULA                         0  (0.0%)
+12:47:27  INFO          ORGANIZACION_JURIDICA                    0  (0.0%)
+12:47:28  INFO      
+✅  Muestra limpia: C:\Users\natag\OneDrive\Desktop\impacto_graduados\impacto_graduados\RUES\outputs\tables\muestra_limpia.csv  (9,736 registros)
+12:47:28  INFO      ✅  Reporte: C:\Users\natag\OneDrive\Desktop\impacto_graduados\impacto_graduados\RUES\outputs\reports\ingesta_calidad.json
+12:47:28  INFO      ✅  Log    : C:\Users\natag\OneDrive\Desktop\impacto_graduados\impacto_graduados\RUES\outputs\reports\ingesta_log.txt
+12:47:28  INFO      
+12:47:28  INFO      Siguiente paso → actualiza SAMPLE_PATH en config/settings.py:
+12:47:28  INFO        SAMPLE_PATH = DIR_TABLES / 'muestra_limpia.csv'
+12:47:28  INFO      Luego corre los módulos de análisis (01_ al 06_)

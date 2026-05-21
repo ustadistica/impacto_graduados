@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-05-12T21:35:22.321440",
-  "archivo_origen": "/workspaces/impacto_graduados/RUES/outputs/tables/muestra_rues_10000.csv",
+  "timestamp": "2026-05-19T12:47:27.314670",
+  "archivo_origen": "C:\\Users\\natag\\OneDrive\\Desktop\\impacto_graduados\\impacto_graduados\\RUES\\outputs\\tables\\muestra_limpia.csv",
   "correcciones": {
     "estado_otro": 496,
     "ciiu_invalido": 798,

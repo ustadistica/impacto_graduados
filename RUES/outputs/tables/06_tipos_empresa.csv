@@ -1,13 +1,28 @@
-tipo,conteo,pct
-Persona Natural,7468,77.46084431075614
-Sociedades Por Acciones Simplificadas Sas,1124,11.658541645057568
-Sociedad Limitada,555,5.756664246447464
-Empresas Unipersonales,91,0.9438854890571517
-"Las Demás Organizaciones Civiles,Corporaciones,Fundaciones",81,0.8401618089409812
-"Corporaciones, Asociaciones Y Fundaciones Creadas Para Adelantar Actividades En Comunidades Indígenas.",72,0.7468104968364278
-"Asociaciones, Corporaciones, Fundaciones E Instituciones De Utilidad Común (Gremiales, De Beneficencia; Profesionales, Juveniles, Sociales, Democráticas Y Participativas, Cívicas Y Comunitarias, De Egresados, De Rehabilitación Social Y Ayuda A Indigentes Y Clubes Sociales).",55,0.5704802406389379
-S.A.,55,0.5704802406389379
-Sociedad En Comandita Simple,40,0.4148947204646821
-Fundaciones,38,0.39414998444144794
-Corporaciones,35,0.3630328804065968
-Empresas Asociativas De Trabajo,27,0.2800539363136604
+ORGANIZACION_JURIDICA,conteo,activas,pct,tasa
+Persona Natural,7468,1310,76.70501232539031,17.54151044456347
+Sociedades Por Acciones Simplificadas Sas,1124,907,11.544782251437963,80.69395017793595
+Sociedad Limitada,555,415,5.700493015612161,74.77477477477478
+Empresas Unipersonales,91,55,0.9346754313886606,60.43956043956044
+"Las Demás Organizaciones Civiles,Corporaciones,Fundaciones",81,72,0.8319638455217748,88.88888888888889
+"Corporaciones, Asociaciones Y Fundaciones Creadas Para Adelantar Actividades En Comunidades Indígenas.",72,58,0.7395234182415776,80.55555555555556
+S.A.,55,21,0.5649137222678717,38.18181818181819
+"Asociaciones, Corporaciones, Fundaciones E Instituciones De Utilidad Común (Gremiales, De Beneficencia; Profesionales, Juveniles, Sociales, Democráticas Y Participativas, Cívicas Y Comunitarias, De Egresados, De Rehabilitación Social Y Ayuda A Indigentes Y Clubes Sociales).",55,51,0.5649137222678717,92.72727272727272
+Sociedad En Comandita Simple,40,25,0.4108463434675432,62.5
+Fundaciones,38,31,0.390304026294166,81.57894736842105
+Corporaciones,35,33,0.35949055053410023,94.28571428571428
+Empresas Asociativas De Trabajo,27,26,0.2773212818405916,96.29629629629629
+Entidades De Naturaleza Cooperativa,26,24,0.26705012325390304,92.3076923076923
+"Cooperativas, Federaciones Y Confederaciones, Instituciones Auxiliares De La Economía Solidaria Y Precooperativas.",15,9,0.15406737880032867,60.0
+Otras Sociedades,11,1,0.11298274445357437,9.090909090909092
+Asociaciones Agropecuarias Y Campesinas Nacionales Y No Nacionales,9,7,0.0924404272801972,77.77777777777779
+Sociedad En Comandita Por Acciones,7,5,0.07189811010682005,71.42857142857143
+Asociaciones De Padres De Familia,5,4,0.0513557929334429,80.0
+Fondo De Empleados,4,3,0.041084634346754315,75.0
+Sociedad Extranjera,4,1,0.041084634346754315,25.0
+Nan,3,0,0.030813475760065732,0.0
+Asociaciones Sin Ánimo De Lucro O De Economía Solidaria Formadas Por Padres De Familia Y Educadores.,3,2,0.030813475760065732,66.66666666666666
+Asociaciones Mutuales,3,2,0.030813475760065732,66.66666666666666
+Asociaciones De Copropietarios Coarrendatarios,2,2,0.020542317173377157,100.0
+"Entidades Científicas, Tecnológicas, Culturales, E Investigativas",1,1,0.010271158586688579,100.0
+Entidades Ambientalistas,1,1,0.010271158586688579,100.0
+"Entidades Cuyo Objeto Sea El Desarrollo De Planes Y Programas De Vivienda De Interés Social, Excepto Si Se Trata De Entidades Sin Ánimo De Lucro Integradas Por Familias Interesadas En La Autoconstrucción De Sus Viviendas.",1,1,0.010271158586688579,100.0

@@ -1,21 +1,16 @@
-ciiu,conteo,seccion
-9999,1574,Otra
-4711,417,Otra
-5611,281,Otra
-5630,255,Otra
-9499,216,Otra
-9602,196,Otra
-4771,193,Otra
-4719,188,Otra
-4773,169,Otra
-1410,136,Otra
-8299,133,Otra
-4752,130,Otra
-4520,124,Otra
-5619,113,Otra
-4723,111,Otra
-5613,110,Otra
-4761,104,Otra
-4759,104,Otra
-1081,94,Otra
-6810,89,Otra
+CIIU_PRINCIPAL,total,activas,tasa_activas,pct_del_total,descripcion
+9999,1574,67,4.3,17.53,Sin clasificar
+4711,417,106,25.4,4.65,Supermercados
+5611,281,81,28.8,3.13,Restaurantes
+5630,255,64,25.1,2.84,Bares/cantinas
+9499,216,189,87.5,2.41,Otras asociaciones
+9602,196,71,36.2,2.18,Peluquerías
+4771,193,67,34.7,2.15,Tiendas ropa
+4719,188,35,18.6,2.09,Misceláneas
+4773,169,65,38.5,1.88,Farmacias
+1410,136,53,39.0,1.51,Confección
+8299,133,48,36.1,1.48,Servicios admin.
+4752,130,48,36.9,1.45,Ferreterías
+4520,124,41,33.1,1.38,Talleres vehículos
+5619,113,24,21.2,1.26,Otros restaurantes
+4723,111,35,31.5,1.24,Carnicerías

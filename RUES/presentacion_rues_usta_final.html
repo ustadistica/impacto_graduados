@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUES — Registro y Análisis del Tejido Empresarial</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js">
+function s10(){}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --b1:#0D2B5E;--b2:#1A4A9C;--b3:#3A7BD5;
+  --card:#F5F0E8;--bg:#EDE8DC;--border:rgba(58,123,213,0.14);
+  --ac:#1DAAFF;--pos:#2E7D32;--neg:#8896B0;
+  --txt:#3D4966;--lt:#7888A8;--wh:#fff;
+}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;background:var(--b1);color:var(--txt)}
+#deck{width:100%;height:100%;position:relative}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}
+.slide.active{display:flex}
+
+/* BG */
+.sbg{position:absolute;inset:0;background:linear-gradient(140deg,#EDE8DC 0%,#F5F0E8 55%,#E8E2D5 100%);z-index:0}
+.sbg::before{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(58,123,213,.09) 0%,transparent 70%);top:-250px;right:-120px}
+.sbg::after{content:'';position:absolute;width:450px;height:450px;border-radius:50%;background:radial-gradient(circle,rgba(29,170,255,.06) 0%,transparent 70%);bottom:-120px;left:-80px}
+
+.si{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;padding:0 52px}
+.hbar{display:flex;align-items:center;padding:12px 0 10px;border-bottom:1.5px solid var(--border);flex-shrink:0}
+.hdot{width:8px;height:8px;border-radius:50%;background:var(--b3);margin-right:9px}
+.htxt{font-size:10px;font-weight:600;color:var(--b2);letter-spacing:.09em;text-transform:uppercase}
+.ct{flex:1;display:flex;flex-direction:column;padding:12px 0 12px;gap:10px;overflow:hidden;min-height:0}
+.slbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--b3)}
+h2.st{font-family:'Playfair Display',serif;font-size:clamp(19px,2.4vw,30px);font-weight:600;color:var(--b1);line-height:1.2}
+.sub{font-size:12px;font-weight:300;color:var(--lt);line-height:1.6}
+
+/* CARDS */
+.kc{background:var(--card);border-radius:13px;padding:16px 16px 12px;border-top:3px solid var(--b3);display:flex;flex-direction:column;gap:4px;border:1px solid var(--border);border-top-width:3px}
+.kc.ac{border-top-color:var(--ac)}
+.kc.gn{border-top-color:var(--pos)}
+.klbl{font-size:9px;font-weight:700;color:var(--b2);text-transform:uppercase;letter-spacing:.07em}
+.kval{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--b1);line-height:1}
+.ksub{font-size:10px;color:var(--lt)}
+.cc{background:var(--card);border-radius:13px;padding:14px 16px 12px;display:flex;flex-direction:column;gap:6px;border:1px solid var(--border)}
+.cct{font-size:12px;font-weight:600;color:var(--b1)}
+.ccs{font-size:10px;color:var(--lt);margin-top:-4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1;min-height:0}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;flex:1;min-height:0}
+
+/* PORTADA */
+.pbg{position:absolute;inset:0;background:linear-gradient(135deg,var(--b1) 0%,var(--b2) 60%,var(--b3) 100%);z-index:0}
+.pbg::before{content:'';position:absolute;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(29,170,255,.14) 0%,transparent 60%);top:-300px;right:-200px}
+.pi{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:44px 64px}
+.ubadge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:9px 18px;font-size:12px;font-weight:500;color:rgba(255,255,255,.85);letter-spacing:.06em;text-transform:uppercase}
+.ptag{font-size:11px;font-weight:700;color:var(--ac);letter-spacing:.15em;text-transform:uppercase}
+.ptitle{font-family:'Playfair Display',serif;font-size:clamp(42px,5.5vw,76px);font-weight:700;color:#fff;line-height:1.08}
+.ptitle span{color:#FFD84D}
+.psub{font-size:17px;font-weight:300;color:rgba(255,255,255,.65);max-width:640px;line-height:1.75}
+.pills{display:flex;gap:9px;flex-wrap:wrap;margin-top:6px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:6px 16px;font-size:12px;color:rgba(255,255,255,.75)}
+.pstats{display:flex;gap:52px}
+.psv{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:#fff}
+.psl{font-size:11px;color:rgba(255,255,255,.42);margin-top:2px}
+
+/* NAV */
+.nwa{position:fixed;top:50%;transform:translateY(-50%);background:rgba(13,43,94,.82);border:1px solid rgba(255,255,255,.14);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:100;font-size:18px;color:rgba(255,255,255,.72);transition:background .2s,color .2s;font-family:sans-serif}
+.nwa:hover{background:rgba(13,43,94,.98);color:#fff}
+#nP{left:12px}
+#nN{right:12px}
+
+/* TABLES */
+.rtbl{width:100%;border-collapse:collapse}
+.rtbl tr{border-bottom:1px solid rgba(58,123,213,.09)}
+.rtbl tr:last-child{border-bottom:none}
+.rtbl td{padding:6px 5px;font-size:11px}
+.rn{font-weight:700;color:var(--b3);width:18px;font-size:10px}
+.rname{color:var(--b1);font-weight:500}
+.rbw{width:80px;background:rgba(58,123,213,.14);border-radius:3px;height:5px;overflow:hidden}
+.rbf{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--b3),var(--ac))}
+.rpct{font-size:10px;font-weight:700;color:var(--b2);text-align:right;width:38px}
+
+/* TIPO BARS */
+.trow{display:flex;flex-direction:column;gap:8px}
+.ti{display:flex;flex-direction:column;gap:3px}
+.titop{display:flex;justify-content:space-between;align-items:center}
+.tiname{font-size:11px;font-weight:500;color:var(--b1)}
+.tipct{font-size:10px;font-weight:700;color:var(--b3)}
+.tibw{height:6px;border-radius:3px;background:rgba(58,123,213,.14);overflow:hidden}
+.tibf{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--b2),var(--b3))}
+
+/* AGENDA */
+.agrid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.ai{background:var(--card);border-radius:11px;padding:16px;border-left:4px solid var(--b3);border:1px solid var(--border);border-left-width:4px;display:flex;flex-direction:column;gap:4px}
+.an{font-size:9px;font-weight:700;color:var(--b3);letter-spacing:.1em}
+.aname{font-size:12px;font-weight:600;color:var(--b1)}
+.adesc{font-size:10px;color:var(--lt);line-height:1.5}
+
+/* INSIGHT */
+.ib{background:linear-gradient(135deg,var(--b1),var(--b2));border-radius:13px;padding:16px 20px;display:flex;flex-direction:column;gap:5px}
+.ih{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--ac)}
+.it{font-size:12px;color:rgba(255,255,255,.82);line-height:1.6}
+
+/* CIIU TAG */
+.ctag{display:inline-block;background:rgba(58,123,213,.12);color:var(--b2);border-radius:5px;padding:3px 8px;font-size:10px;font-weight:600;margin:2px}
+
+/* INTERP BOX */
+.intb{background:var(--card);border-radius:11px;padding:12px 16px;border-left:4px solid var(--b3);border:1px solid var(--border);border-left-width:4px;display:flex;flex-direction:column;gap:4px}
+.intt{font-size:9px;font-weight:700;color:var(--b3);text-transform:uppercase;letter-spacing:.08em}
+.inttx{font-size:11px;color:var(--txt);line-height:1.6}
+.inttx strong{color:var(--b1);font-weight:600}
+
+/* COHORTE CARDS */
+.cohcard{background:var(--card);border-radius:11px;padding:10px 12px;border:1px solid var(--border);display:flex;flex-direction:column;gap:4px}
+.cohhead{display:flex;justify-content:space-between;align-items:center}
+.cohtitle{font-size:10px;font-weight:700;color:var(--b1)}
+.cohbadge{font-family:'Playfair Display',serif;font-size:17px;font-weight:700}
+.cohmeta{font-size:9px;color:var(--lt)}
+.cohsec{display:flex;flex-direction:column;gap:2px;margin-top:3px}
+.cohsecrow{display:flex;justify-content:space-between;align-items:center;font-size:9px;padding:2px 0;border-bottom:1px solid rgba(58,123,213,.07)}
+.cohsecrow:last-child{border-bottom:none}
+.cohsecname{color:var(--txt)}
+.cohsecn{font-weight:600;color:var(--b2)}
+
+/* CLOSING */
+.cbg{position:absolute;inset:0;background:linear-gradient(160deg,var(--b1) 0%,#0a2050 50%,#061535 100%);z-index:0}
+.ci{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 60px;gap:20px}
+.cline{width:55px;height:3px;border-radius:2px;background:var(--ac)}
+.ctitle{font-family:'Playfair Display',serif;font-size:clamp(24px,3.5vw,42px);font-weight:700;color:#fff;line-height:1.2}
+.csub{font-size:13px;color:rgba(255,255,255,.5);max-width:480px;line-height:1.7}
+.cgrid{display:flex;gap:44px;margin-top:6px}
+.cstat{display:flex;flex-direction:column;align-items:center;gap:3px}
+.csv{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--ac)}
+.csl{font-size:10px;color:rgba(255,255,255,.38)}
+
+/* DASHBOARD SLIDE */
+.dash-feature{background:var(--card);border-radius:14px;padding:20px 22px;border:1px solid var(--border);display:flex;flex-direction:column;gap:9px;}
+.dash-feature-icon{font-size:28px;line-height:1;}
+.dash-feature-title{font-size:14px;font-weight:700;color:var(--b1);}
+.dash-feature-desc{font-size:12.5px;color:var(--lt);line-height:1.6;}
+.dash-step{display:flex;align-items:flex-start;gap:16px;padding:13px 0;border-bottom:1px solid rgba(58,123,213,0.08);}
+.dash-step:last-child{border-bottom:none;}
+.dash-step-num{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--b3);min-width:34px;line-height:1;}
+.dash-step-body{display:flex;flex-direction:column;gap:4px;}
+.dash-step-title{font-size:14px;font-weight:600;color:var(--b1);}
+.dash-step-desc{font-size:12.5px;color:var(--lt);line-height:1.6;}
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- ══ S1 PORTADA ══ -->
+<div class="slide active" id="s1">
+  <div class="pbg"></div>
+  <div class="pi">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div class="ptag">Base RUES · Confecámaras · Colombia</div>
+      <div class="ubadge">Comité de Egresados USTA</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <div style="font-size:11px;font-weight:700;color:var(--ac);letter-spacing:.16em;text-transform:uppercase">Herramienta de captura y análisis de datos</div>
+      <div class="ptitle">Registro Único<br>Empresarial y Social<br><span>RUES</span></div>
+      <div class="psub">Exploración descriptiva de la base oficial de matrículas mercantiles en Colombia. Una herramienta para observar, describir y contextualizar el comportamiento del tejido empresarial.</div>
+      <div class="pills">
+        <span class="pill">9 736 registros analizados</span>
+        <span class="pill">Muestra aleatoria de 10 000</span>
+        <span class="pill">2000 – 2024</span>
+        <span class="pill">36 variables</span>
+        <span class="pill">58 cámaras de comercio</span>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end">
+      <div class="pstats">
+        <div><div class="psv">9 736</div><div class="psl">registros válidos</div></div>
+        <div><div class="psv">31.5%</div><div class="psl">tasa de actividad</div></div>
+        <div><div class="psv">58</div><div class="psl">cámaras representadas</div></div>
+      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,.25)">Mayo 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S2 AGENDA ══ -->
+<div class="slide" id="s2">
+  <div class="sbg"></div>
+  <div class="si">
+    <div class="hbar"><div class="hdot"></div><span class="htxt">RUES · Registro y Análisis del Tejido Empresarial</span></div>
+    <div class="ct">
+      <div style="flex-shrink:0">
+        <div class="slbl">Contenido</div>
+        <h2 class="st">Ejes de observación</h2>
+        <p class="sub" style="margin-top:5px">Seis dimensiones descriptivas sobre la base de matrículas del RUES.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1;min-height:0">
+        <div class="ai" style="border-left-width:5px;padding:20px 22px;gap:8px">
+          <div class="an" style="font-size:11px">01</div>
+          <div class="aname" style="font-size:16px;font-weight:700">Tasa de emprendimiento</div>
+          <div class="adesc" style="font-size:13px;line-height:1.6">Distribución de estados y representación porcentual por cámara de comercio.</div>
+        </div>
+        <div class="ai" style="border-left-color:var(--ac);border-left-width:5px;padding:20px 22px;gap:8px">
+          <div class="an" style="color:var(--ac);font-size:11px">02</div>
+          <div class="aname" style="font-size:16px;font-weight:700">Sectores económicos CIIU</div>
+          <div class="adesc" style="font-size:13px;line-height:1.6">Actividades más frecuentes y tasa de actividad por código CIIU.</div>
+        </div>
+        <div class="ai" style="border-left-color:var(--b1);border-left-width:5px;padding:20px 22px;gap:8px">
+          <div class="an" style="color:var(--b1);font-size:11px">03</div>
+          <div class="aname" style="font-size:16px;font-weight:700">Distribución geográfica</div>
+          <div class="adesc" style="font-size:13px;line-height:1.6">Volumen y tasa de actividad por cámara de comercio.</div>
+        </div>
+        <div class="ai" style="border-left-width:5px;padding:20px 22px;gap:8px">
+          <div class="an" style="font-size:11px">04</div>
+          <div class="aname" style="font-size:16px;font-weight:700">Supervivencia empresarial</div>
+          <div class="adesc" style="font-size:13px;line-height:1.6">Activas por cohorte de matrícula y sectores económicos predominantes.</div>
+        </div>
+        <div class="ai" style="border-left-color:var(--ac);border-left-width:5px;padding:20px 22px;gap:8px">
+          <div class="an" style="color:var(--ac);font-size:11px">05</div>
+          <div class="aname" style="font-size:16px;font-weight:700">Evolución temporal</div>
+          <div class="adesc" style="font-size:13px;line-height:1.6">Nuevas matrículas año a año: tendencias 2000–2024.</div>
+        </div>
+        <div class="ai" style="border-left-color:var(--b1);border-left-width:5px;padding:20px 22px;gap:8px">
+          <div class="an" style="color:var(--b1);font-size:11px">06</div>
+          <div class="aname" style="font-size:16px;font-weight:700">Tipo de empresa</div>
+          <div class="adesc" style="font-size:13px;line-height:1.6">Persona Natural vs otras formas jurídicas: volumen, sectores y tasa.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S3 TASA DE EMPRENDIMIENTO ══ -->
+<div class="slide" id="s3">
+  <div class="sbg"></div>
+  <div class="si">
+    <div class="hbar"><div class="hdot"></div><span class="htxt">RUES · Registro y Análisis del Tejido Empresarial</span></div>
+    <div class="ct">
+      <div style="flex-shrink:0">
+        <div class="slbl">Indicador 01</div>
+        <h2 class="st">Tasa de emprendimiento</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;flex-shrink:0">
+        <div class="kc"><div class="klbl">Total muestra</div><div class="kval">9 736</div><div class="ksub">registros válidos</div></div>
+        <div class="kc gn"><div class="klbl">Activas</div><div class="kval" style="color:var(--pos)">3 067</div><div class="ksub">31.5% del total</div></div>
+        <div class="kc" style="border-top-color:var(--neg)"><div class="klbl">Canceladas</div><div class="kval" style="color:var(--neg)">6 196</div><div class="ksub">63.6% del total</div></div>
+        <div class="kc ac"><div class="klbl">Otras</div><div class="kval" style="color:var(--ac)">473</div><div class="ksub">4.9% (en trámite, etc.)</div></div>
+      </div>
+      <div class="two" style="flex:1;min-height:0">
+        <div class="cc" style="display:flex;flex-direction:column">
+          <div class="cct">Estado de matrículas</div>
+          <div style="position:relative;flex:1;min-height:0"><canvas id="c_donut"></canvas></div>
+          <div style="display:flex;gap:12px;justify-content:center;font-size:10px;color:var(--lt);flex-shrink:0;padding-top:6px">
+            <span style="display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;border-radius:2px;background:#2E7D32;display:inline-block"></span>Activas 31.5%</span>
+            <span style="display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;border-radius:2px;background:#A8C0E0;display:inline-block"></span>Canceladas 63.6%</span>
+            <span style="display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;border-radius:2px;background:#C8D8EE;display:inline-block"></span>Otro 4.9%</span>
+          </div>
+        </div>
+        <div class="cc" style="display:flex;flex-direction:column">
+          <div class="cct">Top 10 cámaras — 3 métricas porcentuales</div>
+          <div class="ccs">% del total nacional · % de activas nacionales · Tasa interna</div>
+          <div style="position:relative;flex:1;min-height:0"><canvas id="c_cam3"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S4 SECTORES CIIU ══ -->
+<div class="slide" id="s4">
+  <div class="sbg"></div>
+  <div class="si">
+    <div class="hbar"><div class="hdot"></div><span class="htxt">RUES · Registro y Análisis del Tejido Empresarial</span></div>
+    <div class="ct" style="gap:10px">
+      <div>
+        <div class="slbl">Indicador 02</div>
+        <h2 class="st">Sectores económicos y tasa de emprendimiento por CIIU</h2>
+      </div>
+      <!-- Fila superior: dos gráficas -->
+      <div class="two" style="flex:1;min-height:0">
+        <!-- Columna izquierda: Top 10 por volumen -->
+        <div class="cc" style="display:flex;flex-direction:column">
+          <div class="cct">Top 10 sectores por volumen de matrículas</div>
+          <div class="ccs">Con tasa de actividad (activas / total del sector)</div>
+          <div style="position:relative;flex:1;min-height:0"><canvas id="c_ciiu"></canvas></div>
+        </div>
+        <!-- Columna derecha: tasa de actividad alta -->
+        <div class="cc" style="display:flex;flex-direction:column">
+          <div class="cct">Sectores con mayor tasa de actividad (≥30 reg.)</div>
+          <div style="position:relative;flex:1;min-height:0"><canvas id="c_ciiu_tasa"></canvas></div>
+        </div>
+      </div>
+      <!-- Fila inferior: Insight + ¿Qué hacen? -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;flex-shrink:0">
+        <!-- Insight Comercio y servicios -->
+        <div class="ib" style="padding:14px 18px;gap:6px">
+          <div class="ih" style="font-size:16px">Comercio y servicios</div>
+          <div class="it" style="font-size:11px">Los sectores <strong style="color:#fff">retail, alimentos y servicios personales</strong> concentran la mayoría de matrículas. Sin embargo, las <strong style="color:#fff">asociaciones (9499) y el sector inmobiliario</strong> presentan las tasas de actividad más altas, superando el 70%.</div>
+        </div>
+        <!-- ¿Qué hacen esas empresas? -->
+        <div class="cc" style="padding:12px 14px">
+          <div class="cct" style="margin-bottom:8px">¿Qué hacen esas empresas?</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px">
+            <span class="ctag" style="background:rgba(26,74,156,.13);color:#1A4A9C;font-size:10px;padding:4px 10px;border-radius:20px">4711 · Supermercados</span>
+            <span class="ctag" style="background:rgba(26,74,156,.13);color:#1A4A9C;font-size:10px;padding:4px 10px;border-radius:20px">5611 · Restaurantes</span>
+            <span class="ctag" style="background:rgba(26,74,156,.13);color:#1A4A9C;font-size:10px;padding:4px 10px;border-radius:20px">5630 · Bares</span>
+            <span class="ctag" style="background:rgba(26,74,156,.13);color:#1A4A9C;font-size:10px;padding:4px 10px;border-radius:20px">9499 · Otras asoc.</span>
+            <span class="ctag" style="background:rgba(26,74,156,.13);color:#1A4A9C;font-size:10px;padding:4px 10px;border-radius:20px">9602 · Peluquerías</span>
+            <span class="ctag" style="background:rgba(26,74,156,.13);color:#1A4A9C;font-size:10px;padding:4px 10px;border-radius:20px">4771 · Ropa</span>
+            <span class="ctag" style="background:rgba(26,74,156,.13);color:#1A4A9C;font-size:10px;padding:4px 10px;border-radius:20px">4773 · Farmacias</span>
+            <span class="ctag" style="background:rgba(26,74,156,.13);color:#1A4A9C;font-size:10px;padding:4px 10px;border-radius:20px">1410 · Confección</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S5 GEOGRAFÍA ══ -->
+<div class="slide" id="s5">
+  <div class="sbg"></div>
+  <div class="si">
+    <div class="hbar"><div class="hdot"></div><span class="htxt">RUES · Registro y Análisis del Tejido Empresarial</span></div>
+    <div class="ct" style="gap:12px">
+      <div>
+        <div class="slbl">Indicador 03</div>
+        <h2 class="st">Distribución geográfica</h2>
+        <p class="sub" style="margin-top:3px">Participación porcentual de cada cámara sobre el total nacional y sobre las activas nacionales</p>
+      </div>
+      <div class="two" style="flex:1;min-height:0">
+        <div class="cc" style="display:flex;flex-direction:column;overflow:hidden">
+          <div class="cct">Ranking top 10 — métricas porcentuales</div>
+          <div class="ccs" style="margin-bottom:4px">% total nac. · % activas nac. · Tasa interna</div>
+          <div style="overflow-y:auto;flex:1;min-height:0"><table class="rtbl" id="tGeo"></table></div>
+        </div>
+        <div class="cc" style="display:flex;flex-direction:column">
+          <div class="cct">Tasa interna de actividad por ciudad</div>
+          <div class="ccs">Activas propias / Total propias (%)</div>
+          <div style="position:relative;flex:1;min-height:0"><canvas id="c_geo"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S6 SUPERVIVENCIA ══ -->
+<div class="slide" id="s6">
+  <div class="sbg"></div>
+  <div class="si">
+    <div class="hbar"><div class="hdot"></div><span class="htxt">RUES · Registro y Análisis del Tejido Empresarial</span></div>
+    <div class="ct" style="gap:10px">
+      <div style="flex-shrink:0">
+        <div class="slbl">Indicador 04</div>
+        <h2 class="st">Supervivencia empresarial por cohorte y sector económico</h2>
+      </div>
+      <!-- Gráfica: ocupa ~55% del espacio disponible -->
+      <div class="cc" style="flex:55 1 0;min-height:0;display:flex;flex-direction:column">
+        <div class="cct">Curva de supervivencia 2000–2024</div>
+        <div style="position:relative;flex:1;min-height:0"><canvas id="c_super"></canvas></div>
+      </div>
+      <!-- Tarjetas: ocupan ~35% del espacio disponible -->
+      <div style="flex:35 1 0;min-height:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+        <!-- Último año -->
+        <div class="cohcard" style="padding:14px 16px;gap:8px">
+          <div class="cohhead">
+            <div class="cohtitle" style="font-size:12px">Último año (2024)</div>
+            <div class="cohbadge" style="color:var(--ac);font-size:22px">90.2%</div>
+          </div>
+          <div class="cohmeta" style="font-size:11px">229 activas de 254 registros</div>
+          <div class="cohmeta" style="font-size:10px;color:var(--b3);font-weight:600">Top sectores de activas:</div>
+          <div class="cohsec">
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Bares/cantinas (5630)</span><span class="cohsecn">12 · 5.2%</span></div>
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Otras asoc. (9499)</span><span class="cohsecn">11 · 4.8%</span></div>
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Restaurantes (5611)</span><span class="cohsecn">11 · 4.8%</span></div>
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Supermercados (4711)</span><span class="cohsecn">9 · 3.9%</span></div>
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Peluquerías (9602)</span><span class="cohsecn">9 · 3.9%</span></div>
+          </div>
+        </div>
+        <!-- 3 años -->
+        <div class="cohcard" style="padding:14px 16px;gap:8px">
+          <div class="cohhead">
+            <div class="cohtitle" style="font-size:12px">Hace 3 años (2021)</div>
+            <div class="cohbadge" style="color:var(--b3);font-size:22px">48.7%</div>
+          </div>
+          <div class="cohmeta" style="font-size:11px">171 activas de 351 registros</div>
+          <div class="cohmeta" style="font-size:10px;color:var(--b3);font-weight:600">Top sectores de activas:</div>
+          <div class="cohsec">
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Otras asoc. (9499)</span><span class="cohsecn">13 · 7.6%</span></div>
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Restaurantes (5611)</span><span class="cohsecn">9 · 5.3%</span></div>
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Inmobiliario (6810)</span><span class="cohsecn">9 · 5.3%</span></div>
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Bares/cantinas (5630)</span><span class="cohsecn">6 · 3.5%</span></div>
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Peluquerías (9602)</span><span class="cohsecn">6 · 3.5%</span></div>
+          </div>
+        </div>
+        <!-- +10 años -->
+        <div class="cohcard" style="padding:14px 16px;gap:8px">
+          <div class="cohhead">
+            <div class="cohtitle" style="font-size:12px">Más de 10 años (≤2014)</div>
+            <div class="cohbadge" style="color:var(--neg);font-size:22px">21.3%</div>
+          </div>
+          <div class="cohmeta" style="font-size:11px">871 activas de 4 092 registros</div>
+          <div class="cohmeta" style="font-size:10px;color:var(--b3);font-weight:600">Top sectores de activas:</div>
+          <div class="cohsec">
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Otras asoc. (9499)</span><span class="cohsecn">93 · 10.7%</span></div>
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Supermercados (4711)</span><span class="cohsecn">25 · 2.9%</span></div>
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Construcción (4290)</span><span class="cohsecn">21 · 2.4%</span></div>
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Confección (1410)</span><span class="cohsecn">16 · 1.8%</span></div>
+            <div class="cohsecrow" style="font-size:11px"><span class="cohsecname">Farmacias (4773)</span><span class="cohsecn">15 · 1.7%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S7 EVOLUCIÓN TEMPORAL ══ -->
+<div class="slide" id="s7">
+  <div class="sbg"></div>
+  <div class="si">
+    <div class="hbar"><div class="hdot"></div><span class="htxt">RUES · Registro y Análisis del Tejido Empresarial</span></div>
+    <div class="ct" style="gap:12px">
+      <div>
+        <div class="slbl">Indicador 05</div>
+        <h2 class="st">Evolución temporal de matrículas 2000–2024</h2>
+      </div>
+      <div class="cc" style="flex:1;min-height:0;display:flex;flex-direction:column">
+        <div class="cct">Nuevas matrículas por año</div>
+        <div style="position:relative;flex:1;min-height:0"><canvas id="c_evol"></canvas></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;flex-shrink:0">
+        <div class="intb">
+          <div class="intt">Pico histórico</div>
+          <div class="inttx"><strong>2019: 367 matrículas.</strong> Mayor registro en 24 años, previo a la pandemia.</div>
+        </div>
+        <div class="intb">
+          <div class="intt">Impacto pandemia</div>
+          <div class="inttx"><strong>2020: cayó a 300</strong> (–18.3%). Caída más abrupta del período observado.</div>
+        </div>
+        <div class="intb">
+          <div class="intt">Rebote 2021</div>
+          <div class="inttx"><strong>2021: +17%</strong> de recuperación. Emprendimiento de necesidad post-pandemia.</div>
+        </div>
+        <div class="intb">
+          <div class="intt">Tendencia reciente</div>
+          <div class="inttx"><strong>2022–2024: desaceleración</strong> gradual. 254 en 2024, posible consolidación del mercado.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S8 TIPO EMPRESA ══ -->
+<div class="slide" id="s8">
+  <div class="sbg"></div>
+  <div class="si">
+    <div class="hbar"><div class="hdot"></div><span class="htxt">RUES · Registro y Análisis del Tejido Empresarial</span></div>
+    <div class="ct" style="gap:10px">
+      <div>
+        <div class="slbl">Indicador 06</div>
+        <h2 class="st">Tipo de empresa: Persona Natural vs otras formas jurídicas</h2>
+      </div>
+      <div class="two" style="flex:1;min-height:0">
+        <!-- PERSONA NATURAL -->
+        <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+          <div class="cc" style="flex-shrink:0;border-top:3px solid var(--b3)">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div class="cct">Persona Natural</div>
+                <div class="ccs">7 468 registros · 1 310 activas · Tasa: 17.5%</div>
+              </div>
+              <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--b2)">76.7%</div>
+            </div>
+          </div>
+          <div class="cc" style="flex:1;min-height:0;display:flex;flex-direction:column">
+            <div class="cct">Top sectores de Personas Naturales activas</div>
+            <div class="trow" style="margin-top:6px;overflow-y:auto;flex:1;min-height:0" id="pnRows"></div>
+          </div>
+          <div class="intb">
+            <div class="intt">Observación</div>
+            <div class="inttx">Las personas naturales representan <strong>el 76.7% de los registros</strong> pero sólo el <strong>17.5% sigue activa</strong>. Alta concentración en retail de consumo masivo: supermercados, peluquerías, bares y restaurantes.</div>
+          </div>
+        </div>
+        <!-- OTRAS FORMAS -->
+        <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+          <div class="cc" style="flex-shrink:0;border-top:3px solid var(--ac)">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div class="cct">Otras formas jurídicas</div>
+                <div class="ccs">2 268 registros · 1 757 activas · Tasa: 77.5%</div>
+              </div>
+              <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--ac)">23.3%</div>
+            </div>
+          </div>
+          <div class="cc" style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column">
+            <div class="cct">Tasa de actividad por forma jurídica</div>
+            <div class="ccs" style="margin-bottom:6px">Línea punteada = tasa P. Natural (17.5%)</div>
+            <div style="position:relative;flex:1;min-height:0"><canvas id="c_otros"></canvas></div>
+          </div>
+          <div class="intb">
+            <div class="intt">Observación</div>
+            <div class="inttx">Las <strong>SAS (80.7%) y Corporaciones (94.3%)</strong> muestran tasas de actividad muy superiores a Persona Natural. Las formas jurídicas formales tienen mayor capacidad de persistencia en el mercado.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S9 CIERRE ══ -->
+<div class="slide" id="s9">
+  <div class="cbg"></div>
+  <div class="ci">
+    <div class="cline"></div>
+    <div style="font-size:9px;font-weight:700;color:var(--ac);letter-spacing:.16em;text-transform:uppercase">Síntesis · RUES 2026</div>
+    <div class="ctitle">Observaciones del<br>tejido empresarial colombiano</div>
+    <div class="csub">La base RUES permite describir patrones de registro, actividad, permanencia y distribución. Estos hallazgos son un punto de partida para análisis más profundos sobre el ecosistema emprendedor.</div>
+    <div class="cgrid">
+      <div class="cstat"><div class="csv">31.5%</div><div class="csl">tasa de actividad general</div></div>
+      <div class="cstat"><div class="csv">76.7%</div><div class="csl">son personas naturales</div></div>
+      <div class="cstat"><div class="csv">80.7%</div><div class="csl">tasa actividad SAS</div></div>
+      <div class="cstat"><div class="csv">Bogotá</div><div class="csl">27.98% de matrículas</div></div>
+    </div>
+    <div style="font-size:10px;color:rgba(255,255,255,.2);margin-top:4px">Fuente: RUES — Confecámaras · Muestra aleatoria 10 000 registros · Mayo 2026</div>
+  </div>
+</div>
+
+</div>
+
+
+<!-- ══ S10 DASHBOARD ══ -->
+<div class="slide" id="s10">
+  <div class="sbg"></div>
+  <div class="si">
+    <div class="hbar"><div class="hdot"></div><span class="htxt">RUES · Registro y Análisis del Tejido Empresarial</span></div>
+    <div class="ct" style="gap:14px;">
+      <div>
+        <div class="slbl">Herramienta complementaria</div>
+        <h2 class="st">Dashboard RUES — Consulta individual por egresado</h2>
+        <p class="sub" style="margin-top:6px;max-width:760px;font-size:14px;">Una aplicación web que permite consultar, en tiempo real y sobre los 9 millones de registros del RUES, el historial empresarial de cualquier persona a partir de su cédula o NIT.</p>
+      </div>
+      <div class="two" style="flex:1;min-height:0;">
+        <!-- Columna izq: qué hace -->
+        <div style="display:flex;flex-direction:column;gap:12px;min-height:0;overflow-y:auto;">
+          <div style="font-size:11px;font-weight:700;color:var(--b3);letter-spacing:.1em;text-transform:uppercase;">¿Qué hace?</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="dash-feature">
+              <div class="dash-feature-icon">🔍</div>
+              <div class="dash-feature-title">Búsqueda por cédula o NIT</div>
+              <div class="dash-feature-desc">Ingresa el número de identificación y obtiene todos los registros mercantiles vinculados a esa persona en el RUES.</div>
+            </div>
+            <div class="dash-feature">
+              <div class="dash-feature-icon">🗺️</div>
+              <div class="dash-feature-title">Perfil y ubicación</div>
+              <div class="dash-feature-desc">Muestra nombre, estado, sector CIIU, cámara de comercio y localización geográfica de cada empresa.</div>
+            </div>
+            <div class="dash-feature">
+              <div class="dash-feature-icon">📈</div>
+              <div class="dash-feature-title">Línea de vida empresarial</div>
+              <div class="dash-feature-desc">Visualiza la trayectoria de cada empresa: fecha de matrícula, antigüedad acumulada y, si aplica, fecha de cancelación.</div>
+            </div>
+            <div class="dash-feature">
+              <div class="dash-feature-icon">🧬</div>
+              <div class="dash-feature-title">Contexto de cohorte</div>
+              <div class="dash-feature-desc">Compara la empresa con todas las creadas ese mismo año en Colombia: ¿cuántas sobreviven? ¿está por encima o por debajo del promedio?</div>
+            </div>
+            <div class="dash-feature">
+              <div class="dash-feature-icon">🏭</div>
+              <div class="dash-feature-title">Supervivencia por sector</div>
+              <div class="dash-feature-desc">Muestra la tasa de supervivencia histórica del sector CIIU de la empresa y la posiciona dentro de su industria.</div>
+            </div>
+            <div class="dash-feature">
+              <div class="dash-feature-icon">📥</div>
+              <div class="dash-feature-title">Exportación de datos</div>
+              <div class="dash-feature-desc">Descarga en CSV los resultados de una o varias consultas acumuladas durante la sesión, con fecha y cédula asociada.</div>
+            </div>
+          </div>
+        </div>
+        <!-- Columna der: para qué sirve a la USTA -->
+        <div style="display:flex;flex-direction:column;gap:12px;min-height:0;">
+          <div style="font-size:11px;font-weight:700;color:var(--b3);letter-spacing:.1em;text-transform:uppercase;">¿Para qué le sirve a la USTA?</div>
+          <div class="ib" style="flex-shrink:0;">
+            <div class="ih" style="font-size:18px;">Evidencia con datos oficiales</div>
+            <div class="it" style="font-size:13px;">El Dashboard RUES cruza el padrón de egresados con 9 millones de registros del Registro Mercantil colombiano. Por primera vez, la USTA puede demostrar con datos oficiales —no encuestas— cuántas empresas han creado sus egresados, dónde operan y cuánto tiempo sobreviven.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0;">
+            <div class="dash-step">
+              <div class="dash-step-num">01</div>
+              <div class="dash-step-body">
+                <div class="dash-step-title">Verificar el impacto de sus egresados</div>
+                <div class="dash-step-desc">Con una cédula se sabe cuántas empresas creó ese egresado, en qué sector, desde cuándo y si siguen activas. Sin encuesta, sin sesgo de respuesta.</div>
+              </div>
+            </div>
+            <div class="dash-step">
+              <div class="dash-step-num">02</div>
+              <div class="dash-step-body">
+                <div class="dash-step-title">Medir supervivencia real</div>
+                <div class="dash-step-desc">No basta con saber que un egresado "creó una empresa". El dashboard revela si esa empresa sobrevivió 1, 5 o 15 años, y cómo se compara con la cohorte nacional de ese año.</div>
+              </div>
+            </div>
+            <div class="dash-step">
+              <div class="dash-step-num">03</div>
+              <div class="dash-step-body">
+                <div class="dash-step-title">Alimentar reportes de acreditación</div>
+                <div class="dash-step-desc">Los datos exportados sirven directamente para informes de impacto social, procesos de acreditación institucional y reportes ante el MEN.</div>
+              </div>
+            </div>
+            <div class="dash-step">
+              <div class="dash-step-num">04</div>
+              <div class="dash-step-body">
+                <div class="dash-step-title">Escalar a toda la base de egresados</div>
+                <div class="dash-step-desc">La misma lógica que busca una cédula puede procesarse en lote sobre toda la base de egresados, generando estadísticas institucionales automáticas.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="nwa" id="nP" onclick="go(cur-1)" aria-label="Anterior">&#8592;</button>
+<button class="nwa" id="nN" onclick="go(cur+1)" aria-label="Siguiente">&#8594;</button>
+
+<script>
+const TOTAL=10; let cur=1;
+const done={1:true};
+
+function go(n){
+  if(n<1||n>TOTAL) return;
+  document.getElementById('s'+cur).classList.remove('active');
+  cur=n;
+  document.getElementById('s'+cur).classList.add('active');
+  document.getElementById('nP').style.opacity=cur===1?'0.3':'1';
+  document.getElementById('nN').style.opacity=cur===TOTAL?'0.3':'1';
+  if(!done[cur]){build(cur);done[cur]=true;}
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') go(cur+1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(cur-1);
+});
+document.getElementById('nP').style.opacity='0.3';
+
+/* ── DATOS ── */
+const CAMS=[
+  {n:'Bogotá',    tot:2724,act:1110,pTot:27.98,pAct:36.19,ti:40.75},
+  {n:'Medellín',  tot:794, act:258, pTot:8.16,  pAct:8.41,  ti:32.49},
+  {n:'Cali',      tot:556, act:209, pTot:5.71,  pAct:6.81,  ti:37.59},
+  {n:'Barranquilla',tot:435,act:144,pTot:4.47,  pAct:4.70,  ti:33.10},
+  {n:'Bucaramanga',tot:435,act:125,pTot:4.47,   pAct:4.08,  ti:28.74},
+  {n:'Villavicencio',tot:294,act:90,pTot:3.02,  pAct:2.93,  ti:30.61},
+  {n:'Cúcuta',    tot:283, act:80,  pTot:2.91,  pAct:2.61,  ti:28.27},
+  {n:'Huila',     tot:257, act:50,  pTot:2.64,  pAct:1.63,  ti:19.46},
+  {n:'Ibagué',    tot:233, act:42,  pTot:2.39,  pAct:1.37,  ti:18.03},
+  {n:'Pereira',   tot:229, act:51,  pTot:2.35,  pAct:1.66,  ti:22.27},
+];
+const CIIU_TOP=[
+  {c:'4711',n:'Supermercados',  tot:417,act:106,tasa:25.4},
+  {c:'5611',n:'Restaurantes',   tot:281,act:81, tasa:28.8},
+  {c:'5630',n:'Bares/cantinas', tot:255,act:64, tasa:25.1},
+  {c:'9499',n:'Otras asoc.',    tot:216,act:189,tasa:87.5},
+  {c:'9602',n:'Peluquerías',    tot:196,act:71, tasa:36.2},
+  {c:'4771',n:'Tiendas ropa',   tot:193,act:67, tasa:34.7},
+  {c:'4719',n:'Misceláneas',    tot:188,act:35, tasa:18.6},
+  {c:'4773',n:'Farmacias',      tot:169,act:65, tasa:38.5},
+  {c:'1410',n:'Confección',     tot:136,act:53, tasa:39.0},
+  {c:'8299',n:'Servicios adm.', tot:133,act:48, tasa:36.1},
+];
+const CIIU_TASA=[
+  {c:'9499',n:'Otras asoc.',   tasa:87.5},
+  {c:'6910',n:'Act. jurídicas',tasa:73.3},
+  {c:'6810',n:'Inmobiliario',  tasa:73.0},
+  {c:'7020',n:'Consultoría',   tasa:70.8},
+  {c:'4111',n:'Construcción',  tasa:61.6},
+  {c:'6820',n:'Arrend. inmob.',tasa:60.0},
+];
+const EVOL=[[2000,179],[2001,186],[2002,213],[2003,252],[2004,302],[2005,266],[2006,286],[2007,295],[2008,252],[2009,271],[2010,275],[2011,312],[2012,322],[2013,325],[2014,356],[2015,308],[2016,326],[2017,361],[2018,352],[2019,367],[2020,300],[2021,351],[2022,324],[2023,281],[2024,254]];
+const SUPER=[[2000,19.6],[2001,16.7],[2002,17.8],[2003,18.3],[2004,17.9],[2005,15.4],[2006,14.7],[2007,16.3],[2008,27.4],[2009,25.8],[2010,26.2],[2011,27.2],[2012,24.2],[2013,25.2],[2014,22.5],[2015,28.9],[2016,30.1],[2017,26.6],[2018,33.0],[2019,37.1],[2020,46.3],[2021,48.7],[2022,69.1],[2023,81.5],[2024,90.2]];
+const PN_CIIU=[
+  {c:'4711',n:'Supermercados',   v:96, p:7.3},
+  {c:'9602',n:'Peluquerías',     v:68, p:5.2},
+  {c:'5630',n:'Bares/cantinas',  v:64, p:4.9},
+  {c:'5611',n:'Restaurantes',    v:63, p:4.8},
+  {c:'4771',n:'Tiendas ropa',    v:58, p:4.4},
+  {c:'4773',n:'Farmacias',       v:48, p:3.7},
+  {c:'4752',n:'Ferreterías',     v:36, p:2.7},
+  {c:'8299',n:'Servicios adm.',  v:30, p:2.3},
+];
+const OTROS=[
+  {n:'SAS',            tot:1124,act:907, tasa:80.7},
+  {n:'Ltda.',          tot:555, act:415, tasa:74.8},
+  {n:'Emp. Unipersonal',tot:91,act:55,  tasa:60.4},
+  {n:'Org. Civiles',   tot:81,  act:72,  tasa:88.9},
+  {n:'Corp. Indígenas',tot:72,  act:58,  tasa:80.6},
+  {n:'Corporaciones',  tot:35,  act:33,  tasa:94.3},
+  {n:'Fundaciones',    tot:38,  act:31,  tasa:81.6},
+  {n:'S.A.',           tot:55,  act:21,  tasa:38.2},
+];
+
+const B1='#0D2B5E',B2='#1A4A9C',B3='#3A7BD5',AC='#1DAAFF',POS='#2E7D32',NEG='#8896B0',LB='#A8C0E0';
+
+function build(n){
+  if(n===3)s3();if(n===4)s4();if(n===5)s5();if(n===6)s6();if(n===7)s7();if(n===8)s8();if(n===10)s10();
+}
+
+function s3(){
+  new Chart(document.getElementById('c_donut'),{
+    type:'doughnut',
+    data:{labels:['Activas','Canceladas','Otro'],
+          datasets:[{data:[3067,6196,473],backgroundColor:[POS,LB,'#C8D8EE'],borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'68%',
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw.toLocaleString('es-CO')}`}}}}
+  });
+
+  const lbls=CAMS.map(d=>d.n);
+  new Chart(document.getElementById('c_cam3'),{
+    type:'bar',
+    data:{labels:lbls,datasets:[
+      {label:'% del total nacional',data:CAMS.map(d=>d.pTot),backgroundColor:B2,borderRadius:3,borderWidth:0},
+      {label:'% de activas nacionales',data:CAMS.map(d=>d.pAct),backgroundColor:B3,borderRadius:3,borderWidth:0},
+      {label:'Tasa interna (%)',data:CAMS.map(d=>d.ti),backgroundColor:AC,borderRadius:3,borderWidth:0},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:{size:9},boxWidth:10}}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:8},maxRotation:20}},
+              y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9},callback:v=>v+'%'}}}}
+  });
+}
+
+function s4(){
+  const labs=CIIU_TOP.map(d=>d.c+' · '+d.n.substring(0,12));
+  const tots=CIIU_TOP.map(d=>d.tot);
+  const acts=CIIU_TOP.map(d=>d.act);
+  new Chart(document.getElementById('c_ciiu'),{
+    type:'bar',
+    data:{labels:labs,datasets:[
+      {label:'Canceladas/Otro',data:tots.map((t,i)=>t-acts[i]),
+        backgroundColor:'rgba(168,192,224,0.55)',borderRadius:4,borderWidth:0,stack:'s'},
+      {label:'Activas',data:acts,
+        backgroundColor:B3,borderRadius:4,borderWidth:0,stack:'s'},
+    ]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:true,position:'bottom',labels:{font:{size:9},boxWidth:10}}},
+      scales:{x:{stacked:true,grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9}}},
+              y:{stacked:true,grid:{display:false},ticks:{font:{size:9}}}}}
+  });
+
+  const tasaLabs=CIIU_TASA.map(d=>d.c+' · '+d.n);
+  const tasaVals=CIIU_TASA.map(d=>d.tasa);
+  new Chart(document.getElementById('c_ciiu_tasa'),{
+    type:'bar',
+    data:{labels:tasaLabs,datasets:[
+      {label:'Tasa de actividad (%)',data:tasaVals,
+        backgroundColor:'#2E7D32',borderRadius:4,borderWidth:0},
+    ]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:c=>` ${c.raw}% activas`}}},
+      scales:{x:{min:0,max:100,grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9},callback:v=>v+'%'}},
+              y:{grid:{display:false},ticks:{font:{size:10}}}}}
+  });
+}
+
+function s5(){
+  const tbl=document.getElementById('tGeo');
+  const maxT=CAMS[0].tot;
+  let html='';
+  CAMS.forEach((d,i)=>{
+    html+=`<tr>
+      <td class="rn">${i+1}</td>
+      <td class="rname">${d.n}</td>
+      <td style="font-size:10px;color:var(--lt)">${d.pTot.toFixed(1)}% nac.</td>
+      <td style="font-size:10px;color:var(--b3)">${d.pAct.toFixed(1)}% act.</td>
+      <td><div class="rbw"><div class="rbf" style="width:${Math.round(d.ti/50*100)}%"></div></div></td>
+      <td class="rpct">${d.ti.toFixed(1)}%</td>
+    </tr>`;
+  });
+  tbl.innerHTML=html;
+
+  new Chart(document.getElementById('c_geo'),{
+    type:'bar',
+    data:{labels:CAMS.map(d=>d.n),
+          datasets:[{data:CAMS.map(d=>d.ti),
+            backgroundColor:CAMS.map(d=>d.ti>=35?B1:d.ti>=28?B2:B3),borderRadius:4,borderWidth:0}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` Tasa interna: ${c.raw.toFixed(1)}%`}}},
+      scales:{x:{min:0,max:55,grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9},callback:v=>v+'%'}},
+              y:{grid:{display:false},ticks:{font:{size:10}}}}}
+  });
+}
+
+function s6(){
+  const vals=SUPER.map(d=>d[1]);
+  new Chart(document.getElementById('c_super'),{
+    type:'line',
+    data:{labels:SUPER.map(d=>d[0]),
+          datasets:[{data:vals,borderColor:B3,backgroundColor:'rgba(58,123,213,.10)',
+            fill:true,tension:0.35,pointRadius:2,pointHoverRadius:5,borderWidth:2.5}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw.toFixed(1)}% activas`}}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:9},maxTicksLimit:12}},
+              y:{min:0,max:100,grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:9},callback:v=>v+'%'}}}}
+  });
+}
+
+function s7(){
+  const vals=EVOL.map(d=>d[1]);
+  const maxV=Math.max(...vals);
+  new Chart(document.getElementById('c_evol'),{
+    type:'bar',
+    data:{labels:EVOL.map(d=>d[0]),
+          datasets:[{data:vals,
+            backgroundColor:vals.map((v,i)=>i===vals.indexOf(maxV)?B1:`rgba(58,123,213,${(0.35+0.45*(v/maxV)).toFixed(2)})`),
+            borderRadius:3,borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw} matrículas`}}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:8},maxTicksLimit:13,maxRotation:0}},
+              y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:9}}}}}
+  });
+}
+
+function s8(){
+  // PN bars
+  const cont=document.getElementById('pnRows');
+  const maxV=PN_CIIU[0].v;
+  PN_CIIU.forEach(d=>{
+    const div=document.createElement('div');
+    div.className='ti';
+    div.innerHTML=`<div class="titop">
+      <span class="tiname">${d.c} · ${d.n}</span>
+      <span class="tipct">${d.v} (${d.p}%)</span>
+    </div>
+    <div class="tibw"><div class="tibf" style="width:${Math.round(d.v/maxV*100)}%"></div></div>`;
+    cont.appendChild(div);
+  });
+
+  // Otros tipos chart
+  const PN_TASA=17.5;
+  new Chart(document.getElementById('c_otros'),{
+    type:'bar',
+    data:{labels:OTROS.map(d=>d.n),
+          datasets:[{label:'Tasa de actividad (%)',data:OTROS.map(d=>d.tasa),
+            backgroundColor:OTROS.map(d=>d.tasa>=80?POS:d.tasa>=60?B3:d.tasa<40?NEG:B2),
+            borderRadius:4,borderWidth:0}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},
+        annotation:{},
+        tooltip:{callbacks:{label:c=>` ${c.raw.toFixed(1)}% activas · ${OTROS[c.dataIndex].act} de ${OTROS[c.dataIndex].tot}`}}},
+      scales:{
+        x:{min:0,max:100,grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9},callback:v=>v+'%'},
+          afterDraw(chart){
+            const ctx=chart.ctx,meta=chart.getDatasetMeta(0);
+            const xPos=chart.scales.x.getPixelForValue(PN_TASA);
+            ctx.save();ctx.beginPath();
+            ctx.setLineDash([4,4]);ctx.strokeStyle='rgba(200,80,80,0.7)';ctx.lineWidth=1.5;
+            ctx.moveTo(xPos,chart.chartArea.top);ctx.lineTo(xPos,chart.chartArea.bottom);
+            ctx.stroke();ctx.restore();
+          }},
+        y:{grid:{display:false},ticks:{font:{size:9}}}}}
+  });
+}
+
+function s10(){}
+</script>
+</body>
+</html>
