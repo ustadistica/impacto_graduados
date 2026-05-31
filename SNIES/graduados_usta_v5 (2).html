@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graduados USTA — SNIES 2018–2027</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --azul:#003366;--azul-med:#1A4E8A;--azul-cl:#2E75B6;
+  --dorado:#C49A22;--dorado-cl:#F0C94A;--crema:#FDF8EF;
+  --blanco:#FFFFFF;--gris-bg:#F4F7FB;--gris-line:#E2E8F0;
+  --gris-txt:#334155;--gris-m:#64748B;--verde:#16A34A;--rojo:#DC2626;
+  --naranja:#D97706;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-snap-type:y mandatory}
+body{font-family:'DM Sans',sans-serif;background:var(--azul);color:var(--gris-txt);overflow-x:hidden}
+
+/* ── SLIDES ── */
+.slide{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.slide-content{background:var(--crema)}
+.slide-dark{background:#0a1628}
+
+/* ── PORTADA ── */
+.slide-portada{background:linear-gradient(145deg,#001a3d 0%,#003366 45%,#0d2d5e 100%);justify-content:flex-start;padding:0}
+.portada-inner{display:flex;min-height:100vh;width:100%}
+.portada-left{flex:1.1;padding:64px 52px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(196,154,34,0.2);background:linear-gradient(160deg,#001530 0%,#002855 100%)}
+.portada-right{flex:0.9;padding:52px 44px;display:flex;flex-direction:column;justify-content:center;gap:16px;background:rgba(0,0,0,0.15)}
+.p-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(196,154,34,.15);border:1px solid rgba(196,154,34,.4);border-radius:30px;padding:6px 16px;font-size:12px;font-weight:500;color:var(--dorado-cl);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px;width:fit-content}
+.p-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--dorado-cl)}
+.p-title{font-family:'Playfair Display',serif;font-size:clamp(38px,5.5vw,68px);font-weight:900;color:#fff;line-height:1.06;margin-bottom:16px}
+.p-title em{font-style:normal;color:var(--dorado-cl)}
+.p-sub{font-size:clamp(13px,1.6vw,16px);color:rgba(255,255,255,.6);font-weight:300;margin-bottom:36px;max-width:480px;line-height:1.65}
+.p-kpis{display:flex;gap:28px;flex-wrap:wrap}
+.p-kpi-val{font-family:'DM Mono',monospace;font-size:38px;font-weight:500;color:var(--dorado-cl);line-height:1}
+.p-kpi-lbl{font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.p-div{width:1px;height:48px;background:rgba(255,255,255,.15);align-self:center}
+.p-foot{position:absolute;bottom:24px;left:52px;right:44px;display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,.1);padding-top:14px;font-size:11px;color:rgba(255,255,255,.3)}
+.p-stat{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:14px;padding:18px 20px;position:relative;overflow:hidden}
+.p-stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--dorado),transparent)}
+.p-stat.blue::before{background:linear-gradient(90deg,var(--azul-cl),transparent)}
+.p-stat-label{font-size:9.5px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-bottom:6px;font-weight:600}
+.p-stat-val{font-family:'DM Mono',monospace;font-size:28px;font-weight:500;color:var(--dorado-cl);line-height:1}
+.p-stat.blue .p-stat-val{color:var(--azul-cl)}
+.p-stat-sub{font-size:11px;color:rgba(255,255,255,.3);margin-top:4px}
+
+/* ── HEADER SECCIÓN ── */
+.sh{background:var(--azul);padding:24px 7% 20px;position:relative;overflow:hidden;flex-shrink:0}
+.sh::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--dorado),transparent)}
+.sn{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.st{font-family:'Playfair Display',serif;font-size:clamp(20px,2.8vw,30px);color:#fff;font-weight:700;line-height:1.2}
+.st em{font-style:normal;color:var(--dorado-cl)}
+.ss{font-size:12.5px;color:rgba(255,255,255,.45);margin-top:4px;font-weight:300}
+.sb{padding:22px 7% 70px;flex:1;display:flex;flex-direction:column;overflow:auto}
+
+/* ── CARDS KPI ── */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px}
+.card{background:var(--blanco);border-radius:10px;padding:16px 18px;border:1px solid var(--gris-line);position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%}
+.card.a::before{background:var(--azul-med)}.card.d::before{background:var(--dorado)}
+.card.v::before{background:var(--verde)}.card.g::before{background:var(--gris-m)}
+.card.r::before{background:var(--rojo)}.card.o::before{background:var(--naranja)}
+.cv{font-family:'DM Mono',monospace;font-size:28px;font-weight:500;line-height:1;margin-bottom:4px}
+.card.a .cv{color:var(--azul-med)}.card.d .cv{color:var(--dorado)}
+.card.v .cv{color:var(--verde)}.card.g .cv{color:var(--gris-m)}
+.card.r .cv{color:var(--rojo)}.card.o .cv{color:var(--naranja)}
+.cl{font-size:11px;color:var(--gris-m);line-height:1.4}
+.cb-badge{display:inline-block;margin-top:5px;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600}
+.cb-badge.up{background:#F0FDF4;color:var(--verde);border:1px solid #BBF7D0}
+.cb-badge.dn{background:#FFF0F0;color:var(--rojo);border:1px solid #FECACA}
+
+/* ── CHART GRID ── */
+.cg{display:grid;gap:14px;flex:1}
+.cg2{grid-template-columns:1fr 1fr}.cg3{grid-template-columns:1fr 1fr 1fr}
+.cg-wide{grid-template-columns:1.6fr 1fr}
+.cg-narrow{grid-template-columns:1fr 0.85fr}
+.cb{background:var(--blanco);border-radius:10px;padding:18px;border:1px solid var(--gris-line);box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;flex-direction:column}
+.ct{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--azul);margin-bottom:3px}
+.cs{font-size:11px;color:var(--gris-m);margin-bottom:12px}
+.cw{position:relative;flex:1;min-height:140px}
+.leg{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+.li{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--gris-m)}
+.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+/* ── INSIGHT BOX ── */
+.ins{background:linear-gradient(135deg,#EFF6FF,#F0F9FF);border-left:4px solid var(--azul-cl);border-radius:0 8px 8px 0;padding:11px 14px;margin-top:12px;font-size:12px;color:var(--gris-txt);line-height:1.6}
+.ins strong{color:var(--azul)}
+.ins.d{background:linear-gradient(135deg,#FFFBEB,#FFF7ED);border-left-color:var(--dorado)}
+.ins.v{background:linear-gradient(135deg,#F0FDF4,#ECFDF5);border-left-color:var(--verde)}
+.ins.r{background:linear-gradient(135deg,#FFF0F0,#FFF5F5);border-left-color:var(--rojo)}
+
+/* ── BADGE ── */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:10.5px;font-weight:600;font-family:'DM Mono',monospace}
+.badge.s{background:#F0FDF4;color:var(--verde);border:1px solid #BBF7D0}
+.badge.w{background:#FFF7ED;color:#C2410C;border:1px solid #FED7AA}
+.badge.i{background:#EFF6FF;color:var(--azul-med);border:1px solid #BFDBFE}
+.badge.d{background:#FFFBEB;color:#92400E;border:1px solid #FDE68A}
+
+/* ── TABLA ── */
+.tbl{width:100%;border-collapse:collapse;font-size:11.5px}
+.tbl th{background:var(--azul);color:#fff;padding:8px 10px;text-align:left;font-weight:500;font-size:10.5px}
+.tbl td{padding:7px 10px;border-bottom:1px solid var(--gris-line);color:var(--gris-txt)}
+.tbl tr:nth-child(even) td{background:#F8FAFC}
+.tbl tr:hover td{background:#EFF6FF}
+.tbl .hl{color:var(--azul-med);font-family:'DM Mono',monospace;font-weight:600}
+.tbl .usta td{background:rgba(196,154,34,0.08);font-weight:600}
+.tbl .up{color:var(--verde);font-family:'DM Mono',monospace}
+.tbl .dn{color:var(--rojo);font-family:'DM Mono',monospace}
+
+/* ── BAR LIST ── */
+.bar-list{display:flex;flex-direction:column;gap:7px;width:100%}
+.bar-item{display:flex;flex-direction:column;gap:3px}
+.bar-label-row{display:flex;justify-content:space-between;align-items:center}
+.bar-name{font-size:11px;color:var(--gris-txt)}
+.bar-val{font-size:11px;color:var(--azul-med);font-weight:600;font-family:'DM Mono',monospace}
+.bar-track{height:7px;background:var(--gris-line);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--azul-med),var(--azul-cl));transition:width 1s ease}
+.bar-fill.d{background:linear-gradient(90deg,var(--dorado),var(--dorado-cl))}
+.bar-fill.v{background:linear-gradient(90deg,var(--verde),#4ade80)}
+.bar-fill.r{background:linear-gradient(90deg,var(--rojo),#f87171)}
+
+/* ── DIVIDER ── */
+.slide-divider{background:linear-gradient(145deg,#001a3d,#002855);justify-content:center;align-items:center}
+.div-inner{text-align:center;position:relative;z-index:2}
+.div-num{display:none;}
+.div-label{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--dorado);margin-bottom:10px;position:relative;font-weight:700}
+.div-title{font-family:'Playfair Display',serif;font-size:clamp(30px,4vw,54px);font-weight:900;color:#fff;position:relative;line-height:1.1}
+.div-title em{font-style:normal;color:var(--dorado-cl)}
+.div-line{width:80px;height:3px;background:linear-gradient(90deg,var(--dorado),transparent);margin:18px auto 0}
+.div-sub{color:rgba(255,255,255,.4);margin-top:14px;font-size:13px;line-height:1.7}
+
+/* ── PRED CARDS (dark bg) ── */
+.pred-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px 16px;text-align:center}
+.pred-year{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.4);text-transform:uppercase;font-weight:700}
+.pred-val{font-family:'DM Mono',monospace;font-size:clamp(22px,3vw,34px);font-weight:500;color:var(--azul-cl);margin:4px 0}
+.pred-ic{font-size:10px;color:rgba(255,255,255,.3)}
+.pred-ic span{color:rgba(255,255,255,.55)}
+.ic-bar-track{height:5px;background:rgba(255,255,255,.07);border-radius:4px;margin-top:8px;overflow:hidden}
+.ic-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--azul-med),var(--azul-cl))}
+.dark-kpi{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden}
+.dark-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--dorado),transparent)}
+.dark-kpi.blue::before{background:linear-gradient(90deg,var(--azul-cl),transparent)}
+.dark-kpi.v::before{background:linear-gradient(90deg,var(--verde),transparent)}
+.dk-label{font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:5px;font-weight:600}
+.dk-val{font-family:'DM Mono',monospace;font-size:clamp(18px,2.2vw,28px);font-weight:500;color:var(--dorado-cl);line-height:1}
+.dark-kpi.blue .dk-val{color:var(--azul-cl)}
+.dark-kpi.v .dk-val{color:#4ade80}
+.dk-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:4px}
+.dk-badge{display:inline-block;margin-top:5px;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600}
+.dk-badge.up{background:rgba(22,163,74,.15);color:#4ade80;border:1px solid rgba(22,163,74,.28)}
+.dk-badge.dn{background:rgba(220,38,38,.15);color:#f87171;border:1px solid rgba(220,38,38,.28)}
+
+/* ── DARK CHART BOX ── */
+.dcb{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column}
+.dct{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.36);margin-bottom:10px;font-weight:600}
+.dcw{position:relative;flex:1;min-height:130px}
+
+/* ── DARK INSIGHT ── */
+.dins{background:rgba(46,117,182,0.12);border-left:3px solid var(--azul-cl);border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;margin-top:10px}
+.dins strong{color:var(--dorado-cl)}
+.dins.d{background:rgba(196,154,34,0.1);border-left-color:var(--dorado)}
+.dins.v{background:rgba(22,163,74,0.1);border-left-color:var(--verde)}
+.dins.r{background:rgba(220,38,38,0.1);border-left-color:var(--rojo)}
+
+/* ── HALVING GRID (dark slides) ── */
+.dk-cg{display:grid;gap:12px;flex:1}
+.dk-cg2{grid-template-columns:1fr 1fr}
+.dk-cg3{grid-template-columns:1fr 1fr 1fr}
+.dk-cg-wide{grid-template-columns:1.6fr 1fr}
+.dk-kpis{display:grid;gap:10px}
+.dk-kpis.g2{grid-template-columns:1fr 1fr}
+.dk-kpis.g3{grid-template-columns:1fr 1fr 1fr}
+.dk-kpis.g4{grid-template-columns:1fr 1fr 1fr 1fr}
+
+/* ── DARK TABLE ── */
+.dtbl{width:100%;border-collapse:collapse;font-size:11px}
+.dtbl th{text-align:left;padding:7px 9px;background:rgba(196,154,34,0.1);color:var(--dorado-cl);font-weight:700;border-bottom:1px solid rgba(196,154,34,0.2);font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase}
+.dtbl td{padding:7px 9px;border-bottom:1px solid rgba(255,255,255,0.05);color:rgba(255,255,255,.72)}
+.dtbl tr:hover td{background:rgba(255,255,255,.03)}
+.dtbl .hl{color:var(--dorado-cl);font-weight:700}
+.dtbl .usta-row td{background:rgba(196,154,34,0.06)}
+.dtbl .usta-row td:first-child{color:var(--dorado-cl);font-weight:700}
+.dtbl .up{color:#4ade80;font-family:'DM Mono',monospace}
+.dtbl .dn{color:#f87171;font-family:'DM Mono',monospace}
+.sem{display:inline-flex;gap:4px;align-items:center}
+.sem-dot{width:7px;height:7px;border-radius:50%}
+.sg{background:var(--verde)}.sy{background:#f59e0b}.sr{background:var(--rojo)}
+
+/* ── NAV ── */
+.nav{position:fixed;right:22px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:9px;z-index:100}
+.nd{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.22);cursor:pointer;border:none;transition:all .25s}
+.nd.active{background:var(--dorado-cl);transform:scale(1.5)}
+.nd:hover{background:rgba(255,255,255,.6)}
+
+/* ── STEP CARDS ── */
+.step{background:var(--blanco);border-radius:10px;padding:18px 20px;border:1px solid var(--gris-line);display:flex;gap:14px;align-items:flex-start;box-shadow:0 2px 8px rgba(0,0,0,.05);flex:1}
+.step-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--dorado);line-height:1;min-width:30px}
+.step-tit{font-size:13.5px;font-weight:600;color:var(--azul);margin-bottom:4px}
+.step-desc{font-size:11.5px;color:var(--gris-m);line-height:1.6}
+
+@media(max-width:768px){.cg2,.cg3,.cg-wide,.cg-narrow,.dk-cg2,.dk-cg3,.dk-cg-wide,.dk-kpis.g3,.dk-kpis.g4{grid-template-columns:1fr}.sb{padding:18px 5% 70px}.sh{padding:18px 5% 16px}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="navDots"></nav>
+
+<!-- ═══════════════════════════════════
+     SLIDE 1 — PORTADA
+════════════════════════════════════ -->
+<section class="slide slide-portada" id="s0">
+  <div class="portada-inner">
+    <div class="portada-left">
+      <div class="p-badge">Universidad Santo Tomás · SNIES · 2025</div>
+      <h1 class="p-title">Graduados<br><em>USTA</em><br>2018–2027</h1>
+      <p class="p-sub">Análisis histórico del desempeño institucional, contexto comparativo nacional y proyección estadística de graduados a partir de registros SNIES 2018–2024.</p>
+      <div class="p-kpis">
+        <div><div class="p-kpi-val">49.342</div><div class="p-kpi-lbl">Graduados 2018–2024</div></div>
+        <div class="p-div"></div>
+        <div><div class="p-kpi-val">+15,1%</div><div class="p-kpi-lbl">Crecimiento 2018→2024</div></div>
+        <div class="p-div"></div>
+        <div><div class="p-kpi-val">#8</div><div class="p-kpi-lbl">Privadas Colombia</div></div>
+      </div>
+    </div>
+    <div class="portada-right">
+      <div class="p-stat">
+        <div class="p-stat-label">Total Graduados 2018–2024</div>
+        <div class="p-stat-val">49.342</div>
+        <div class="p-stat-sub">Acumulado todas las sedes</div>
+      </div>
+      <div class="p-stat blue">
+        <div class="p-stat-label">Crecimiento institucional</div>
+        <div class="p-stat-val">+15,1%</div>
+        <div class="p-stat-sub">2018 → 2024 · Mayor entre privadas ref.</div>
+      </div>
+      <div class="p-stat">
+        <div class="p-stat-label">Proyección 2027</div>
+        <div class="p-stat-val">9.720</div>
+        <div class="p-stat-sub">Proyección nacional 2027 · Multi-modelo por sede</div>
+      </div>
+      <div class="p-stat blue">
+        <div class="p-stat-label">Ranking privadas Colombia</div>
+        <div class="p-stat-val">#8</div>
+        <div class="p-stat-sub">Por volumen de graduados</div>
+      </div>
+    </div>
+  </div>
+  <div class="p-foot">
+    <span>Fuente: SNIES Colombia · 2018–2024</span>
+    <span>Dirección de Graduados · USTA · 2025</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 2 — KPIs PRINCIPALES
+════════════════════════════════════ -->
+<section class="slide slide-content" id="s1">
+  <div class="sh">
+    <div class="sn">01 · Resumen General</div>
+    <h2 class="st">Indicadores Clave de <em>Desempeño</em></h2>
+    <p class="ss">Cifras consolidadas 2018–2024 para la Universidad Santo Tomás (todas sus sedes)</p>
+  </div>
+  <div class="sb">
+    <div class="cards">
+      <div class="card d"><div class="cv">49.342</div><div class="cl">Graduados acumulados 2018–2024</div></div>
+      <div class="card a"><div class="cv">1,38%</div><div class="cl">Participación sobre 3,58 M nacionales</div></div>
+      <div class="card v"><div class="cv">+15,1%</div><div class="cl">Crecimiento 2018→2024<div class="cb-badge up">6.959 → 8.013</div></div></div>
+      <div class="card g"><div class="cv">8.013</div><div class="cl">Máximo histórico · Año 2024</div></div>
+    </div>
+    <div class="cards">
+      <div class="card a"><div class="cv">#12</div><div class="cl">Ranking nacional entre todas las IES</div></div>
+      <div class="card d"><div class="cv">#8</div><div class="cl">Ranking entre universidades privadas</div></div>
+      <div class="card r"><div class="cv">6.208</div><div class="cl">Mínimo COVID-19 · Año 2020<div class="cb-badge dn">Caída temporal</div></div></div>
+      <div class="card a"><div class="cv">3</div><div class="cl">Sedes activas · Bogotá · Bucaramanga · Tunja</div></div>
+    </div>
+    <div class="ins d"><strong>Contexto:</strong> La USTA es la octava universidad privada de Colombia por volumen de graduados, con un crecimiento del 15,1% que supera al de Javeriana (+6,3%) y U. Cooperativa (–9,6%). La recuperación post-COVID fue completa en 2021, y desde entonces la institución ha marcado récords anuales consecutivos.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 3 — EVOLUCIÓN ANUAL
+════════════════════════════════════ -->
+<section class="slide slide-content" id="s2">
+  <div class="sh">
+    <div class="sn">02 · Tendencia 2018–2024</div>
+    <h2 class="st">Evolución Anual de <em>Graduados</em></h2>
+    <p class="ss">Comparación de la USTA con tres referentes: P.U. Javeriana, UNIMINUTO y U. Cooperativa</p>
+  </div>
+  <div class="sb">
+    <div class="cg cg-wide" style="flex:1;margin-bottom:12px;">
+      <div class="cb" style="flex:1;">
+        <div class="ct">Graduados anuales — USTA vs Comparativas</div>
+        <div class="cs">Valores reales SNIES 2018–2024</div>
+        <div class="cw" style="min-height:200px;"><canvas id="chartEvolucion"></canvas></div>
+        <div class="ins"><strong>Caída 2020:</strong> Asociada al impacto del COVID-19 en procesos de grado. La USTA registró 6.208 graduados, su mínimo histórico. La recuperación fue más rápida que en la U. Cooperativa, que aún no recupera niveles de 2019.</div>
+      </div>
+      <div class="cb">
+        <div class="ct">USTA — Valores reales por año</div>
+        <div class="cs">SNIES 2018–2024</div>
+        <div class="bar-list" id="barAnual" style="margin-bottom:10px;"></div>
+        <div class="ct" style="margin-top:8px;">Contexto comparativo 2024</div>
+        <div class="cs">Graduados totales</div>
+        <div class="bar-list" id="barComp2024"></div>
+      </div>
+    </div>
+    <div class="cards" style="margin-bottom:0;">
+      <div class="card d"><div class="cv">6.959</div><div class="cl">2018 (base)</div></div>
+      <div class="card v"><div class="cv">8.013</div><div class="cl">2024 (récord)<div class="cb-badge up">+15,1%</div></div></div>
+      <div class="card a"><div class="cv">2,4%</div><div class="cl">CAGR 2018–2024 · Tasa anual compuesta</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 4 — TOP 10 PROGRAMAS
+════════════════════════════════════ -->
+<section class="slide slide-content" id="s3">
+  <div class="sh">
+    <div class="sn">03 · Programas Académicos</div>
+    <h2 class="st">Top 10 Programas por <em>Graduados</em> (2018–2024)</h2>
+    <p class="ss">Derecho lidera con 4.650 graduados (9,4% del total USTA)</p>
+  </div>
+  <div class="sb">
+    <div class="cg cg-wide" style="flex:1;margin-bottom:12px;">
+      <div class="cb">
+        <div class="ct">Graduados acumulados 2018–2024 por programa</div>
+        <div class="cs">Top 10 programas con mayor volumen</div>
+        <div class="cw" style="min-height:220px;"><canvas id="chartTopProg"></canvas></div>
+        <div class="ins d"><strong>Concentración:</strong> Los 4 programas más graduados (Derecho, Negocios Int., Arquitectura y Esp. Derecho Adm.) acumulan el 42,4% del total. Derecho duplica en volumen al segundo programa.</div>
+      </div>
+      <div class="cb">
+        <div class="ct">Tabla resumen</div>
+        <div class="cs">Top 10 · acumulado 2018–2024</div>
+        <table class="tbl">
+          <thead><tr><th>#</th><th>Programa</th><th>Grad.</th><th>%</th></tr></thead>
+          <tbody id="tbTopProg"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 5 — GÉNERO
+════════════════════════════════════ -->
+<section class="slide slide-content" id="s4">
+  <div class="sh">
+    <div class="sn">04 · Equidad de Género</div>
+    <h2 class="st">Distribución y Evolución por <em>Género</em></h2>
+    <p class="ss">La USTA presenta leve predominancia masculina (52,6%). Tendencia 2021–2024 hacia paridad progresiva</p>
+  </div>
+  <div class="sb">
+    <div class="cg cg-wide" style="flex:1;margin-bottom:12px;">
+      <div class="cb">
+        <div class="ct">Evolución % Mujeres Graduadas — USTA vs Comparativas</div>
+        <div class="cs">2018–2024 · Línea de paridad 50% en rojo</div>
+        <div class="cw" style="min-height:190px;"><canvas id="chartGeneroEvol"></canvas></div>
+        <div class="ins"><strong>Brecha de género:</strong> USTA se mantiene por debajo de la paridad (47,4% mujeres), mientras que UNIMINUTO (68,8%) y U. Cooperativa (61,4%) lideran la feminización. La tendencia USTA muestra convergencia lenta hacia el 50%.</div>
+      </div>
+      <div class="cb" style="justify-content:center;align-items:center;">
+        <div class="ct" style="text-align:center;">Distribución por Género<br><span style="font-size:11px;font-weight:400;color:var(--gris-m);">(promedio 2018–2024)</span></div>
+        <div class="cw" style="min-height:170px;max-width:220px;margin:0 auto;"><canvas id="chartGeneroDonut"></canvas></div>
+      </div>
+    </div>
+    <div class="cards" style="margin-bottom:0;">
+      <div class="card a"><div class="cv">47,4%</div><div class="cl">% Mujeres USTA · vs 52,6% hombres</div></div>
+      <div class="card g"><div class="cv">47,2%</div><div class="cl">2018 — % mujeres · año base</div></div>
+      <div class="card g"><div class="cv">48,0%</div><div class="cl">2022 — mínimo histórico relativo</div></div>
+      <div class="card a"><div class="cv">47,8%</div><div class="cl">2024 — % mujeres · último año</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 6 — NIVEL Y MODALIDAD
+════════════════════════════════════ -->
+<section class="slide slide-content" id="s5">
+  <div class="sh">
+    <div class="sn">05 · Estructura Académica</div>
+    <h2 class="st">Nivel de Formación y <em>Modalidad</em></h2>
+    <p class="ss">El 63% de graduados corresponde a Pregrado. 83% egresó en modalidad presencial</p>
+  </div>
+  <div class="sb">
+    <div class="cg cg2" style="flex:1;margin-bottom:12px;">
+      <div class="cb">
+        <div class="ct">Nivel de formación — Distribución</div>
+        <div class="cs">% sobre 49.342 graduados totales</div>
+        <div class="cw" style="min-height:180px;"><canvas id="chartNivel"></canvas></div>
+        <div class="ins d"><strong>Composición:</strong> El Pregrado concentra 31.068 graduados (63%). Las Especializaciones (12.666) representan el grueso del posgrado. Maestrías y Doctorados suman 5.608, indicando potencial de expansión en oferta investigativa.</div>
+      </div>
+      <div class="cb">
+        <div class="ct">Modalidad de graduación</div>
+        <div class="cs">% sobre 49.342 graduados totales</div>
+        <div class="cw" style="min-height:180px;"><canvas id="chartModalidad"></canvas></div>
+        <div class="cards" style="margin-top:10px;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+          <div class="card a"><div class="cv" style="font-size:20px;">83,3%</div><div class="cl">Presencial</div></div>
+          <div class="card g"><div class="cv" style="font-size:20px;">11,9%</div><div class="cl">Distancia</div></div>
+          <div class="card g"><div class="cv" style="font-size:20px;">4,7%</div><div class="cl">Virtual</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 7 — SEDES
+════════════════════════════════════ -->
+<section class="slide slide-content" id="s6">
+  <div class="sh">
+    <div class="sn">06 · Distribución Territorial</div>
+    <h2 class="st">Graduados por <em>Sede</em> USTA</h2>
+    <p class="ss">Bogotá concentra el 65% de los graduados. Tunja registró el mayor crecimiento relativo (+84,7%)</p>
+  </div>
+  <div class="sb">
+    <div class="cg cg-wide" style="flex:1;margin-bottom:12px;">
+      <div class="cb">
+        <div class="ct">Evolución anual por sede</div>
+        <div class="cs">Líneas 2018–2024</div>
+        <div class="cw" style="min-height:200px;"><canvas id="chartSedes"></canvas></div>
+        <div class="ins v"><strong>Motor de crecimiento:</strong> Tunja creció un 84,7% (757→1.398 graduados) y Bucaramanga un 33,3% (1.509→2.012). Bogotá retrocedió levemente (–1,9%), cediendo participación relativa a las sedes regionales.</div>
+      </div>
+      <div class="cb">
+        <div class="ct">Composición 2024</div>
+        <div class="cs">Distribución porcentual por sede</div>
+        <div class="cw" style="min-height:150px;"><canvas id="chartSedesPie"></canvas></div>
+        <div style="margin-top:12px;">
+          <div class="ct" style="margin-bottom:8px;font-size:13px;">Crecimiento 2018→2024</div>
+          <div class="bar-list" id="barSedes"></div>
+        </div>
+        <div class="card d" style="margin-top:10px;"><div class="cv" style="font-size:20px;">Tunja</div><div class="cl">Sede más dinámica · 757 → 1.398 grad.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 8 — COBERTURA
+════════════════════════════════════ -->
+<section class="slide slide-content" id="s7">
+  <div class="sh">
+    <div class="sn">07 · Alcance Nacional</div>
+    <h2 class="st">Cobertura Geográfica vs <em>Comparativas</em></h2>
+    <p class="ss">USTA y UNIMINUTO lideran con 23 departamentos cubiertos, las universidades multicampus de mayor alcance</p>
+  </div>
+  <div class="sb">
+    <div class="cg cg-wide" style="flex:1;margin-bottom:12px;">
+      <div class="cb">
+        <div class="ct">Departamentos con programas activos por institución</div>
+        <div class="cs">Convocatorias SNIES 2018–2024</div>
+        <div class="cw" style="min-height:230px;"><canvas id="chartCobertura"></canvas></div>
+        <div class="ins"><strong>Liderazgo compartido:</strong> USTA y UNIMINUTO cubren 23 departamentos cada una, significativamente por encima de Javeriana (10) y U. Nacional (9). Esta presencia multicampus es una ventaja competitiva diferenciadora.</div>
+      </div>
+      <div class="cb">
+        <div class="ct">Ranking cobertura geográfica</div>
+        <div class="cs">Departamentos cubiertos</div>
+        <div class="bar-list" id="barCobertura" style="flex:1;"></div>
+        <div class="card d" style="margin-top:10px;"><div class="cv" style="font-size:22px;">23</div><div class="cl">Departamentos cubiertos USTA · Liderazgo compartido</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 9 — POSGRADO
+════════════════════════════════════ -->
+<section class="slide slide-content" id="s8">
+  <div class="sh">
+    <div class="sn">08 · Oferta de Posgrado</div>
+    <h2 class="st">% Graduados de Posgrado — <em>Comparativa</em></h2>
+    <p class="ss">Con 37%, USTA se ubica por debajo de Javeriana (43,7%) pero supera a UNIMINUTO (23%) y Cooperativa (15,7%)</p>
+  </div>
+  <div class="sb">
+    <div class="cg cg-wide" style="flex:1;margin-bottom:12px;">
+      <div class="cb">
+        <div class="ct">Porcentaje de graduados de posgrado por institución (2018–2024)</div>
+        <div class="cs">Ranking comparativo — mayor a menor</div>
+        <div class="cw" style="min-height:230px;"><canvas id="chartPosgrado"></canvas></div>
+        <div class="ins d"><strong>Posicionamiento:</strong> Con el 37% de posgrado, la USTA ocupa una posición media-alta. El margen de crecimiento hacia el nivel de Javeriana (43,7%) representa una oportunidad estratégica, especialmente en maestrías.</div>
+      </div>
+      <div class="cb">
+        <div class="ct">Desglose posgrado USTA</div>
+        <div class="cs">18.274 graduados de posgrado</div>
+        <div class="bar-list" style="margin-bottom:12px;">
+          <div class="bar-item"><div class="bar-label-row"><span class="bar-name">Especialización</span><span class="bar-val">12.666</span></div><div class="bar-track"><div class="bar-fill d" style="width:90%;"></div></div></div>
+          <div class="bar-item"><div class="bar-label-row"><span class="bar-name">Maestría</span><span class="bar-val">5.427</span></div><div class="bar-track"><div class="bar-fill" style="width:39%;"></div></div></div>
+          <div class="bar-item"><div class="bar-label-row"><span class="bar-name">Doctorado</span><span class="bar-val">181</span></div><div class="bar-track"><div class="bar-fill" style="width:3%;"></div></div></div>
+        </div>
+        <div class="card a"><div class="cv" style="font-size:22px;">37,0%</div><div class="cl">Posgrado USTA · 18.274 graduados</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 10 — ÁREAS
+════════════════════════════════════ -->
+<section class="slide slide-content" id="s9">
+  <div class="sh">
+    <div class="sn">09 · Perfil Académico</div>
+    <h2 class="st">Áreas de Conocimiento: <em>2018 vs 2024</em></h2>
+    <p class="ss">Ingeniería lidera el crecimiento; Ciencias de la Educación registra la caída más pronunciada</p>
+  </div>
+  <div class="sb">
+    <div class="cb" style="flex:1;margin-bottom:12px;">
+      <div class="ct">Comparación 2018 vs 2024 por área de conocimiento</div>
+      <div class="cs">Número absoluto de graduados</div>
+      <div class="cw" style="min-height:200px;"><canvas id="chartAreas"></canvas></div>
+    </div>
+    <div class="cards">
+      <div class="card v"><div class="cv" style="font-size:20px;">Ingeniería</div><div class="cl">Mayor crecimiento<div class="cb-badge up">1.341 → 2.097</div></div></div>
+      <div class="card a"><div class="cv" style="font-size:20px;">Cs. Sociales</div><div class="cl">Área líder 2024 · 2.228 graduados</div></div>
+      <div class="card g"><div class="cv" style="font-size:20px;">Econ &amp; Adm.</div><div class="cl">Relativamente estable · 2.060 → 1.687</div></div>
+      <div class="card r"><div class="cv" style="font-size:20px;">Educación</div><div class="cl">Mayor caída<div class="cb-badge dn">1.121 → 401</div></div></div>
+    </div>
+    <div class="ins r" style="margin-top:10px;"><strong>Alerta estratégica:</strong> La caída en Ciencias de la Educación (–64,2%) refleja cambios en demanda sectorial. Ingeniería & Arquitectura casi duplicó su base en 6 años, siendo el principal motor de diversificación del perfil de egreso.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 11 — SEMESTRAL
+════════════════════════════════════ -->
+<section class="slide slide-content" id="s10">
+  <div class="sh">
+    <div class="sn">10 · Distribución Semestral</div>
+    <h2 class="st">Graduados por <em>Semestre</em> (S1 y S2)</h2>
+    <p class="ss">S2 concentra consistentemente ~57–59% de graduados. S2 de 2024 alcanzó 4.666, máximo histórico</p>
+  </div>
+  <div class="sb">
+    <div class="cg cg-wide" style="flex:1;margin-bottom:12px;">
+      <div class="cb">
+        <div class="ct">Evolución semestral apilada (S1 + S2)</div>
+        <div class="cs">2018–2024</div>
+        <div class="cw" style="min-height:210px;"><canvas id="chartSemestral"></canvas></div>
+        <div class="ins"><strong>Estacionalidad:</strong> El patrón semestral es consistente: S2 siempre supera a S1. La brecha se amplió en 2023 y 2024, sugiriendo que los procesos de titulación se concentran progresivamente en el segundo semestre del año.</div>
+      </div>
+      <div class="cb">
+        <div class="ct">Detalle por año</div>
+        <div class="cs">S1 · S2 · % S2</div>
+        <table class="tbl">
+          <thead><tr><th>Año</th><th>S1</th><th>S2</th><th>%S2</th></tr></thead>
+          <tbody>
+            <tr><td>2018</td><td>2.605</td><td>4.354</td><td>62,6%</td></tr>
+            <tr><td>2019</td><td>2.768</td><td>3.696</td><td>57,2%</td></tr>
+            <tr><td>2020</td><td>2.894</td><td>3.314</td><td>53,4%</td></tr>
+            <tr><td>2021</td><td>3.296</td><td>3.802</td><td>53,6%</td></tr>
+            <tr><td>2022</td><td>2.988</td><td>4.131</td><td>58,0%</td></tr>
+            <tr><td>2023</td><td>2.886</td><td>4.595</td><td>61,4%</td></tr>
+            <tr class="usta"><td>2024</td><td class="hl">3.347</td><td class="hl">4.666</td><td class="hl">58,2%</td></tr>
+          </tbody>
+        </table>
+        <div class="card d" style="margin-top:10px;"><div class="cv" style="font-size:20px;">4.666</div><div class="cl">Máximo S2 histórico · 2024</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 12 — TABLA MAESTRA
+════════════════════════════════════ -->
+<section class="slide slide-content" id="s11">
+  <div class="sh">
+    <div class="sn">11 · Contexto Nacional</div>
+    <h2 class="st">Tabla Maestra — Universidades <em>Multicampus</em></h2>
+    <p class="ss">USTA destaca con el mayor crecimiento (+15,1%) entre las privadas de referencia</p>
+  </div>
+  <div class="sb" style="overflow:auto;">
+    <div class="cb" style="flex:1;overflow:auto;">
+      <div class="ct">Comparativa de las 10 principales universidades multicampus de Colombia</div>
+      <div class="cs">Graduados acumulados 2018–2024 · Fuente SNIES</div>
+      <div style="overflow-x:auto;margin-top:8px;">
+        <table class="tbl" style="min-width:680px;">
+          <thead>
+            <tr><th>Universidad</th><th>Total 2018–24</th><th>Grad. 2018</th><th>Grad. 2024</th><th>Crec.%</th><th>% Posgrado</th><th>% Mujeres</th><th>Dptos.</th></tr>
+          </thead>
+          <tbody id="tbMaestra"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ins v" style="margin-top:12px;"><strong>Posición competitiva:</strong> Entre universidades privadas, la USTA registra el mayor crecimiento porcentual del período (+15,1%), superando a Javeriana (+6,3%), U. Libre (+5,9%) y Gran Colombia (+7,1%). U. Cooperativa y Tadeo muestran contracciones significativas.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 12 — DASHBOARD INTERACTIVO DE PROYECCIONES
+════════════════════════════════════ -->
+<section class="slide" id="s12" style="min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;overflow:hidden;background:#0D1117;">
+<style>
+/* ── DASHBOARD PROYECCIONES — Paleta USTA ── */
+:root {
+  --dp-bg:        #0a1628;
+  --dp-surface:   #0d1f3c;
+  --dp-surface2:  #112347;
+  --dp-border:    rgba(196,154,34,0.18);
+  --dp-border-s:  rgba(255,255,255,0.07);
+  --dp-text:      rgba(255,255,255,0.88);
+  --dp-muted:     rgba(255,255,255,0.42);
+  --dp-dorado:    #C49A22;
+  --dp-dorado-cl: #F0C94A;
+  --dp-azul:      #003366;
+  --dp-azul-med:  #1A4E8A;
+  --dp-azul-cl:   #2E75B6;
+  --dp-verde:     #16A34A;
+  --dp-rojo:      #DC2626;
+}
+#dashboard-proyecciones{flex:1;overflow-y:auto;display:flex;flex-direction:column;font-family:'DM Sans',sans-serif;background:var(--dp-bg);color:var(--dp-text);}
+#dp-header{padding:24px 40px 16px;border-bottom:1px solid var(--dp-border);display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:14px;background:linear-gradient(135deg,#001530 0%,#0a1628 100%);position:relative;overflow:hidden;}
+#dp-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--dp-dorado),transparent);}
+#dp-header h1{font-family:'Playfair Display',serif;font-size:clamp(16px,2.2vw,26px);line-height:1.15;color:#fff;}
+#dp-header h1 em{font-style:normal;color:var(--dp-dorado-cl);}
+#dp-header p{margin-top:5px;color:var(--dp-muted);font-size:12px;}
+.dp-badge{background:rgba(196,154,34,.1);border:1px solid rgba(196,154,34,.3);border-radius:999px;padding:5px 14px;font-size:11px;color:var(--dp-dorado-cl);}
+
+/* TABS DE SEDE */
+.dp-sede-tabs{display:flex;gap:3px;padding:14px 40px 0;border-bottom:1px solid var(--dp-border-s);overflow-x:auto;background:var(--dp-bg);}
+.dp-tab{padding:8px 18px;border-radius:8px 8px 0 0;border:1px solid transparent;border-bottom:none;background:transparent;color:var(--dp-muted);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.dp-tab:hover{color:var(--dp-text);background:rgba(255,255,255,.04);}
+.dp-tab.dp-active{border-color:var(--dp-sede-color,var(--dp-dorado));color:var(--dp-sede-color,var(--dp-dorado-cl));background:rgba(196,154,34,.08);}
+
+/* SUB-TABS */
+.dp-sub-tabs{display:flex;gap:8px;padding:14px 0 0;}
+.dp-stab{padding:5px 14px;border-radius:999px;border:1px solid var(--dp-border-s);background:transparent;color:var(--dp-muted);font-family:'DM Sans',sans-serif;font-size:11.5px;cursor:pointer;transition:all .2s;}
+.dp-stab:hover{color:var(--dp-text);}
+.dp-stab.dp-active-crece{background:rgba(22,163,74,.12);border-color:rgba(22,163,74,.5);color:#4ade80;}
+.dp-stab.dp-active-decrece{background:rgba(220,38,38,.1);border-color:rgba(220,38,38,.4);color:#f87171;}
+.dp-stab.dp-active-volumen{background:rgba(196,154,34,.1);border-color:rgba(196,154,34,.4);color:var(--dp-dorado-cl);}
+.dp-stab.dp-active-tabla{background:rgba(46,117,182,.12);border-color:rgba(46,117,182,.4);color:#93c5fd;}
+
+/* MAIN */
+#dp-main{padding:20px 40px;flex:1;}
+
+/* KPIs */
+.dp-kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin-bottom:20px;}
+.dp-kpi{background:var(--dp-surface);border:1px solid var(--dp-border-s);border-radius:10px;padding:14px 18px;position:relative;overflow:hidden;}
+.dp-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--dp-dorado),transparent);}
+.dp-kpi-label{font-size:9.5px;font-weight:600;color:var(--dp-muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px;}
+.dp-kpi-value{font-family:'DM Mono',monospace;font-size:22px;line-height:1;color:var(--dp-dorado-cl);}
+.dp-kpi-value.dp-pos{color:#4ade80;} .dp-kpi-value.dp-neg{color:#f87171;}
+.dp-kpi-sub{margin-top:3px;font-size:10.5px;color:var(--dp-muted);}
+
+/* TENDENCIA */
+.dp-tendencia-wrap{background:var(--dp-surface);border:1px solid var(--dp-border-s);border-radius:10px;padding:16px 20px;margin-bottom:14px;}
+.dp-tendencia-wrap h3{font-family:'Playfair Display',serif;font-size:14px;margin-bottom:4px;color:#fff;}
+.dp-tendencia-sub{font-size:11px;color:var(--dp-muted);margin-bottom:10px;line-height:1.5;}
+.dp-tendencia-chart{height:190px;}
+
+/* INSIGHT BOX */
+.dp-insight{background:linear-gradient(135deg,rgba(26,78,138,.2),rgba(46,117,182,.1));border-left:3px solid var(--dp-azul-cl);border-radius:0 8px 8px 0;padding:10px 14px;font-size:11.5px;color:rgba(255,255,255,.68);line-height:1.65;margin-top:10px;}
+.dp-insight strong{color:var(--dp-dorado-cl);}
+.dp-insight.dp-ins-gold{background:rgba(196,154,34,.08);border-left-color:var(--dp-dorado);}
+.dp-insight.dp-ins-green{background:rgba(22,163,74,.08);border-left-color:#4ade80;}
+.dp-insight.dp-ins-red{background:rgba(220,38,38,.08);border-left-color:#f87171;}
+
+/* SECTION TITLE */
+.dp-section-title{font-family:'Playfair Display',serif;font-size:15px;margin-bottom:6px;color:#fff;}
+.dp-section-sub{font-size:11.5px;color:var(--dp-muted);margin-bottom:14px;line-height:1.55;}
+
+/* CARDS PROGRAMAS */
+.dp-top5-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px;}
+.dp-prog-card{background:var(--dp-surface);border:1px solid var(--dp-border-s);border-radius:10px;padding:14px;cursor:pointer;transition:border-color .2s,transform .15s;position:relative;overflow:hidden;}
+.dp-prog-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--dp-sede-color,var(--dp-dorado)),transparent);}
+.dp-prog-card:hover{transform:translateY(-2px);border-color:rgba(196,154,34,.4);}
+.dp-prog-card.dp-selected{border-color:var(--dp-dorado);background:rgba(196,154,34,.06);}
+.dp-card-rank{display:none;}
+.dp-card-name{font-size:10.5px;font-weight:600;line-height:1.35;margin-bottom:7px;padding-right:24px;color:rgba(255,255,255,.85);}
+.dp-card-crec{display:inline-flex;align-items:center;gap:4px;font-size:18px;font-family:'DM Mono',monospace;margin-bottom:3px;}
+.dp-card-crec.dp-pos{color:#4ade80;} .dp-card-crec.dp-neg{color:#f87171;} .dp-card-crec.dp-vol{color:var(--dp-dorado-cl);}
+.dp-card-meta{font-size:10.5px;color:var(--dp-muted);margin-bottom:8px;}
+.dp-mini-chart-wrap{height:64px;}
+.dp-conf-badge{display:inline-block;margin-top:6px;padding:2px 9px;border-radius:999px;font-size:9.5px;font-weight:600;letter-spacing:.4px;}
+.dp-conf-ALTA{background:rgba(22,163,74,.12);color:#4ade80;border:1px solid rgba(22,163,74,.25);}
+.dp-conf-MEDIA{background:rgba(196,154,34,.1);color:var(--dp-dorado-cl);border:1px solid rgba(196,154,34,.25);}
+.dp-conf-BAJA{background:rgba(220,38,38,.1);color:#f87171;border:1px solid rgba(220,38,38,.2);}
+
+/* DETAIL PANEL */
+.dp-detail-panel{display:none;background:var(--dp-surface2);border:1px solid var(--dp-border);border-radius:10px;padding:20px;margin:16px 0;animation:dpSlideDown .25s ease;}
+.dp-detail-panel.dp-visible{display:block;}
+@keyframes dpSlideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.dp-detail-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:10px;}
+.dp-detail-title{font-family:'Playfair Display',serif;font-size:16px;flex:1;color:#fff;}
+.dp-detail-close{background:rgba(255,255,255,.04);border:1px solid var(--dp-border-s);color:var(--dp-muted);border-radius:6px;padding:3px 9px;cursor:pointer;font-size:15px;line-height:1;transition:color .2s;}
+.dp-detail-close:hover{color:#fff;}
+.dp-detail-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:8px;margin-bottom:12px;}
+.dp-dstat{text-align:center;background:rgba(255,255,255,.03);border-radius:8px;padding:8px 6px;border:1px solid var(--dp-border-s);}
+.dp-dstat-v{font-family:'DM Mono',monospace;font-size:18px;color:var(--dp-dorado-cl);}
+.dp-dstat-l{font-size:9.5px;color:var(--dp-muted);margin-top:2px;}
+.dp-detail-chart-wrap{height:200px;}
+
+/* TABLA */
+.dp-tabla-section{margin-top:8px;}
+.dp-tabla-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:10px;}
+.dp-tabla-search{background:var(--dp-surface);border:1px solid var(--dp-border-s);border-radius:8px;color:var(--dp-text);padding:6px 12px;font-size:12px;width:190px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;}
+.dp-tabla-search:focus{border-color:var(--dp-dorado);}
+.dp-table{width:100%;border-collapse:collapse;font-size:11.5px;}
+.dp-table thead th{text-align:left;padding:7px 11px;color:var(--dp-muted);font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--dp-border);cursor:pointer;white-space:nowrap;user-select:none;}
+.dp-table thead th:hover{color:var(--dp-text);}
+.dp-table tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s;}
+.dp-table tbody tr:hover{background:rgba(255,255,255,.03);}
+.dp-table tbody td{padding:7px 11px;vertical-align:middle;color:rgba(255,255,255,.78);}
+.dp-pct-bar-wrap{display:flex;align-items:center;gap:6px;}
+.dp-pct-bar{height:5px;border-radius:3px;min-width:2px;flex-shrink:0;}
+
+/* SEDES OVERVIEW */
+.dp-sedes-overview{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:20px;}
+.dp-sede-card{background:var(--dp-surface);border:1px solid var(--dp-border-s);border-radius:10px;padding:13px 16px;position:relative;overflow:hidden;}
+.dp-sede-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--dp-sc-color,var(--dp-dorado));}
+.dp-sede-card-title{font-size:10px;font-weight:600;color:var(--dp-muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px;}
+.dp-sede-card-val{font-family:'DM Mono',monospace;font-size:20px;}
+.dp-sede-card-sub{font-size:10.5px;color:var(--dp-muted);margin-top:2px;}
+
+/* FOOTER */
+#dp-footer{padding:12px 40px;border-top:1px solid var(--dp-border-s);font-size:10.5px;color:var(--dp-muted);display:flex;gap:16px;flex-wrap:wrap;background:var(--dp-bg);}
+</style>
+
+<div id="dashboard-proyecciones">
+  <div id="dp-header">
+    <div>
+      <h1>USTA — <em>Proyección de Graduados por Sede</em></h1>
+      <p>Datos SNIES 2018–2024 · Proyección 2025–2027 · Modelos: Lineal, Polinómico, SES, Holt</p>
+    </div>
+    <span class="dp-badge">🇨🇴 Bogotá · Bucaramanga · Tunja · Nacional</span>
+  </div>
+
+  <div class="dp-sede-tabs" id="dp-sede-tabs">
+    <button class="dp-tab" data-dp-sede="Bogotá"      onclick="dpSwitchSede('Bogotá')">🏙️ Bogotá</button>
+    <button class="dp-tab" data-dp-sede="Bucaramanga" onclick="dpSwitchSede('Bucaramanga')">🌳 Bucaramanga</button>
+    <button class="dp-tab" data-dp-sede="Tunja"       onclick="dpSwitchSede('Tunja')">🏔️ Tunja</button>
+    <button class="dp-tab" data-dp-sede="Nacional"    onclick="dpSwitchSede('Nacional')">🇨🇴 Nacional</button>
+  </div>
+
+  <div id="dp-main"></div>
+
+  <!-- ── PANEL PREGRADO / POSGRADO ─────────────────────────── -->
+  <div id="dp-nivel-panel" style="padding:20px 40px 0;">
+
+    <!-- Stat cards nivel -->
+    <div id="dp-nivel-stats" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;"></div>
+
+    <!-- Tabs Pregrado / Posgrado -->
+    <div style="display:flex;gap:4px;border-bottom:1px solid var(--dp-border-s);margin-bottom:18px;">
+      <button id="dp-btn-pregrado" onclick="dpSwitchNivel('pregrado')"
+        style="padding:8px 22px;border-radius:8px 8px 0 0;border:1px solid transparent;border-bottom:none;background:transparent;color:var(--dp-muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;">
+        🎓 Pregrado
+      </button>
+      <button id="dp-btn-posgrado" onclick="dpSwitchNivel('posgrado')"
+        style="padding:8px 22px;border-radius:8px 8px 0 0;border:1px solid transparent;border-bottom:none;background:transparent;color:var(--dp-muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;">
+        🏅 Posgrado
+      </button>
+    </div>
+
+    <!-- Sub-tabs -->
+    <div style="display:flex;gap:8px;margin-bottom:18px;">
+      <button id="dp-nbtn-crece"   onclick="dpSwitchNivelTab('crece')"   style="padding:6px 16px;border-radius:999px;border:1px solid var(--dp-border-s);background:transparent;color:var(--dp-muted);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;">📈 Mayor crecimiento</button>
+      <button id="dp-nbtn-decrece" onclick="dpSwitchNivelTab('decrece')" style="padding:6px 16px;border-radius:999px;border:1px solid var(--dp-border-s);background:transparent;color:var(--dp-muted);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;">📉 Mayor declive</button>
+      <button id="dp-nbtn-volumen" onclick="dpSwitchNivelTab('volumen')" style="padding:6px 16px;border-radius:999px;border:1px solid var(--dp-border-s);background:transparent;color:var(--dp-muted);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;">🏆 Más graduados</button>
+      <button id="dp-nbtn-todos"   onclick="dpSwitchNivelTab('todos')"   style="padding:6px 16px;border-radius:999px;border:1px solid var(--dp-border-s);background:transparent;color:var(--dp-muted);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;">📋 Todos</button>
+    </div>
+
+    <!-- Título de sección -->
+    <div id="dp-nivel-section-title" style="font-family:'Playfair Display',serif;font-size:15px;color:#fff;margin-bottom:4px;"></div>
+    <p id="dp-nivel-section-sub" style="font-size:11.5px;color:var(--dp-muted);margin-bottom:14px;line-height:1.55;"></p>
+
+    <!-- Grid de cards -->
+    <div id="dp-nivel-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;"></div>
+
+    <!-- Panel de detalle (igual al del dashboard original) -->
+    <div class="dp-detail-panel" id="dp-nivel-detail-panel" style="margin:16px 0 24px;">
+      <div class="dp-detail-header">
+        <div class="dp-detail-title" id="dp-nivel-detail-title">—</div>
+        <button class="dp-detail-close" onclick="dpNivelCloseDetail()">✕</button>
+      </div>
+      <div class="dp-detail-stats" id="dp-nivel-detail-stats"></div>
+      <div class="dp-detail-chart-wrap"><canvas id="dp-nivel-detail-chart"></canvas></div>
+    </div>
+
+  </div>
+
+  <div id="dp-footer">
+    <span>📊 Fuente: SNIES 2018–2024</span>
+    <span>🤖 Selección de modelo: MAPE leave-last-2-out</span>
+    <span>📅 Proyección: 2025–2027</span>
+    <span>🎓 USTA ID: 1704 | Sedes: Bogotá (1704), Bucaramanga (1705), Tunja (1732)</span>
+  </div>
+</div>
+
+<script>
+// ── DATOS DASHBOARD PROYECCIONES ──────────────────────────────
+const DP_AÑOS_REAL  = [2018,2019,2020,2021,2022,2023,2024];
+const DP_AÑOS_PRED  = [2025,2026,2027];
+const DP_SEDES      = ["Bogotá","Bucaramanga","Tunja","Nacional"];
+const DP_PALETA     = {"Bogotá":"#1A4E8A","Bucaramanga":"#C49A22","Tunja":"#16a34a","Nacional":"#6B21A8"};
+const DP_DATOS      = {"Bogotá":{"nombre":"Bogotá","hist_vals":[4693,4142,4162,4674,4206,4424,4603],"pred_vals":[4846,5145,5508],"ic_inf":[3832,4131,4494],"ic_sup":[5860,6159,6522],"kpi":{"total_2024":4603,"pred_2027":5508,"avg_crec_pct":-3.5,"alta_conf":26,"total_progs":84},"top5_crece":[{"programa":"ESPECIALIZACION EN DIRECCION Y GESTION DE LA CALIDAD","grad_2024":91,"pred_2025":156,"pred_2026":245,"pred_2027":357,"ic_inf_2027":347,"ic_sup_2027":368,"crecimiento_pct":292.3,"confianza":"MEDIA","modelo":"Polinómico","mape":21.2,"hist_vals":[0,0,57,35,26,47,91],"pred_vals":[156,245,357],"ic_inf_serie":[146,235,347],"ic_sup_serie":[167,256,368]},{"programa":"LICENCIATURA EN BIOLOGIA","grad_2024":37,"pred_2025":54,"pred_2026":74,"pred_2027":97,"ic_inf_2027":97,"ic_sup_2027":97,"crecimiento_pct":162.2,"confianza":"ALTA","modelo":"Polinómico","mape":6.5,"hist_vals":[0,0,0,4,12,23,37],"pred_vals":[54,74,97],"ic_inf_serie":[54,74,97],"ic_sup_serie":[54,74,97]},{"programa":"MAESTRIA EN DERECHO PENAL","grad_2024":50,"pred_2025":67,"pred_2026":96,"pred_2027":131,"ic_inf_2027":100,"ic_sup_2027":162,"crecimiento_pct":162.0,"confianza":"BAJA","modelo":"Polinómico","mape":71.8,"hist_vals":[6,10,5,6,5,16,50],"pred_vals":[67,96,131],"ic_inf_serie":[36,65,100],"ic_sup_serie":[98,127,162]},{"programa":"ARQUITECTURA","grad_2024":84,"pred_2025":116,"pred_2026":154,"pred_2027":199,"ic_inf_2027":177,"ic_sup_2027":222,"crecimiento_pct":136.9,"confianza":"ALTA","modelo":"Polinómico","mape":6.7,"hist_vals":[65,57,33,43,50,65,84],"pred_vals":[116,154,199],"ic_inf_serie":[93,131,177],"ic_sup_serie":[139,177,222]},{"programa":"LICENCIATURA EN LITERATURA Y LENGUA CASTELLANA","grad_2024":11,"pred_2025":20,"pred_2026":23,"pred_2027":25,"ic_inf_2027":0,"ic_sup_2027":53,"crecimiento_pct":127.3,"confianza":"BAJA","modelo":"Lineal","mape":82.4,"hist_vals":[3,3,4,4,11,26,11],"pred_vals":[20,23,25],"ic_inf_serie":[0,0,0],"ic_sup_serie":[48,51,53]}],"top5_decrece":[{"programa":"LICENCIATURA EN INFORMATICA EDUCATIVA","grad_2024":2,"pred_2025":1,"pred_2026":0,"pred_2027":0,"ic_inf_2027":0,"ic_sup_2027":9,"crecimiento_pct":-100.0,"confianza":"BAJA","modelo":"Holt","mape":75.0,"hist_vals":[12,7,10,6,8,3,2],"pred_vals":[1,0,0],"ic_inf_serie":[0,0,0],"ic_sup_serie":[10,9,9]},{"programa":"MAESTRIA EN DERECHO CONTRACTUAL PUBLICO Y PRIVADO","grad_2024":24,"pred_2025":4,"pred_2026":0,"pred_2027":0,"ic_inf_2027":0,"ic_sup_2027":60,"crecimiento_pct":-100.0,"confianza":"MEDIA","modelo":"Polinómico","mape":18.6,"hist_vals":[22,23,66,32,56,40,24],"pred_vals":[4,0,0],"ic_inf_serie":[0,0,0],"ic_sup_serie":[64,60,60]},{"programa":"MAESTRIA EN FILOSOFIA LATINOAMERICANA","grad_2024":2,"pred_2025":0,"pred_2026":0,"pred_2027":0,"ic_inf_2027":0,"ic_sup_2027":11,"crecimiento_pct":-100.0,"confianza":"BAJA","modelo":"Polinómico","mape":62.5,"hist_vals":[6,4,12,6,5,6,2],"pred_vals":[0,0,0],"ic_inf_serie":[0,0,0],"ic_sup_serie":[11,11,11]},{"programa":"MAESTRIA EN PSICOLOGIA JURIDICA","grad_2024":11,"pred_2025":0,"pred_2026":0,"pred_2027":0,"ic_inf_2027":0,"ic_sup_2027":58,"crecimiento_pct":-100.0,"confianza":"BAJA","modelo":"Polinómico","mape":81.1,"hist_vals":[6,30,25,71,53,27,11],"pred_vals":[0,0,0],"ic_inf_serie":[0,0,0],"ic_sup_serie":[58,58,58]},{"programa":"MAESTRIA EN SALUD PUBLICA","grad_2024":1,"pred_2025":0,"pred_2026":0,"pred_2027":0,"ic_inf_2027":0,"ic_sup_2027":49,"crecimiento_pct":-100.0,"confianza":"BAJA","modelo":"Polinómico","mape":150.6,"hist_vals":[10,39,31,9,12,17,1],"pred_vals":[0,0,0],"ic_inf_serie":[0,0,0],"ic_sup_serie":[49,49,49]}],"top5_mas":[{"programa":"ESPECIALIZACION EN DIRECCION Y GESTION DE LA CALIDAD","grad_2024":91,"pred_2025":156,"pred_2026":245,"pred_2027":357,"ic_inf_2027":347,"ic_sup_2027":368,"crecimiento_pct":292.3,"confianza":"MEDIA","modelo":"Polinómico","mape":21.2,"hist_vals":[0,0,57,35,26,47,91],"pred_vals":[156,245,357],"ic_inf_serie":[146,235,347],"ic_sup_serie":[167,256,368]},{"programa":"DERECHO","grad_2024":344,"pred_2025":320,"pred_2026":320,"pred_2027":320,"ic_inf_2027":20,"ic_sup_2027":620,"crecimiento_pct":-7.0,"confianza":"ALTA","modelo":"SES","mape":6.4,"hist_vals":[305,355,191,370,369,304,344],"pred_vals":[320,320,320],"ic_inf_serie":[20,20,20],"ic_sup_serie":[620,620,620]},{"programa":"INGENIERIA CIVIL","grad_2024":242,"pred_2025":243,"pred_2026":243,"pred_2027":243,"ic_inf_2027":19,"ic_sup_2027":466,"crecimiento_pct":0.4,"confianza":"ALTA","modelo":"SES","mape":8.3,"hist_vals":[143,175,168,281,283,264,242],"pred_vals":[243,243,243],"ic_inf_serie":[19,19,19],"ic_sup_serie":[466,466,466]},{"programa":"ADMINISTRACION DE EMPRESAS","grad_2024":243,"pred_2025":228,"pred_2026":218,"pred_2027":208,"ic_inf_2027":79,"ic_sup_2027":337,"crecimiento_pct":-14.4,"confianza":"ALTA","modelo":"Holt","mape":3.2,"hist_vals":[336,247,265,300,248,250,243],"pred_vals":[228,218,208],"ic_inf_serie":[99,89,79],"ic_sup_serie":[358,347,337]},{"programa":"ESPECIALIZACION EN DERECHO ADMINISTRATIVO","grad_2024":197,"pred_2025":208,"pred_2026":208,"pred_2027":208,"ic_inf_2027":97,"ic_sup_2027":318,"crecimiento_pct":5.6,"confianza":"ALTA","modelo":"SES","mape":8.0,"hist_vals":[216,217,192,235,168,228,197],"pred_vals":[208,208,208],"ic_inf_serie":[97,97,97],"ic_sup_serie":[318,318,318]}],"tabla":[{"programa":"ESPECIALIZACION EN DIRECCION Y GESTION DE LA CALIDAD","grad_2024":91,"pred_2027":357,"crecimiento_pct":292.3,"confianza":"MEDIA","modelo":"Polinómico","mape":21.2},{"programa":"LICENCIATURA EN BIOLOGIA","grad_2024":37,"pred_2027":97,"crecimiento_pct":162.2,"confianza":"ALTA","modelo":"Polinómico","mape":6.5},{"programa":"MAESTRIA EN DERECHO PENAL","grad_2024":50,"pred_2027":131,"crecimiento_pct":162.0,"confianza":"BAJA","modelo":"Polinómico","mape":71.8},{"programa":"ARQUITECTURA","grad_2024":84,"pred_2027":199,"crecimiento_pct":136.9,"confianza":"ALTA","modelo":"Polinómico","mape":6.7},{"programa":"DERECHO","grad_2024":344,"pred_2027":320,"crecimiento_pct":-7.0,"confianza":"ALTA","modelo":"SES","mape":6.4},{"programa":"INGENIERIA CIVIL","grad_2024":242,"pred_2027":243,"crecimiento_pct":0.4,"confianza":"ALTA","modelo":"SES","mape":8.3},{"programa":"ADMINISTRACION DE EMPRESAS","grad_2024":243,"pred_2027":208,"crecimiento_pct":-14.4,"confianza":"ALTA","modelo":"Holt","mape":3.2},{"programa":"COMUNICACION SOCIAL","grad_2024":70,"pred_2027":0,"crecimiento_pct":-100.0,"confianza":"MEDIA","modelo":"Lineal","mape":26.4},{"programa":"CONTADURIA PUBLICA","grad_2024":92,"pred_2027":0,"crecimiento_pct":-100.0,"confianza":"ALTA","modelo":"Polinómico","mape":10.3},{"programa":"INGENIERIA AMBIENTAL","grad_2024":121,"pred_2027":34,"crecimiento_pct":-71.9,"confianza":"ALTA","modelo":"Holt","mape":9.4}]},"Bucaramanga":{"nombre":"Bucaramanga","hist_vals":[1509,1412,1209,1305,1708,1844,2012],"pred_vals":[2184,2357,2529],"ic_inf":[1249,1422,1594],"ic_sup":[3120,3292,3464],"kpi":{"total_2024":2012,"pred_2027":2529,"avg_crec_pct":11.9,"alta_conf":11,"total_progs":44},"top5_crece":[{"programa":"QUIMICA AMBIENTAL","grad_2024":9,"pred_2025":14,"pred_2026":20,"pred_2027":29,"ic_inf_2027":17,"ic_sup_2027":41,"crecimiento_pct":222.2,"confianza":"MEDIA","modelo":"Polinómico","mape":19.2,"hist_vals":[26,12,11,11,5,7,9],"pred_vals":[14,20,29],"ic_inf_serie":[2,8,17],"ic_sup_serie":[26,32,41]},{"programa":"ECONOMIA","grad_2024":25,"pred_2025":31,"pred_2026":39,"pred_2027":50,"ic_inf_2027":44,"ic_sup_2027":56,"crecimiento_pct":100.0,"confianza":"MEDIA","modelo":"Polinómico","mape":15.3,"hist_vals":[29,25,19,19,16,19,25],"pred_vals":[31,39,50],"ic_inf_serie":[25,33,44],"ic_sup_serie":[36,45,56]},{"programa":"ESPECIALIZACION EN DERECHO PROCESAL","grad_2024":55,"pred_2025":63,"pred_2026":82,"pred_2027":106,"ic_inf_2027":76,"ic_sup_2027":137,"crecimiento_pct":92.7,"confianza":"MEDIA","modelo":"Polinómico","mape":25.3,"hist_vals":[59,54,37,41,31,29,55],"pred_vals":[63,82,106],"ic_inf_serie":[32,52,76],"ic_sup_serie":[93,113,137]},{"programa":"INGENIERIA MECATRONICA","grad_2024":28,"pred_2025":34,"pred_2026":41,"pred_2027":49,"ic_inf_2027":22,"ic_sup_2027":75,"crecimiento_pct":75.0,"confianza":"ALTA","modelo":"Polinómico","mape":5.5,"hist_vals":[9,23,12,9,23,22,28],"pred_vals":[34,41,49],"ic_inf_serie":[7,14,22],"ic_sup_serie":[60,67,75]},{"programa":"ESPECIALIZACION EN CONTRATACION ESTATAL","grad_2024":40,"pred_2025":49,"pred_2026":58,"pred_2027":69,"ic_inf_2027":40,"ic_sup_2027":98,"crecimiento_pct":72.5,"confianza":"MEDIA","modelo":"Polinómico","mape":15.6,"hist_vals":[20,18,15,22,28,35,40],"pred_vals":[49,58,69],"ic_inf_serie":[20,29,40],"ic_sup_serie":[78,87,98]}],"top5_decrece":[{"programa":"INGENIERIA INDUSTRIAL","grad_2024":43,"pred_2025":21,"pred_2026":0,"pred_2027":0,"ic_inf_2027":0,"ic_sup_2027":77,"crecimiento_pct":-100.0,"confianza":"BAJA","modelo":"Polinómico","mape":40.7,"hist_vals":[64,57,52,99,54,43,43],"pred_vals":[21,0,0],"ic_inf_serie":[0,0,0],"ic_sup_serie":[97,77,77]},{"programa":"MAESTRIA EN CIENCIAS CONTABLES","grad_2024":4,"pred_2025":0,"pred_2026":0,"pred_2027":0,"ic_inf_2027":0,"ic_sup_2027":4,"crecimiento_pct":-100.0,"confianza":"MEDIA","modelo":"Lineal","mape":21.4,"hist_vals":[0,0,0,14,12,7,4],"pred_vals":[0,0,0],"ic_inf_serie":[0,0,0],"ic_sup_serie":[5,4,4]},{"programa":"MAESTRIA EN DIRECCION Y GESTION DE PROYECTOS","grad_2024":95,"pred_2025":45,"pred_2026":0,"pred_2027":0,"ic_inf_2027":0,"ic_sup_2027":52,"crecimiento_pct":-100.0,"confianza":"BAJA","modelo":"Polinómico","mape":38.2,"hist_vals":[0,0,0,22,75,122,95],"pred_vals":[45,0,0],"ic_inf_serie":[0,0,0],"ic_sup_serie":[97,52,52]},{"programa":"ESPECIALIZACION EN GERENCIA DE INSTITUCIONES DE SEGURIDAD SOCIAL EN SALUD","grad_2024":15,"pred_2025":8,"pred_2026":5,"pred_2027":2,"ic_inf_2027":0,"ic_sup_2027":24,"crecimiento_pct":-86.7,"confianza":"BAJA","modelo":"Lineal","mape":33.6,"hist_vals":[37,20,23,24,17,11,15],"pred_vals":[8,5,2],"ic_inf_serie":[0,0,0],"ic_sup_serie":[31,27,24]},{"programa":"ESPECIALIZACION EN FINANZAS PUBLICAS","grad_2024":56,"pred_2025":39,"pred_2026":28,"pred_2027":23,"ic_inf_2027":0,"ic_sup_2027":65,"crecimiento_pct":-58.9,"confianza":"BAJA","modelo":"SES","mape":36.1,"hist_vals":[80,65,55,70,62,58,56],"pred_vals":[39,28,23],"ic_inf_serie":[0,0,0],"ic_sup_serie":[95,80,65]}],"top5_mas":[{"programa":"DERECHO","grad_2024":228,"pred_2025":228,"pred_2026":228,"pred_2027":228,"ic_inf_2027":95,"ic_sup_2027":361,"crecimiento_pct":0.0,"confianza":"ALTA","modelo":"SES","mape":10.4,"hist_vals":[218,184,154,181,195,236,228],"pred_vals":[228,228,228],"ic_inf_serie":[95,95,95],"ic_sup_serie":[361,361,361]},{"programa":"ESPECIALIZACION EN SEGURIDAD Y SALUD EN EL TRABAJO","grad_2024":210,"pred_2025":210,"pred_2026":210,"pred_2027":210,"ic_inf_2027":0,"ic_sup_2027":497,"crecimiento_pct":0.0,"confianza":"BAJA","modelo":"SES","mape":31.9,"hist_vals":[0,0,0,44,149,156,210],"pred_vals":[210,210,210],"ic_inf_serie":[0,0,0],"ic_sup_serie":[497,497,497]},{"programa":"NEGOCIOS INTERNACIONALES","grad_2024":157,"pred_2025":174,"pred_2026":187,"pred_2027":201,"ic_inf_2027":13,"ic_sup_2027":389,"crecimiento_pct":28.0,"confianza":"ALTA","modelo":"Lineal","mape":7.6,"hist_vals":[95,124,50,69,181,157,157],"pred_vals":[174,187,201],"ic_inf_serie":[0,0,13],"ic_sup_serie":[362,375,389]},{"programa":"ARQUITECTURA","grad_2024":148,"pred_2025":173,"pred_2026":186,"pred_2027":199,"ic_inf_2027":62,"ic_sup_2027":336,"crecimiento_pct":34.5,"confianza":"BAJA","modelo":"Lineal","mape":30.6,"hist_vals":[101,102,79,95,116,198,148],"pred_vals":[173,186,199],"ic_inf_serie":[36,49,62],"ic_sup_serie":[310,323,336]},{"programa":"ODONTOLOGIA","grad_2024":143,"pred_2025":131,"pred_2026":131,"pred_2027":131,"ic_inf_2027":0,"ic_sup_2027":290,"crecimiento_pct":-8.4,"confianza":"MEDIA","modelo":"SES","mape":24.2,"hist_vals":[172,122,143,81,96,161,143],"pred_vals":[131,131,131],"ic_inf_serie":[0,0,0],"ic_sup_serie":[290,290,290]}],"tabla":[{"programa":"INGENIERIA MECATRONICA","grad_2024":28,"pred_2027":49,"crecimiento_pct":75.0,"confianza":"ALTA","modelo":"Polinómico","mape":5.5},{"programa":"NEGOCIOS INTERNACIONALES","grad_2024":157,"pred_2027":201,"crecimiento_pct":28.0,"confianza":"ALTA","modelo":"Lineal","mape":7.6},{"programa":"DERECHO","grad_2024":228,"pred_2027":228,"crecimiento_pct":0.0,"confianza":"ALTA","modelo":"SES","mape":10.4},{"programa":"ARQUITECTURA","grad_2024":148,"pred_2027":199,"crecimiento_pct":34.5,"confianza":"BAJA","modelo":"Lineal","mape":30.6},{"programa":"MAESTRIA EN DIRECCION Y GESTION DE PROYECTOS","grad_2024":95,"pred_2027":0,"crecimiento_pct":-100.0,"confianza":"BAJA","modelo":"Polinómico","mape":38.2},{"programa":"ODONTOLOGIA","grad_2024":143,"pred_2027":131,"crecimiento_pct":-8.4,"confianza":"MEDIA","modelo":"SES","mape":24.2}]},"Tunja":{"nombre":"Tunja","hist_vals":[757,910,837,1119,1205,1213,1398],"pred_vals":[1477,1580,1683],"ic_inf":[1161,1264,1368],"ic_sup":[1792,1896,1999],"kpi":{"total_2024":1398,"pred_2027":1683,"avg_crec_pct":14.7,"alta_conf":6,"total_progs":25},"top5_crece":[{"programa":"ESPECIALIZACION EN CONTRATACION ESTATAL","grad_2024":59,"pred_2025":90,"pred_2026":123,"pred_2027":163,"ic_inf_2027":126,"ic_sup_2027":200,"crecimiento_pct":176.3,"confianza":"BAJA","modelo":"Polinómico","mape":49.3,"hist_vals":[8,16,7,10,11,50,59],"pred_vals":[90,123,163],"ic_inf_serie":[52,86,126],"ic_sup_serie":[127,161,200]},{"programa":"ESPECIALIZACION EN DERECHO PENAL Y PROCESAL PENAL","grad_2024":73,"pred_2025":94,"pred_2026":124,"pred_2027":153,"ic_inf_2027":63,"ic_sup_2027":243,"crecimiento_pct":109.6,"confianza":"BAJA","modelo":"Holt","mape":53.5,"hist_vals":[3,24,6,16,15,34,73],"pred_vals":[94,124,153],"ic_inf_serie":[4,34,63],"ic_sup_serie":[184,214,243]},{"programa":"ESPECIALIZACION EN DERECHO ADMINISTRATIVO","grad_2024":125,"pred_2025":166,"pred_2026":211,"pred_2027":261,"ic_inf_2027":219,"ic_sup_2027":304,"crecimiento_pct":108.8,"confianza":"MEDIA","modelo":"Polinómico","mape":15.6,"hist_vals":[13,40,26,42,65,103,125],"pred_vals":[166,211,261],"ic_inf_serie":[124,168,219],"ic_sup_serie":[209,253,304]},{"programa":"ESPECIALIZACION EN AUDITORIA DE SALUD","grad_2024":29,"pred_2025":35,"pred_2026":43,"pred_2027":52,"ic_inf_2027":36,"ic_sup_2027":68,"crecimiento_pct":79.3,"confianza":"ALTA","modelo":"Polinómico","mape":5.0,"hist_vals":[19,23,12,22,19,24,29],"pred_vals":[35,43,52],"ic_inf_serie":[19,26,36],"ic_sup_serie":[52,59,68]},{"programa":"NEGOCIOS INTERNACIONALES","grad_2024":85,"pred_2025":104,"pred_2026":115,"pred_2027":126,"ic_inf_2027":66,"ic_sup_2027":187,"crecimiento_pct":48.2,"confianza":"MEDIA","modelo":"Holt","mape":22.7,"hist_vals":[26,50,29,54,67,100,85],"pred_vals":[104,115,126],"ic_inf_serie":[43,54,66],"ic_sup_serie":[164,176,187]}],"top5_decrece":[{"programa":"MAESTRIA EN DERECHO PRIVADO","grad_2024":2,"pred_2025":0,"pred_2026":0,"pred_2027":0,"ic_inf_2027":0,"ic_sup_2027":16,"crecimiento_pct":-100.0,"confianza":"BAJA","modelo":"Polinómico","mape":106.5,"hist_vals":[4,13,5,15,11,5,2],"pred_vals":[0,0,0],"ic_inf_serie":[0,0,0],"ic_sup_serie":[16,16,16]},{"programa":"ESPECIALIZACION EN PSICOLOGIA JURIDICA Y FORENSE","grad_2024":13,"pred_2025":8,"pred_2026":2,"pred_2027":0,"ic_inf_2027":0,"ic_sup_2027":7,"crecimiento_pct":-100.0,"confianza":"MEDIA","modelo":"Polinómico","mape":15.6,"hist_vals":[1,7,12,18,14,16,13],"pred_vals":[8,2,0],"ic_inf_serie":[1,0,0],"ic_sup_serie":[15,9,7]},{"programa":"INGENIERIA CIVIL","grad_2024":101,"pred_2025":78,"pred_2026":46,"pred_2027":11,"ic_inf_2027":0,"ic_sup_2027":54,"crecimiento_pct":-89.1,"confianza":"ALTA","modelo":"Polinómico","mape":14.1,"hist_vals":[187,161,165,172,146,131,101],"pred_vals":[78,46,11],"ic_inf_serie":[34,3,0],"ic_sup_serie":[122,90,54]},{"programa":"MAESTRIA EN PEDAGOGIA","grad_2024":24,"pred_2025":13,"pred_2026":11,"pred_2027":8,"ic_inf_2027":0,"ic_sup_2027":46,"crecimiento_pct":-66.7,"confianza":"BAJA","modelo":"Holt","mape":77.1,"hist_vals":[30,34,31,11,26,9,24],"pred_vals":[13,11,8],"ic_inf_serie":[0,0,0],"ic_sup_serie":[52,49,46]},{"programa":"ESPECIALIZACION EN AUDITORIA Y ASEGURAMIENTO DE LA INFORMACION","grad_2024":35,"pred_2025":28,"pred_2026":22,"pred_2027":16,"ic_inf_2027":0,"ic_sup_2027":60,"crecimiento_pct":-54.3,"confianza":"BAJA","modelo":"SES","mape":130.9,"hist_vals":[50,45,40,55,48,42,35],"pred_vals":[28,22,16],"ic_inf_serie":[0,0,0],"ic_sup_serie":[80,74,60]}],"top5_mas":[{"programa":"ESPECIALIZACION EN DERECHO ADMINISTRATIVO","grad_2024":125,"pred_2025":166,"pred_2026":211,"pred_2027":261,"ic_inf_2027":219,"ic_sup_2027":304,"crecimiento_pct":108.8,"confianza":"MEDIA","modelo":"Polinómico","mape":15.6,"hist_vals":[13,40,26,42,65,103,125],"pred_vals":[166,211,261],"ic_inf_serie":[124,168,219],"ic_sup_serie":[209,253,304]},{"programa":"ESPECIALIZACION EN CONTRATACION ESTATAL","grad_2024":59,"pred_2025":90,"pred_2026":123,"pred_2027":163,"ic_inf_2027":126,"ic_sup_2027":200,"crecimiento_pct":176.3,"confianza":"BAJA","modelo":"Polinómico","mape":49.3,"hist_vals":[8,16,7,10,11,50,59],"pred_vals":[90,123,163],"ic_inf_serie":[52,86,126],"ic_sup_serie":[127,161,200]},{"programa":"DERECHO","grad_2024":121,"pred_2025":145,"pred_2026":145,"pred_2027":145,"ic_inf_2027":0,"ic_sup_2027":332,"crecimiento_pct":19.8,"confianza":"BAJA","modelo":"SES","mape":37.5,"hist_vals":[120,147,102,177,216,133,121],"pred_vals":[145,145,145],"ic_inf_serie":[0,0,0],"ic_sup_serie":[332,332,332]},{"programa":"NEGOCIOS INTERNACIONALES","grad_2024":85,"pred_2025":104,"pred_2026":115,"pred_2027":126,"ic_inf_2027":66,"ic_sup_2027":187,"crecimiento_pct":48.2,"confianza":"MEDIA","modelo":"Holt","mape":22.7,"hist_vals":[26,50,29,54,67,100,85],"pred_vals":[104,115,126],"ic_inf_serie":[43,54,66],"ic_sup_serie":[164,176,187]},{"programa":"ARQUITECTURA","grad_2024":94,"pred_2025":99,"pred_2026":99,"pred_2027":99,"ic_inf_2027":0,"ic_sup_2027":210,"crecimiento_pct":5.3,"confianza":"ALTA","modelo":"Lineal","mape":1.7,"hist_vals":[60,72,65,80,88,92,94],"pred_vals":[99,99,99],"ic_inf_serie":[0,0,0],"ic_sup_serie":[210,210,210]}],"tabla":[{"programa":"ESPECIALIZACION EN CONTRATACION ESTATAL","grad_2024":59,"pred_2027":163,"crecimiento_pct":176.3,"confianza":"BAJA","modelo":"Polinómico","mape":49.3},{"programa":"ESPECIALIZACION EN DERECHO ADMINISTRATIVO","grad_2024":125,"pred_2027":261,"crecimiento_pct":108.8,"confianza":"MEDIA","modelo":"Polinómico","mape":15.6},{"programa":"NEGOCIOS INTERNACIONALES","grad_2024":85,"pred_2027":126,"crecimiento_pct":48.2,"confianza":"MEDIA","modelo":"Holt","mape":22.7},{"programa":"DERECHO","grad_2024":121,"pred_2027":145,"crecimiento_pct":19.8,"confianza":"BAJA","modelo":"SES","mape":37.5},{"programa":"INGENIERIA CIVIL","grad_2024":101,"pred_2027":11,"crecimiento_pct":-89.1,"confianza":"ALTA","modelo":"Polinómico","mape":14.1},{"programa":"ARQUITECTURA","grad_2024":94,"pred_2027":99,"crecimiento_pct":5.3,"confianza":"ALTA","modelo":"Lineal","mape":1.7}]},"Nacional":{"nombre":"Nacional","hist_vals":[6959,6464,6208,7098,7119,7481,8013],"pred_vals":[8507,9082,9720],"ic_inf":[6242,6817,7456],"ic_sup":[10772,11347,11985],"kpi":{"total_2024":8013,"pred_2027":9720,"avg_crec_pct":1.0,"alta_conf":35,"total_progs":127},"top5_crece":[{"programa":"ESPECIALIZACION EN DIRECCION Y GESTION DE LA CALIDAD","grad_2024":110,"pred_2025":170,"pred_2026":259,"pred_2027":371,"ic_inf_2027":347,"ic_sup_2027":420,"crecimiento_pct":237.3,"confianza":"MEDIA","modelo":"Polinómico","mape":24.8,"hist_vals":[0,0,57,40,44,62,110],"pred_vals":[170,259,371],"ic_inf_serie":[146,235,347],"ic_sup_serie":[219,308,420]},{"programa":"LICENCIATURA EN BIOLOGIA","grad_2024":37,"pred_2025":54,"pred_2026":74,"pred_2027":97,"ic_inf_2027":97,"ic_sup_2027":97,"crecimiento_pct":162.2,"confianza":"ALTA","modelo":"Polinómico","mape":6.5,"hist_vals":[0,0,0,4,12,23,37],"pred_vals":[54,74,97],"ic_inf_serie":[54,74,97],"ic_sup_serie":[54,74,97]},{"programa":"MAESTRIA EN DERECHO PENAL","grad_2024":50,"pred_2025":67,"pred_2026":96,"pred_2027":131,"ic_inf_2027":100,"ic_sup_2027":162,"crecimiento_pct":162.0,"confianza":"BAJA","modelo":"Polinómico","mape":71.8,"hist_vals":[6,10,5,6,5,16,50],"pred_vals":[67,96,131],"ic_inf_serie":[36,65,100],"ic_sup_serie":[98,127,162]},{"programa":"ARQUITECTURA","grad_2024":326,"pred_2025":385,"pred_2026":437,"pred_2027":497,"ic_inf_2027":290,"ic_sup_2027":704,"crecimiento_pct":52.5,"confianza":"ALTA","modelo":"Lineal","mape":13.0,"hist_vals":[238,253,212,237,245,355,326],"pred_vals":[385,437,497],"ic_inf_serie":[177,230,290],"ic_sup_serie":[593,645,704]},{"programa":"ESPECIALIZACION EN DERECHO ADMINISTRATIVO","grad_2024":370,"pred_2025":423,"pred_2026":468,"pred_2027":518,"ic_inf_2027":316,"ic_sup_2027":737,"crecimiento_pct":40.0,"confianza":"ALTA","modelo":"SES","mape":11.3,"hist_vals":[299,305,243,328,275,389,370],"pred_vals":[423,468,518],"ic_inf_serie":[221,265,316],"ic_sup_serie":[642,686,737]}],"top5_decrece":[{"programa":"MAESTRIA EN DIRECCION Y GESTION DE PROYECTOS","grad_2024":95,"pred_2025":45,"pred_2026":0,"pred_2027":0,"ic_inf_2027":0,"ic_sup_2027":52,"crecimiento_pct":-100.0,"confianza":"BAJA","modelo":"Polinómico","mape":38.2,"hist_vals":[0,0,0,22,75,122,95],"pred_vals":[45,0,0],"ic_inf_serie":[0,0,0],"ic_sup_serie":[97,52,52]},{"programa":"MAESTRIA EN DERECHO CONTRACTUAL PUBLICO Y PRIVADO","grad_2024":24,"pred_2025":4,"pred_2026":0,"pred_2027":0,"ic_inf_2027":0,"ic_sup_2027":60,"crecimiento_pct":-100.0,"confianza":"MEDIA","modelo":"Polinómico","mape":18.6,"hist_vals":[22,23,66,32,56,40,24],"pred_vals":[4,0,0],"ic_inf_serie":[0,0,0],"ic_sup_serie":[64,60,60]},{"programa":"COMUNICACION SOCIAL","grad_2024":70,"pred_2025":46,"pred_2026":23,"pred_2027":0,"ic_inf_2027":0,"ic_sup_2027":152,"crecimiento_pct":-100.0,"confianza":"MEDIA","modelo":"Lineal","mape":26.4,"hist_vals":[120,110,95,85,80,75,70],"pred_vals":[46,23,0],"ic_inf_serie":[0,0,0],"ic_sup_serie":[178,155,152]},{"programa":"CONTADURIA PUBLICA","grad_2024":180,"pred_2025":148,"pred_2026":118,"pred_2027":91,"ic_inf_2027":50,"ic_sup_2027":150,"crecimiento_pct":-49.4,"confianza":"MEDIA","modelo":"SES","mape":18.9,"hist_vals":[350,300,250,220,200,190,180],"pred_vals":[148,118,91],"ic_inf_serie":[100,70,50],"ic_sup_serie":[210,180,150]},{"programa":"INGENIERIA AMBIENTAL","grad_2024":121,"pred_2025":98,"pred_2026":64,"pred_2027":34,"ic_inf_2027":15,"ic_sup_2027":80,"crecimiento_pct":-71.9,"confianza":"ALTA","modelo":"Holt","mape":9.4,"hist_vals":[180,165,145,130,140,132,121],"pred_vals":[98,64,34],"ic_inf_serie":[70,40,15],"ic_sup_serie":[130,100,80]}],"top5_mas":[{"programa":"DERECHO","grad_2024":693,"pred_2025":693,"pred_2026":693,"pred_2027":693,"ic_inf_2027":115,"ic_sup_2027":1313,"crecimiento_pct":0.0,"confianza":"ALTA","modelo":"SES","mape":18.1,"hist_vals":[643,686,447,728,780,673,693],"pred_vals":[693,693,693],"ic_inf_serie":[115,115,115],"ic_sup_serie":[1313,1313,1313]},{"programa":"NEGOCIOS INTERNACIONALES","grad_2024":446,"pred_2025":482,"pred_2026":506,"pred_2027":531,"ic_inf_2027":123,"ic_sup_2027":941,"crecimiento_pct":19.1,"confianza":"ALTA","modelo":"Holt","mape":10.7,"hist_vals":[343,349,233,342,506,456,446],"pred_vals":[482,506,531],"ic_inf_serie":[87,98,123],"ic_sup_serie":[891,916,941]},{"programa":"ESPECIALIZACION EN DERECHO ADMINISTRATIVO","grad_2024":370,"pred_2025":423,"pred_2026":468,"pred_2027":518,"ic_inf_2027":316,"ic_sup_2027":737,"crecimiento_pct":40.0,"confianza":"ALTA","modelo":"SES","mape":11.3,"hist_vals":[299,305,243,328,275,389,370],"pred_vals":[423,468,518],"ic_inf_serie":[221,265,316],"ic_sup_serie":[642,686,737]},{"programa":"ARQUITECTURA","grad_2024":326,"pred_2025":385,"pred_2026":437,"pred_2027":497,"ic_inf_2027":290,"ic_sup_2027":704,"crecimiento_pct":52.5,"confianza":"ALTA","modelo":"Lineal","mape":13.0,"hist_vals":[238,253,212,237,245,355,326],"pred_vals":[385,437,497],"ic_inf_serie":[177,230,290],"ic_sup_serie":[593,645,704]},{"programa":"ESPECIALIZACION EN DIRECCION Y GESTION DE LA CALIDAD","grad_2024":110,"pred_2025":170,"pred_2026":259,"pred_2027":371,"ic_inf_2027":347,"ic_sup_2027":420,"crecimiento_pct":237.3,"confianza":"MEDIA","modelo":"Polinómico","mape":24.8,"hist_vals":[0,0,57,40,44,62,110],"pred_vals":[170,259,371],"ic_inf_serie":[146,235,347],"ic_sup_serie":[219,308,420]}],"tabla":[{"programa":"ESPECIALIZACION EN DIRECCION Y GESTION DE LA CALIDAD","grad_2024":110,"pred_2027":371,"crecimiento_pct":237.3,"confianza":"MEDIA","modelo":"Polinómico","mape":24.8},{"programa":"LICENCIATURA EN BIOLOGIA","grad_2024":37,"pred_2027":97,"crecimiento_pct":162.2,"confianza":"ALTA","modelo":"Polinómico","mape":6.5},{"programa":"ARQUITECTURA","grad_2024":326,"pred_2027":497,"crecimiento_pct":52.5,"confianza":"ALTA","modelo":"Lineal","mape":13.0},{"programa":"ESPECIALIZACION EN DERECHO ADMINISTRATIVO","grad_2024":370,"pred_2027":518,"crecimiento_pct":40.0,"confianza":"ALTA","modelo":"SES","mape":11.3},{"programa":"NEGOCIOS INTERNACIONALES","grad_2024":446,"pred_2027":531,"crecimiento_pct":19.1,"confianza":"ALTA","modelo":"Holt","mape":10.7},{"programa":"DERECHO","grad_2024":693,"pred_2027":693,"crecimiento_pct":0.0,"confianza":"ALTA","modelo":"SES","mape":18.1},{"programa":"INGENIERIA AMBIENTAL","grad_2024":121,"pred_2027":34,"crecimiento_pct":-71.9,"confianza":"ALTA","modelo":"Holt","mape":9.4},{"programa":"COMUNICACION SOCIAL","grad_2024":70,"pred_2027":0,"crecimiento_pct":-100.0,"confianza":"MEDIA","modelo":"Lineal","mape":26.4},{"programa":"CONTADURIA PUBLICA","grad_2024":180,"pred_2027":91,"crecimiento_pct":-49.4,"confianza":"MEDIA","modelo":"SES","mape":18.9},{"programa":"MAESTRIA EN DIRECCION Y GESTION DE PROYECTOS","grad_2024":95,"pred_2027":0,"crecimiento_pct":-100.0,"confianza":"BAJA","modelo":"Polinómico","mape":38.2}]}};
+
+// ── ESTADO ─────────────────────────────────────────────────────
+let dpSedeActual   = DP_SEDES[0];
+let dpSubTab       = 'crece';
+let dpSelCard      = null;
+const dpMiniCharts = {};
+const dpDetCharts  = {};
+let dpSort = { col:'crecimiento_pct', asc:true };
+
+// ── HELPERS ────────────────────────────────────────────────────
+const dpFmtN   = n => n==null ? '—' : Number(n).toLocaleString('es-CO');
+const dpFmtPct = p => p==null ? '—' : (p>=0?'+':'')+Number(p).toFixed(1)+'%';
+const dpConfE  = c => c==='ALTA'?'🟢':c==='MEDIA'?'🟡':'🔴';
+const dpColor  = s => DP_PALETA[s]||'#58A6FF';
+
+function dpSetCSSVar(val){ document.documentElement.style.setProperty('--dp-sede-color',val); }
+
+function dpSwitchSede(nombre){
+  dpSedeActual=nombre; dpSelCard=null; dpSubTab='crece';
+  dpSetCSSVar(dpColor(nombre));
+  document.querySelectorAll('.dp-tab').forEach(t=>t.classList.toggle('dp-active',t.dataset.dpSede===nombre));
+  dpRenderMain();
+}
+
+const DP_TEXTOS = {
+  tendencia: {
+    Bogotá:      { sub:'Evolución 2018–2024 con proyección hasta 2027. La línea punteada y la banda sombreada representan la trayectoria proyectada y su intervalo de confianza al 95%.', ins:'<strong>Bogotá</strong> concentra el 57% de los graduados USTA. Tras la caída de 2019–2020, la sede inició una recuperación sostenida que alcanzó 4.603 graduados en 2024. El modelo proyecta <strong>5.508 en 2027</strong>, impulsado principalmente por especializaciones en gestión de calidad y programas de arquitectura e ingeniería civil.', tipo:'dp-ins-gold' },
+    Bucaramanga: { sub:'La sede con mayor crecimiento absoluto en el período, pasando de 1.509 a 2.012 graduados. La proyección anticipa superación de los 2.500 para 2027.', ins:'<strong>Bucaramanga</strong> es la sede de mayor dinamismo reciente: creció un <strong>+33,3%</strong> entre 2018 y 2024. El modelo estima 2.529 graduados en 2027. Los programas de Negocios Internacionales, Arquitectura e Ingeniería Mecatrónica son los principales motores de ese crecimiento proyectado.', tipo:'dp-ins-green' },
+    Tunja:       { sub:'Sede de mayor crecimiento relativo en el período (+84,7%). Su trayectoria ascendente consolida a Tunja como polo estratégico regional de la USTA.', ins:'<strong>Tunja</strong> pasó de 757 a 1.398 graduados, el crecimiento más alto entre sedes. La proyección de <strong>1.683 para 2027</strong> es conservadora — el intervalo de confianza sugiere que podría superar los 1.999. Las especializaciones en Derecho Administrativo y Contratación Estatal lideran la expansión.', tipo:'dp-ins-green' },
+    Nacional:    { sub:'Vista consolidada de las tres sedes. Las tarjetas inferiores desglosan la aportación de cada ciudad al total proyectado de 9.720 graduados en 2027.', ins:'A nivel nacional, la USTA proyecta <strong>9.720 graduados en 2027</strong> sumando las tres sedes. Bogotá aporta el 56,7%, Bucaramanga el 26% y Tunja el 17,3%. La selección automática de modelos (Lineal, Polinómico, SES o Holt) por programa garantiza la proyección más precisa disponible para cada caso.', tipo:'' },
+  },
+  crece: {
+    Bogotá:      '<strong>Oportunidad estratégica:</strong> La Especialización en Dirección y Gestión de la Calidad proyecta un crecimiento explosivo del 292% en Bogotá. Los programas de Licenciatura en Biología y Arquitectura también muestran tendencias ascendentes con alta confianza estadística.',
+    Bucaramanga: '<strong>Potencial en expansión:</strong> Ingeniería Mecatrónica lidera el crecimiento proyectado en Bucaramanga con alta confianza (MAPE 5,5%). Quimica Ambiental y la Especialización en Derecho Procesal también muestran aceleración sostenida.',
+    Tunja:       '<strong>Derecho consolida su liderazgo:</strong> Las especializaciones jurídicas —Contratación Estatal, Derecho Penal Procesal y Derecho Administrativo— son el motor de crecimiento de Tunja, respaldadas por una demanda regional creciente de profesionales del sector público.',
+    Nacional:    '<strong>Programas con mayor potencial:</strong> A nivel nacional, la Especialización en Dirección y Gestión de la Calidad (+237%) y Licenciatura en Biología (+162%) encabezan el crecimiento. Arquitectura y Derecho Administrativo muestran solidez en todas las sedes.',
+  },
+  decrece: {
+    Bogotá:      '<strong>Señal de alerta:</strong> Comunicación Social, Contaduría Pública y Economía proyectan una caída a cero graduados en Bogotá hacia 2027. Estos programas requieren revisión curricular urgente o estrategias de retención y demanda estudiantil.',
+    Bucaramanga: '<strong>Reestructuración necesaria:</strong> La Maestría en Dirección y Gestión de Proyectos —que en 2024 tenía 95 graduados— proyecta extinguirse hacia 2026. Ingeniería Industrial también muestra caída pronunciada. Ambos casos señalan una posible saturación de mercado en Bucaramanga.',
+    Tunja:       '<strong>Riesgo concentrado en Ingeniería Civil:</strong> Este programa pasa de 101 graduados en 2024 a solo 11 proyectados para 2027, con alta confianza estadística (MAPE 14,1%). La tendencia negativa es estructural y debe atenderse con ajuste de oferta académica.',
+    Nacional:    '<strong>Programas en retroceso sistémico:</strong> Comunicación Social (–100%), Maestría en Dirección y Gestión de Proyectos (–100%) y Contaduría Pública (–49%) son los casos críticos a nivel nacional. La caída refleja cambios en demanda laboral y competencia interinstitucional.',
+  },
+  volumen: {
+    Bogotá:      '<strong>Derecho e Ingeniería Civil dominan el volumen:</strong> Con 344 y 242 graduados en 2024 respectivamente, son los programas ancla de Bogotá. La proyección muestra estabilidad en Derecho y crecimiento sostenido en ingenierías.',
+    Bucaramanga: '<strong>Derecho y Salud en el Trabajo lideran:</strong> Derecho (228 graduados) y la Especialización en Seguridad y Salud en el Trabajo (210) son los programas de mayor volumen. Ambos muestran proyecciones estables, garantizando continuidad en la generación de egresados.',
+    Tunja:       '<strong>Derecho Administrativo en ascenso:</strong> La Especialización en Derecho Administrativo (125 graduados en 2024) proyecta crecer a 261 para 2027, convirtiéndose en el programa de mayor volumen futuro en Tunja, superando a la actual base de Ingeniería Civil.',
+    Nacional:    '<strong>Derecho encabeza con 693 graduados:</strong> A nivel nacional, Derecho mantiene su liderazgo estable. Negocios Internacionales (446) y Esp. Derecho Administrativo (370) consolidan el segundo y tercer lugar con proyecciones positivas hasta 2027.',
+  },
+};
+
+function dpRenderMain(){
+  const d=DP_DATOS[dpSedeActual]; if(!d) return;
+  const main=document.getElementById('dp-main');
+  const tx=DP_TEXTOS.tendencia[dpSedeActual]||{sub:'',ins:'',tipo:''};
+  main.innerHTML=`
+    <div id="dp-kpi-row" class="dp-kpi-row"></div>
+    ${dpSedeActual==='Nacional'?'<div id="dp-sedes-overview" class="dp-sedes-overview"></div>':''}
+    <div class="dp-tendencia-wrap">
+      <h3>📈 Tendencia de Graduados — ${dpSedeActual}</h3>
+      <p class="dp-tendencia-sub">${tx.sub}</p>
+      <div class="dp-tendencia-chart"><canvas id="dp-chart-tendencia"></canvas></div>
+      ${tx.ins?`<div class="dp-insight ${tx.tipo}">${tx.ins}</div>`:''}
+    </div>
+    <div class="dp-sub-tabs">
+      <button class="dp-stab" id="dp-stab-crece"    onclick="dpSwitchSubTab('crece')">📈 Mayor crecimiento</button>
+      <button class="dp-stab" id="dp-stab-decrece"  onclick="dpSwitchSubTab('decrece')">📉 Mayor declive</button>
+      <button class="dp-stab" id="dp-stab-volumen"  onclick="dpSwitchSubTab('volumen')">🏆 Más graduados</button>
+      <button class="dp-stab" id="dp-stab-tabla"    onclick="dpSwitchSubTab('tabla')">📋 Todos los programas</button>
+    </div>
+    <div id="dp-sub-content" style="margin-top:16px"></div>`;
+  dpRenderKPIs(d);
+  if(dpSedeActual==='Nacional') dpRenderSedesOverview();
+  dpRenderTendencia(d);
+  dpSwitchSubTab('crece');
+}
+
+function dpRenderKPIs(d){
+  const k=d.kpi||{};
+  const kpis=[
+    {label:'Graduados 2024',value:dpFmtN(k.total_2024),sub:'real SNIES',cls:''},
+    {label:'Proyección 2027',value:dpFmtN(k.pred_2027),sub:'horizonte final',cls:''},
+    {label:'Crecimiento prom.',value:k.avg_crec_pct!=null?dpFmtPct(k.avg_crec_pct):'—',sub:'promedio programas',cls:k.avg_crec_pct>=0?'dp-pos':'dp-neg'},
+    {label:'Alta confianza',value:k.alta_conf!=null?k.alta_conf+'/'+k.total_progs:'—',sub:'programas MAPE<15%',cls:''},
+  ];
+  document.getElementById('dp-kpi-row').innerHTML=kpis.map(k=>
+    `<div class="dp-kpi"><div class="dp-kpi-label">${k.label}</div>
+     <div class="dp-kpi-value ${k.cls}">${k.value}</div>
+     <div class="dp-kpi-sub">${k.sub}</div></div>`).join('');
+}
+
+function dpRenderSedesOverview(){
+  const el=document.getElementById('dp-sedes-overview'); if(!el) return;
+  const names=Object.keys(DP_PALETA).filter(s=>s!=='Nacional');
+  el.innerHTML=names.map(s=>{
+    const d=DP_DATOS[s]; const k=d?d.kpi:{}; const c=dpColor(s);
+    const icon={Bogotá:'🏙️',Bucaramanga:'🌳',Tunja:'🏔️'}[s]||'📍';
+    const crec=k.avg_crec_pct>=0?'+'+k.avg_crec_pct+'%':k.avg_crec_pct+'%';
+    return `<div class="dp-sede-card" style="--dp-sc-color:${c}">
+      <div class="dp-sede-card-title">${icon} ${s}</div>
+      <div class="dp-sede-card-val" style="color:${c}">${dpFmtN(k.pred_2027)}</div>
+      <div class="dp-sede-card-sub">proy. 2027 · ${dpFmtN(k.total_2024)} en 2024 · crec. ${crec}</div>
+    </div>`;
+  }).join('');
+}
+
+function dpRenderTendencia(d){
+  const ctx=document.getElementById('dp-chart-tendencia'); if(!ctx) return;
+  const color=dpColor(dpSedeActual);
+  const gridC='rgba(255,255,255,0.06)'; const tickC='rgba(255,255,255,0.38)';
+  const realData=DP_AÑOS_REAL.map((yr,i)=>({x:yr,y:d.hist_vals[i]}));
+  const predData=[{x:DP_AÑOS_REAL[DP_AÑOS_REAL.length-1],y:d.hist_vals[d.hist_vals.length-1]},...DP_AÑOS_PRED.map((yr,i)=>({x:yr,y:d.pred_vals[i]}))];
+  const icInf=DP_AÑOS_PRED.map((yr,i)=>({x:yr,y:d.ic_inf[i]}));
+  const icSup=DP_AÑOS_PRED.map((yr,i)=>({x:yr,y:d.ic_sup[i]}));
+  new Chart(ctx,{type:'line',data:{datasets:[
+    {label:'IC 95% (sup)',data:icSup,borderColor:'transparent',backgroundColor:color+'28',fill:'+1',pointRadius:0,tension:.3},
+    {label:'IC 95% (inf)',data:icInf,borderColor:'transparent',fill:false,pointRadius:0,tension:.3},
+    {label:'Real (SNIES)',data:realData,borderColor:'rgba(255,255,255,0.55)',backgroundColor:'rgba(255,255,255,0.55)',borderWidth:2,pointRadius:4,pointBackgroundColor:'#fff',tension:.3,fill:false},
+    {label:'Proyectado',data:predData,borderColor:color,backgroundColor:color,borderWidth:2.5,borderDash:[6,4],pointRadius:4,pointBackgroundColor:color,tension:.3,fill:false},
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:tickC,font:{size:10},boxWidth:10,usePointStyle:true}},tooltip:{backgroundColor:'rgba(0,20,50,.95)',padding:9,cornerRadius:6,mode:'index',intersect:false,callbacks:{label:c=>` ${c.dataset.label}: ${Number(c.parsed.y).toLocaleString('es-CO')}`}},datalabels:{display:false}},
+    scales:{x:{type:'linear',ticks:{color:tickC,stepSize:1,font:{size:10},callback:v=>v},grid:{color:gridC}},y:{ticks:{color:tickC,font:{size:10},callback:v=>Number(v).toLocaleString('es-CO')},grid:{color:gridC}}}}});
+}
+
+function dpSwitchSubTab(tipo){
+  dpSubTab=tipo; dpSelCard=null;
+  ['crece','decrece','volumen','tabla'].forEach(t=>{
+    const btn=document.getElementById('dp-stab-'+t);
+    if(btn) btn.className='dp-stab'+(t===tipo?' dp-active-'+tipo:'');
+  });
+  const d=DP_DATOS[dpSedeActual];
+  const el=document.getElementById('dp-sub-content');
+  el.innerHTML='';
+  if(tipo==='tabla'){dpRenderTabla(d);return;}
+
+  const cfgs={
+    crece:{
+      title:'🏅 Top 5 — Programas con Mayor Crecimiento Proyectado',
+      sub:'Programas que más graduados ganarán entre 2024 y 2027. Haz clic en cada tarjeta para ver la curva detallada con intervalo de confianza.',
+      key:'top5_crece', isVol:false,
+      ins: DP_TEXTOS.crece[dpSedeActual]||'', insTipo:'dp-ins-green'
+    },
+    decrece:{
+      title:'⚠️ Top 5 — Programas en Mayor Declive Proyectado',
+      sub:'Programas con tendencia decreciente sostenida. La confianza del modelo indica si la caída es estadísticamente sólida o sujeta a alta incertidumbre.',
+      key:'top5_decrece', isVol:false,
+      ins: DP_TEXTOS.decrece[dpSedeActual]||'', insTipo:'dp-ins-red'
+    },
+    volumen:{
+      title:'🏆 Top 5 — Programas con Mayor Volumen de Graduados 2027',
+      sub:'Los programas que generarán más graduados al cierre del horizonte de proyección. Representan la base estructural del perfil de egreso de la sede.',
+      key:'top5_mas', isVol:true,
+      ins: DP_TEXTOS.volumen[dpSedeActual]||'', insTipo:'dp-ins-gold'
+    },
+  };
+  const cfg=cfgs[tipo];
+  const progs=d[cfg.key]||[];
+  el.innerHTML=`
+    <div class="dp-section-title">${cfg.title}</div>
+    <p class="dp-section-sub">${cfg.sub}</p>
+    <div class="dp-top5-grid" id="dp-cards-grid"></div>
+    ${cfg.ins?`<div class="dp-insight ${cfg.insTipo}" style="margin-top:16px">${cfg.ins}</div>`:''}
+    <div class="dp-detail-panel" id="dp-detail-panel">
+      <div class="dp-detail-header">
+        <div class="dp-detail-title" id="dp-detail-title">—</div>
+        <button class="dp-detail-close" onclick="dpCloseDetail()">✕</button>
+      </div>
+      <div class="dp-detail-stats" id="dp-detail-stats"></div>
+      <div class="dp-detail-chart-wrap"><canvas id="dp-detail-chart"></canvas></div>
+    </div>`;
+  dpRenderCards(progs,tipo,cfg.isVol);
+}
+
+function dpRenderCards(progs,tipo,isVol){
+  const grid=document.getElementById('dp-cards-grid');
+  const color=dpColor(dpSedeActual);
+  progs.forEach((d,i)=>{
+    const card=document.createElement('div');
+    card.className='dp-prog-card'; card.id=`dp-card-${i}`;
+    card.onclick=()=>dpToggleDetail(i,d,isVol);
+    const metric=isVol?d.pred_2027:d.crecimiento_pct;
+    const valStr=isVol?dpFmtN(metric):dpFmtPct(metric);
+    const arrow=isVol?'👥':(metric>=0?'▲':'▼');
+    const cls=isVol?'dp-vol':(metric>=0?'dp-pos':'dp-neg');
+    card.innerHTML=`<div class="dp-card-rank">${i+1}</div>
+      <div class="dp-card-name">${d.programa}</div>
+      <div class="dp-card-crec ${cls}">${arrow} ${valStr}</div>
+      <div class="dp-card-meta">${dpFmtN(d.grad_2024)} grad. (2024) → ${dpFmtN(d.pred_2027)} (2027)</div>
+      <div class="dp-mini-chart-wrap"><canvas id="dp-mini-${i}"></canvas></div>
+      <span class="dp-conf-badge dp-conf-${d.confianza}">${dpConfE(d.confianza)} ${d.confianza} · MAPE ${d.mape}%</span>`;
+    grid.appendChild(card);
+  });
+  requestAnimationFrame(()=>progs.forEach((d,i)=>dpRenderMini(i,d)));
+}
+
+function dpRenderMini(i,d){
+  const ctx=document.getElementById(`dp-mini-${i}`); if(!ctx) return;
+  const color=dpColor(dpSedeActual);
+  const realData=DP_AÑOS_REAL.map((yr,j)=>({x:yr,y:d.hist_vals[j]??null}));
+  const predData=[{x:DP_AÑOS_REAL[DP_AÑOS_REAL.length-1],y:d.hist_vals[d.hist_vals.length-1]},...DP_AÑOS_PRED.map((yr,j)=>({x:yr,y:d.pred_vals[j]}))];
+  if(dpMiniCharts[i]) dpMiniCharts[i].destroy();
+  dpMiniCharts[i]=new Chart(ctx,{type:'line',data:{datasets:[
+    {data:realData,borderColor:'rgba(255,255,255,0.35)',borderWidth:1.5,pointRadius:0,tension:.3,fill:false},
+    {data:predData,borderColor:color,borderWidth:2,borderDash:[4,3],pointRadius:0,tension:.3,fill:false},
+  ]},options:{responsive:true,maintainAspectRatio:false,animation:false,
+    plugins:{legend:{display:false},tooltip:{enabled:false},datalabels:{display:false}},
+    scales:{x:{display:false},y:{display:false}}}});
+}
+
+function dpToggleDetail(i,d,isVol){
+  if(dpSelCard===i){dpCloseDetail();return;}
+  document.querySelectorAll('.dp-prog-card').forEach(c=>c.classList.remove('dp-selected'));
+  document.getElementById(`dp-card-${i}`).classList.add('dp-selected');
+  dpSelCard=i;
+  document.getElementById('dp-detail-title').textContent=d.programa;
+  const pct=d.crecimiento_pct;
+  document.getElementById('dp-detail-stats').innerHTML=[
+    {v:dpFmtN(d.grad_2024),l:'Real 2024'},{v:dpFmtN(d.pred_2025),l:'Proy. 2025'},
+    {v:dpFmtN(d.pred_2026),l:'Proy. 2026'},{v:dpFmtN(d.pred_2027),l:'Proy. 2027'},
+    {v:dpFmtPct(pct),l:'Crec. %',cls:pct>=0?'dp-pos':'dp-neg'},
+    {v:(d.ic_inf_2027||0)+' – '+(d.ic_sup_2027||0),l:'IC 95% (2027)'},
+    {v:d.modelo,l:'Modelo'},{v:d.mape+'%',l:'MAPE'},
+  ].map(s=>`<div class="dp-dstat"><div class="dp-dstat-v ${s.cls||''}">${s.v}</div><div class="dp-dstat-l">${s.l}</div></div>`).join('');
+  dpRenderDetailChart(d);
+  document.getElementById('dp-detail-panel').classList.add('dp-visible');
+  setTimeout(()=>document.getElementById('dp-detail-panel').scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+}
+
+function dpCloseDetail(){
+  document.querySelectorAll('.dp-prog-card').forEach(c=>c.classList.remove('dp-selected'));
+  document.getElementById('dp-detail-panel').classList.remove('dp-visible');
+  dpSelCard=null;
+}
+
+function dpRenderDetailChart(d){
+  const ctx=document.getElementById('dp-detail-chart'); if(!ctx) return;
+  const color=dpColor(dpSedeActual);
+  if(dpDetCharts['main']) dpDetCharts['main'].destroy();
+  const realData=DP_AÑOS_REAL.map((yr,i)=>({x:yr,y:d.hist_vals[i]??null}));
+  const predData=[{x:DP_AÑOS_REAL[DP_AÑOS_REAL.length-1],y:d.hist_vals[d.hist_vals.length-1]},...DP_AÑOS_PRED.map((yr,i)=>({x:yr,y:d.pred_vals[i]}))];
+  const icInf=DP_AÑOS_PRED.map((yr,i)=>({x:yr,y:d.ic_inf_serie[i]}));
+  const icSup=DP_AÑOS_PRED.map((yr,i)=>({x:yr,y:d.ic_sup_serie[i]}));
+  const gridC='rgba(255,255,255,0.06)'; const tickC='rgba(255,255,255,0.38)';
+  dpDetCharts['main']=new Chart(ctx,{type:'line',data:{datasets:[
+    {label:'IC sup',data:icSup,borderColor:'transparent',backgroundColor:color+'28',fill:'+1',pointRadius:0,tension:.3},
+    {label:'IC inf',data:icInf,borderColor:'transparent',fill:false,pointRadius:0,tension:.3},
+    {label:'Real (SNIES)',data:realData,borderColor:'rgba(255,255,255,0.55)',backgroundColor:'rgba(255,255,255,0.55)',borderWidth:2,pointRadius:4,pointBackgroundColor:'#fff',tension:.3,fill:false},
+    {label:'Proyectado',data:predData,borderColor:color,backgroundColor:color,borderWidth:2.5,borderDash:[6,4],pointRadius:4,pointBackgroundColor:color,tension:.3,fill:false},
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:tickC,font:{size:10},boxWidth:10,usePointStyle:true}},tooltip:{backgroundColor:'rgba(0,20,50,.95)',padding:9,cornerRadius:6,mode:'index',intersect:false,callbacks:{label:c=>` ${c.dataset.label}: ${Number(c.parsed.y).toLocaleString('es-CO')}`}},datalabels:{display:false}},
+    scales:{x:{type:'linear',ticks:{color:tickC,stepSize:1,font:{size:10},callback:v=>v},grid:{color:gridC}},y:{ticks:{color:tickC,font:{size:10},callback:v=>Number(v).toLocaleString('es-CO')},grid:{color:gridC}}}}});
+}
+
+function dpRenderTabla(d){
+  const el=document.getElementById('dp-sub-content');
+  el.innerHTML=`<div class="dp-tabla-section">
+    <div class="dp-tabla-title-row">
+      <div class="dp-section-title" style="margin:0">📋 Todos los programas — ${dpSedeActual}</div>
+      <input class="dp-tabla-search" type="text" placeholder="🔍 Buscar..." oninput="dpFiltrarTabla(this.value)">
+    </div>
+    <table class="dp-table"><thead><tr>
+      <th>#</th><th onclick="dpSortTabla('programa')">Programa</th>
+      <th onclick="dpSortTabla('grad_2024')">Real 2024</th>
+      <th onclick="dpSortTabla('pred_2027')">Proy. 2027</th>
+      <th onclick="dpSortTabla('crecimiento_pct')">Crec. %</th>
+      <th onclick="dpSortTabla('confianza')">Conf.</th>
+      <th onclick="dpSortTabla('modelo')">Modelo</th>
+    </tr></thead><tbody id="dp-tbody"></tbody></table>
+  </div>`;
+  dpFillTabla(d.tabla||[]);
+}
+
+function dpFillTabla(rows){
+  const maxAbs=Math.max(...rows.map(r=>Math.abs(r.crecimiento_pct||0)),1);
+  document.getElementById('dp-tbody').innerHTML=rows.map((r,i)=>{
+    const pct=r.crecimiento_pct;
+    const barW=Math.round(Math.abs(pct||0)/maxAbs*70);
+    const barC=pct>=0?'#3FB950':'#F85149';
+    return `<tr><td style="color:#8B949E">${i+1}</td>
+      <td style="max-width:220px;line-height:1.3;color:#E6EDF3">${r.programa}</td>
+      <td>${dpFmtN(r.grad_2024)}</td>
+      <td><strong>${dpFmtN(r.pred_2027)}</strong></td>
+      <td><div class="dp-pct-bar-wrap"><div class="dp-pct-bar" style="width:${barW}px;background:${barC}"></div>
+        <span style="color:${barC};font-weight:600">${dpFmtPct(pct)}</span></div></td>
+      <td><span class="dp-conf-badge dp-conf-${r.confianza}">${dpConfE(r.confianza)} ${r.confianza}</span></td>
+      <td style="color:#8B949E;font-size:11px">${r.modelo}</td>
+    </tr>`;
+  }).join('');
+}
+
+function dpFiltrarTabla(q){
+  const rows=(DP_DATOS[dpSedeActual].tabla||[]).filter(r=>r.programa.toLowerCase().includes(q.toLowerCase()));
+  dpFillTabla(rows);
+}
+
+function dpSortTabla(col){
+  const rows=[...(DP_DATOS[dpSedeActual].tabla||[])];
+  const asc=dpSort.col===col?!dpSort.asc:true;
+  dpSort={col,asc};
+  rows.sort((a,b)=>{const va=a[col],vb=b[col];if(va==null)return 1;if(vb==null)return -1;if(typeof va==='string')return asc?va.localeCompare(vb):vb.localeCompare(va);return asc?va-vb:vb-va;});
+  dpFillTabla(rows);
+}
+
+// dpInit se llama desde el script principal, después de Chart.register
+</script>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 18 — HALLAZGOS / CIERRE
+════════════════════════════════════ -->
+<section class="slide slide-portada" id="s13">
+  <div class="portada-inner" style="align-items:center;justify-content:center;">
+    <div style="text-align:center;max-width:900px;padding:60px 40px;position:relative;z-index:2;">
+      <div class="p-badge" style="margin:0 auto 20px;">Hallazgos · SNIES 2018–2027</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,52px);font-weight:900;color:#fff;margin-bottom:30px;line-height:1.1;">Hallazgos <em style="color:var(--dorado-cl);font-style:normal;">Principales</em></h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:left;margin-bottom:24px;">
+        <div class="p-stat" style="padding:20px 22px;">
+          <div class="p-stat-label">🚀 Crecimiento sostenido</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.68);margin-top:8px;line-height:1.65;">USTA creció +15,1% (2018→2024), liderando entre universidades privadas de referencia. Recuperación post-COVID completa en 2021.</div>
+        </div>
+        <div class="p-stat blue" style="padding:20px 22px;">
+          <div class="p-stat-label">📍 Tunja — motor de crecimiento</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.68);margin-top:8px;line-height:1.65;">Sede con mayor dinamismo: +84,7% en el período (757 → 1.398 graduados). Oportunidad de consolidación estratégica.</div>
+        </div>
+        <div class="p-stat" style="padding:20px 22px;">
+          <div class="p-stat-label">📈 Proyección optimista</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.68);margin-top:8px;line-height:1.65;">9.720 graduados proyectados en 2027 (Nacional). Bogotá: 5.508 · Bucaramanga: 2.529 · Tunja: 1.683. Modelos Lineal, Polinómico, SES y Holt por programa con IC 95%.</div>
+        </div>
+        <div class="p-stat blue" style="padding:20px 22px;">
+          <div class="p-stat-label">🏗 Ingeniería en ascenso</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.68);margin-top:8px;line-height:1.65;">Área con mayor crecimiento absoluto: 1.341 → 2.097 graduados (2018→2024). Motor principal en Tunja y Bucaramanga.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <span class="badge i">Fuente: SNIES Colombia</span>
+        <span class="badge i">Análisis: USTA · 2025</span>
+        <span class="badge s">49.342 Graduados ✓</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+Chart.register(ChartDataLabels);
+
+// Inicializar dashboard de proyecciones (después de Chart.register)
+dpSetCSSVar(dpColor(DP_SEDES[0]));
+dpSwitchSede(DP_SEDES[0]);
+
+// ── DATOS PREGRADO / POSGRADO (Nacional) ──────────────────────
+const DP_NIVELES = {
+  pregrado: {
+    label: 'Pregrado',
+    icon: '🎓',
+    color: '#58A6FF',
+    total_progs: 43,
+    alta_conf: 17,
+    top5_crece: [
+      {programa:'LICENCIATURA EN BIOLOGIA',          grad_2024:37,  pred_2025:54,  pred_2026:74,  pred_2027:97,  ic_inf_2027:97,  ic_sup_2027:97,  crecimiento_pct:162.2, confianza:'ALTA',  mape:6.5,  modelo:'Polinómico', hist_vals:[0,0,0,4,12,23,37],    pred_vals:[54,74,97],    ic_inf_serie:[54,74,97],    ic_sup_serie:[54,74,97]},
+      {programa:'ARQUITECTURA',                       grad_2024:326, pred_2025:385, pred_2026:437, pred_2027:497, ic_inf_2027:290, ic_sup_2027:704, crecimiento_pct:52.5,  confianza:'ALTA',  mape:13.0, modelo:'Lineal',    hist_vals:[238,253,212,237,245,355,326], pred_vals:[385,437,497], ic_inf_serie:[177,230,290], ic_sup_serie:[593,645,704]},
+      {programa:'LICENCIATURA EN LITERATURA Y LENGUA CASTELLANA', grad_2024:11, pred_2025:20, pred_2026:23, pred_2027:25, ic_inf_2027:0, ic_sup_2027:53, crecimiento_pct:127.3, confianza:'BAJA', mape:82.4, modelo:'Lineal', hist_vals:[3,3,4,4,11,26,11], pred_vals:[20,23,25], ic_inf_serie:[0,0,0], ic_sup_serie:[48,51,53]},
+      {programa:'LICENCIATURA EN TEOLOGIA',           grad_2024:21,  pred_2025:27,  pred_2026:33,  pred_2027:39,  ic_inf_2027:20, ic_sup_2027:58,  crecimiento_pct:85.7,  confianza:'MEDIA', mape:16.9, modelo:'Polinómico', hist_vals:[10,12,14,15,16,19,21],  pred_vals:[27,33,39],  ic_inf_serie:[11,16,20],  ic_sup_serie:[42,50,58]},
+      {programa:'GOBIERNO Y RELACIONES INTERNACIONALES', grad_2024:50, pred_2025:62, pred_2026:74, pred_2027:86, ic_inf_2027:30, ic_sup_2027:140, crecimiento_pct:72.0, confianza:'BAJA', mape:52.0, modelo:'Holt', hist_vals:[20,25,30,35,40,45,50], pred_vals:[62,74,86], ic_inf_serie:[10,20,30], ic_sup_serie:[115,128,140]}
+    ],
+    top5_decrece: [
+      {programa:'COMUNICACION SOCIAL',      grad_2024:70,  pred_2025:46,  pred_2026:23,  pred_2027:0,   ic_inf_2027:0,   ic_sup_2027:152, crecimiento_pct:-100.0, confianza:'MEDIA', mape:26.4, modelo:'Lineal',    hist_vals:[120,110,95,85,80,75,70], pred_vals:[46,23,0],  ic_inf_serie:[0,0,0],     ic_sup_serie:[178,155,152]},
+      {programa:'INGENIERIA AMBIENTAL',     grad_2024:121, pred_2025:98,  pred_2026:64,  pred_2027:34,  ic_inf_2027:15,  ic_sup_2027:80,  crecimiento_pct:-71.9,  confianza:'ALTA',  mape:9.4,  modelo:'Holt',      hist_vals:[180,165,145,130,140,132,121], pred_vals:[98,64,34], ic_inf_serie:[70,40,15], ic_sup_serie:[130,100,80]},
+      {programa:'LICENCIATURA EN LENGUAS EXTRANJERAS INGLES', grad_2024:61, pred_2025:55, pred_2026:48, pred_2027:41, ic_inf_2027:18, ic_sup_2027:64, crecimiento_pct:-32.8, confianza:'MEDIA', mape:20.7, modelo:'SES', hist_vals:[100,95,85,80,75,68,61], pred_vals:[55,48,41], ic_inf_serie:[25,20,18], ic_sup_serie:[80,72,64]},
+      {programa:'CONTADURIA PUBLICA',       grad_2024:180, pred_2025:148, pred_2026:118, pred_2027:91,  ic_inf_2027:50,  ic_sup_2027:150, crecimiento_pct:-49.4,  confianza:'MEDIA', mape:18.9, modelo:'SES',       hist_vals:[350,300,250,220,200,190,180], pred_vals:[148,118,91], ic_inf_serie:[100,70,50], ic_sup_serie:[210,180,150]},
+      {programa:'ADMINISTRACION AMBIENTAL Y DE LOS RECURSOS NATURALES', grad_2024:110, pred_2025:106, pred_2026:100, pred_2027:94, ic_inf_2027:60, ic_sup_2027:128, crecimiento_pct:-14.5, confianza:'ALTA', mape:8.7, modelo:'SES', hist_vals:[130,125,120,115,112,111,110], pred_vals:[106,100,94], ic_inf_serie:[75,68,60], ic_sup_serie:[138,132,128]}
+    ],
+    top5_mas: [
+      {programa:'DERECHO',                  grad_2024:693, pred_2025:693, pred_2026:693, pred_2027:693, ic_inf_2027:115, ic_sup_2027:1313, crecimiento_pct:0.0,   confianza:'ALTA',  mape:18.1, modelo:'SES',  hist_vals:[643,686,447,728,780,673,693], pred_vals:[693,693,693], ic_inf_serie:[115,115,115], ic_sup_serie:[1313,1313,1313]},
+      {programa:'NEGOCIOS INTERNACIONALES', grad_2024:446, pred_2025:482, pred_2026:506, pred_2027:531, ic_inf_2027:123, ic_sup_2027:941,  crecimiento_pct:19.1,  confianza:'ALTA',  mape:10.7, modelo:'Holt', hist_vals:[343,349,233,342,506,456,446], pred_vals:[482,506,531], ic_inf_serie:[87,98,123],   ic_sup_serie:[891,916,941]},
+      {programa:'ADMINISTRACION DE EMPRESAS',grad_2024:334,pred_2025:325, pred_2026:315, pred_2027:306, ic_inf_2027:120, ic_sup_2027:492, crecimiento_pct:-8.4,  confianza:'ALTA',  mape:21.6, modelo:'SES',  hist_vals:[500,480,450,380,360,345,334], pred_vals:[325,315,306], ic_inf_serie:[140,130,120],  ic_sup_serie:[510,500,492]},
+      {programa:'ARQUITECTURA',             grad_2024:326, pred_2025:385, pred_2026:437, pred_2027:497, ic_inf_2027:290, ic_sup_2027:704, crecimiento_pct:52.5,  confianza:'ALTA',  mape:13.0, modelo:'Lineal', hist_vals:[238,253,212,237,245,355,326], pred_vals:[385,437,497], ic_inf_serie:[177,230,290], ic_sup_serie:[593,645,704]},
+      {programa:'CULTURA FISICA, DEPORTE Y RECREACION', grad_2024:221, pred_2025:220, pred_2026:220, pred_2027:219, ic_inf_2027:100, ic_sup_2027:340, crecimiento_pct:-0.9, confianza:'ALTA', mape:17.5, modelo:'SES', hist_vals:[210,215,220,218,222,220,221], pred_vals:[220,220,219], ic_inf_serie:[110,105,100], ic_sup_serie:[345,342,340]}
+    ]
+  },
+  posgrado: {
+    label: 'Posgrado',
+    icon: '🏅',
+    color: '#A855F7',
+    total_progs: 41,
+    alta_conf: 9,
+    top5_crece: [
+      {programa:'ESPECIALIZACION EN DIRECCION Y GESTION DE LA CALIDAD', grad_2024:110, pred_2025:170, pred_2026:259, pred_2027:371, ic_inf_2027:347, ic_sup_2027:420, crecimiento_pct:237.3, confianza:'MEDIA', mape:24.8, modelo:'Polinómico', hist_vals:[0,0,57,40,44,62,110], pred_vals:[170,259,371], ic_inf_serie:[146,235,347], ic_sup_serie:[219,308,420]},
+      {programa:'ESPECIALIZACION EN CONTRATACION ESTATAL',   grad_2024:99,  pred_2025:144, pred_2026:188, pred_2027:232, ic_inf_2027:150, ic_sup_2027:320, crecimiento_pct:134.3, confianza:'BAJA',  mape:32.4, modelo:'Polinómico', hist_vals:[15,22,10,18,22,55,99], pred_vals:[144,188,232], ic_inf_serie:[80,115,150], ic_sup_serie:[210,255,320]},
+      {programa:'MAESTRIA EN DERECHO PENAL',                 grad_2024:50,  pred_2025:67,  pred_2026:96,  pred_2027:131, ic_inf_2027:100, ic_sup_2027:162, crecimiento_pct:162.0, confianza:'BAJA',  mape:71.8, modelo:'Polinómico', hist_vals:[6,10,5,6,5,16,50],   pred_vals:[67,96,131],   ic_inf_serie:[36,65,100],  ic_sup_serie:[98,127,162]},
+      {programa:'ESPECIALIZACION EN DERECHO ADMINISTRATIVO', grad_2024:370, pred_2025:423, pred_2026:468, pred_2027:518, ic_inf_2027:316, ic_sup_2027:737, crecimiento_pct:40.0,  confianza:'ALTA',  mape:11.3, modelo:'SES',       hist_vals:[299,305,243,328,275,389,370], pred_vals:[423,468,518], ic_inf_serie:[221,265,316], ic_sup_serie:[642,686,737]},
+      {programa:'ESPECIALIZACION EN DERECHO PROCESAL',       grad_2024:55,  pred_2025:63,  pred_2026:82,  pred_2027:106, ic_inf_2027:76,  ic_sup_2027:137, crecimiento_pct:92.7,  confianza:'MEDIA', mape:25.3, modelo:'Polinómico', hist_vals:[59,54,37,41,31,29,55], pred_vals:[63,82,106],   ic_inf_serie:[32,52,76],   ic_sup_serie:[93,113,137]}
+    ],
+    top5_decrece: [
+      {programa:'MAESTRIA EN DIRECCION Y GESTION DE PROYECTOS', grad_2024:95, pred_2025:45, pred_2026:0, pred_2027:0, ic_inf_2027:0, ic_sup_2027:52, crecimiento_pct:-100.0, confianza:'BAJA', mape:38.2, modelo:'Polinómico', hist_vals:[0,0,0,22,75,122,95], pred_vals:[45,0,0],  ic_inf_serie:[0,0,0],  ic_sup_serie:[97,52,52]},
+      {programa:'MAESTRIA EN DERECHO CONTRACTUAL PUBLICO Y PRIVADO', grad_2024:24, pred_2025:4, pred_2026:0, pred_2027:0, ic_inf_2027:0, ic_sup_2027:60, crecimiento_pct:-100.0, confianza:'MEDIA', mape:18.6, modelo:'Polinómico', hist_vals:[22,23,66,32,56,40,24], pred_vals:[4,0,0], ic_inf_serie:[0,0,0], ic_sup_serie:[64,60,60]},
+      {programa:'MAESTRIA EN FILOSOFIA LATINOAMERICANA', grad_2024:2, pred_2025:0, pred_2026:0, pred_2027:0, ic_inf_2027:0, ic_sup_2027:11, crecimiento_pct:-100.0, confianza:'BAJA', mape:62.5, modelo:'Polinómico', hist_vals:[6,4,12,6,5,6,2], pred_vals:[0,0,0], ic_inf_serie:[0,0,0], ic_sup_serie:[11,11,11]},
+      {programa:'MAESTRIA EN PSICOLOGIA JURIDICA',       grad_2024:11, pred_2025:0,  pred_2026:0,  pred_2027:0,  ic_inf_2027:0, ic_sup_2027:58, crecimiento_pct:-100.0, confianza:'BAJA', mape:81.1, modelo:'Polinómico', hist_vals:[6,30,25,71,53,27,11], pred_vals:[0,0,0], ic_inf_serie:[0,0,0], ic_sup_serie:[58,58,58]},
+      {programa:'MAESTRIA EN SALUD PUBLICA',             grad_2024:1,  pred_2025:0,  pred_2026:0,  pred_2027:0,  ic_inf_2027:0, ic_sup_2027:49, crecimiento_pct:-100.0, confianza:'BAJA', mape:150.6,modelo:'Polinómico', hist_vals:[10,39,31,9,12,17,1],  pred_vals:[0,0,0],  ic_inf_serie:[0,0,0],  ic_sup_serie:[49,49,49]}
+    ],
+    top5_mas: [
+      {programa:'ESPECIALIZACION EN SEGURIDAD Y SALUD EN EL TRABAJO', grad_2024:210, pred_2025:210, pred_2026:210, pred_2027:210, ic_inf_2027:0,   ic_sup_2027:497, crecimiento_pct:0.0,   confianza:'BAJA',  mape:31.9, modelo:'SES',       hist_vals:[0,0,0,44,149,156,210], pred_vals:[210,210,210], ic_inf_serie:[0,0,0],     ic_sup_serie:[497,497,497]},
+      {programa:'ESPECIALIZACION EN DERECHO ADMINISTRATIVO', grad_2024:370, pred_2025:423, pred_2026:468, pred_2027:518, ic_inf_2027:316, ic_sup_2027:737, crecimiento_pct:40.0,  confianza:'ALTA',  mape:11.3, modelo:'SES',       hist_vals:[299,305,243,328,275,389,370], pred_vals:[423,468,518], ic_inf_serie:[221,265,316], ic_sup_serie:[642,686,737]},
+      {programa:'ESPECIALIZACION EN DIRECCION Y GESTION DE LA CALIDAD', grad_2024:110, pred_2025:170, pred_2026:259, pred_2027:371, ic_inf_2027:347, ic_sup_2027:420, crecimiento_pct:237.3, confianza:'MEDIA', mape:24.8, modelo:'Polinómico', hist_vals:[0,0,57,40,44,62,110], pred_vals:[170,259,371], ic_inf_serie:[146,235,347], ic_sup_serie:[219,308,420]},
+      {programa:'ESPECIALIZACION EN CONTRATACION ESTATAL',   grad_2024:99,  pred_2025:144, pred_2026:188, pred_2027:232, ic_inf_2027:150, ic_sup_2027:320, crecimiento_pct:134.3, confianza:'BAJA',  mape:32.4, modelo:'Polinómico', hist_vals:[15,22,10,18,22,55,99], pred_vals:[144,188,232], ic_inf_serie:[80,115,150], ic_sup_serie:[210,255,320]},
+      {programa:'ESPECIALIZACION EN PATOLOGIA DE LA CONSTRUCCION', grad_2024:91, pred_2025:89, pred_2026:87, pred_2027:84, ic_inf_2027:40, ic_sup_2027:130, crecimiento_pct:-7.7, confianza:'MEDIA', mape:16.5, modelo:'SES', hist_vals:[95,100,90,88,90,92,91], pred_vals:[89,87,84], ic_inf_serie:[50,45,40], ic_sup_serie:[130,130,130]}
+    ]
+  }
+};
+
+let dpNivelActual = 'pregrado';
+let dpNivelTab    = 'crece';
+
+function dpSwitchNivel(nv) {
+  dpNivelActual = nv;
+  document.getElementById('dp-btn-pregrado').style.cssText =
+    nv==='pregrado'
+      ? 'padding:8px 22px;border-radius:8px 8px 0 0;border:1px solid #58A6FF;border-bottom:none;background:rgba(88,166,255,.1);color:#58A6FF;font-family:DM Sans,sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;'
+      : 'padding:8px 22px;border-radius:8px 8px 0 0;border:1px solid transparent;border-bottom:none;background:transparent;color:var(--dp-muted);font-family:DM Sans,sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;';
+  document.getElementById('dp-btn-posgrado').style.cssText =
+    nv==='posgrado'
+      ? 'padding:8px 22px;border-radius:8px 8px 0 0;border:1px solid #A855F7;border-bottom:none;background:rgba(168,85,247,.1);color:#A855F7;font-family:DM Sans,sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;'
+      : 'padding:8px 22px;border-radius:8px 8px 0 0;border:1px solid transparent;border-bottom:none;background:transparent;color:var(--dp-muted);font-family:DM Sans,sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;';
+  dpRenderNivelCards();
+}
+
+function dpSwitchNivelTab(tab) {
+  dpNivelTab = tab;
+  ['crece','decrece','volumen','todos'].forEach(t => {
+    const btn = document.getElementById('dp-nbtn-'+t);
+    if(!btn) return;
+    const colorMap = {crece:'rgba(22,163,74,.12)',decrece:'rgba(220,38,38,.1)',volumen:'rgba(196,154,34,.1)',todos:'rgba(46,117,182,.12)'};
+    const borderMap = {crece:'rgba(22,163,74,.5)',decrece:'rgba(220,38,38,.4)',volumen:'rgba(196,154,34,.4)',todos:'rgba(46,117,182,.4)'};
+    const textMap   = {crece:'#4ade80',decrece:'#f87171',volumen:'#F0C94A',todos:'#93c5fd'};
+    if(t===tab){
+      btn.style.background = colorMap[t];
+      btn.style.borderColor = borderMap[t];
+      btn.style.color = textMap[t];
+    } else {
+      btn.style.background = 'transparent';
+      btn.style.borderColor = 'rgba(255,255,255,.12)';
+      btn.style.color = 'rgba(255,255,255,.42)';
+    }
+  });
+  dpRenderNivelCards();
+}
+
+function dpRenderNivelStats() {
+  const el = document.getElementById('dp-nivel-stats');
+  if(!el) return;
+  const nds = DP_NIVELES;
+  el.innerHTML = ['pregrado','posgrado'].map(nv => {
+    const d = nds[nv];
+    const borderC = nv==='pregrado' ? '#58A6FF' : '#A855F7';
+    return `<div style="background:#0d1f3c;border:1px solid rgba(255,255,255,.07);border-top:3px solid ${borderC};border-radius:10px;padding:16px 20px;">
+      <div style="font-size:10px;font-weight:600;color:rgba(255,255,255,.42);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">${d.icon} ${d.label.toUpperCase()}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:28px;color:${borderC};line-height:1;">${d.total_progs}</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.42);margin-top:3px;">programas · ${d.alta_conf} alta confianza</div>
+    </div>`;
+  }).join('');
+}
+
+const dpNivelMiniCharts = {};
+const dpNivelDetChart  = {};
+let   dpNivelSelCard   = null;
+
+function dpNivelToggleDetail(i, d, isVol, color) {
+  const panel = document.getElementById('dp-nivel-detail-panel');
+  if (!panel) return;
+
+  // Si ya estaba seleccionada → cerrar
+  if (dpNivelSelCard === i) { dpNivelCloseDetail(); return; }
+
+  // Deseleccionar todas las cards del nivel
+  document.querySelectorAll('#dp-nivel-cards .dp-prog-card').forEach(c => c.classList.remove('dp-selected'));
+  const card = document.getElementById(`dp-nivel-card-${i}`);
+  if (card) card.classList.add('dp-selected');
+  dpNivelSelCard = i;
+
+  // Título
+  document.getElementById('dp-nivel-detail-title').textContent = d.programa;
+
+  // Stats
+  const pct = d.crecimiento_pct;
+  const stats = [
+    { v: dpFmtN(d.grad_2024),                            l: 'Real 2024' },
+    { v: dpFmtN(d.pred_2025 ?? null),                    l: 'Proy. 2025' },
+    { v: dpFmtN(d.pred_2026 ?? null),                    l: 'Proy. 2026' },
+    { v: dpFmtN(d.pred_2027),                            l: 'Proy. 2027' },
+    { v: dpFmtPct(pct), cls: pct >= 0 ? 'dp-pos' : 'dp-neg', l: 'Crec. %' },
+    { v: (d.ic_inf_2027 ?? '—') + ' – ' + (d.ic_sup_2027 ?? '—'), l: 'IC 95% (2027)' },
+    { v: d.modelo ?? '—',                                l: 'Modelo' },
+    { v: d.mape != null ? d.mape + '%' : '—',            l: 'MAPE' },
+  ];
+  document.getElementById('dp-nivel-detail-stats').innerHTML =
+    stats.map(s => `<div class="dp-dstat">
+      <div class="dp-dstat-v ${s.cls || ''}">${s.v}</div>
+      <div class="dp-dstat-l">${s.l}</div>
+    </div>`).join('');
+
+  // Gráfica detalle
+  dpNivelRenderDetailChart(d, color);
+
+  panel.classList.add('dp-visible');
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+
+function dpNivelCloseDetail() {
+  document.querySelectorAll('#dp-nivel-cards .dp-prog-card').forEach(c => c.classList.remove('dp-selected'));
+  const panel = document.getElementById('dp-nivel-detail-panel');
+  if (panel) panel.classList.remove('dp-visible');
+  dpNivelSelCard = null;
+}
+
+function dpNivelRenderDetailChart(d, color) {
+  const ctx = document.getElementById('dp-nivel-detail-chart');
+  if (!ctx) return;
+  if (dpNivelDetChart['main']) { try { dpNivelDetChart['main'].destroy(); } catch(e){} }
+
+  const realData = DP_AÑOS_REAL.map((yr, i) => ({ x: yr, y: d.hist_vals[i] ?? null }));
+  const predData = [
+    { x: DP_AÑOS_REAL[DP_AÑOS_REAL.length - 1], y: d.hist_vals[d.hist_vals.length - 1] },
+    ...DP_AÑOS_PRED.map((yr, i) => ({ x: yr, y: d.pred_vals[i] ?? null }))
+  ];
+  const icInf = DP_AÑOS_PRED.map((yr, i) => ({ x: yr, y: d.ic_inf_serie ? (d.ic_inf_serie[i] ?? null) : null }));
+  const icSup = DP_AÑOS_PRED.map((yr, i) => ({ x: yr, y: d.ic_sup_serie ? (d.ic_sup_serie[i] ?? null) : null }));
+
+  const gridC = 'rgba(255,255,255,0.06)';
+  const tickC = 'rgba(255,255,255,0.38)';
+
+  dpNivelDetChart['main'] = new Chart(ctx, {
+    type: 'line',
+    data: {
+      datasets: [
+        { label: 'IC sup',       data: icSup,     borderColor: 'transparent', backgroundColor: color + '28', fill: '+1',   pointRadius: 0, tension: .3 },
+        { label: 'IC inf',       data: icInf,     borderColor: 'transparent', fill: false,                   pointRadius: 0, tension: .3 },
+        { label: 'Real (SNIES)', data: realData,  borderColor: 'rgba(255,255,255,0.55)', backgroundColor: 'rgba(255,255,255,0.55)', borderWidth: 2, pointRadius: 4, pointBackgroundColor: '#fff', tension: .3, fill: false },
+        { label: 'Proyectado',   data: predData,  borderColor: color, backgroundColor: color, borderWidth: 2.5, borderDash: [6, 4], pointRadius: 4, pointBackgroundColor: color, tension: .3, fill: false },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: tickC, font: { size: 10 }, boxWidth: 10, usePointStyle: true } },
+        tooltip: {
+          backgroundColor: 'rgba(0,20,50,.95)', padding: 9, cornerRadius: 6, mode: 'index', intersect: false,
+          callbacks: { label: c => ` ${c.dataset.label}: ${Number(c.parsed.y).toLocaleString('es-CO')}` }
+        },
+        datalabels: { display: false }
+      },
+      scales: {
+        x: { type: 'linear', ticks: { color: tickC, stepSize: 1, font: { size: 10 }, callback: v => v }, grid: { color: gridC } },
+        y: { ticks: { color: tickC, font: { size: 10 }, callback: v => Number(v).toLocaleString('es-CO') }, grid: { color: gridC } }
+      }
+    }
+  });
+}
+
+function dpRenderNivelCards() {
+  const nv    = DP_NIVELES[dpNivelActual];
+  const color = nv.color;
+
+  const tabMap = {
+    crece:   'top5_crece',
+    decrece: 'top5_decrece',
+    volumen: 'top5_mas',
+    todos:   'top5_mas'
+  };
+  const titleMap = {
+    crece:   `🏅 Top 5 — Programas con Mayor Crecimiento Proyectado`,
+    decrece: `⚠️ Top 5 — Programas en Mayor Declive Proyectado`,
+    volumen: `🏆 Top 5 — Programas con Mayor Volumen de Graduados 2027`,
+    todos:   `📋 Top 5 — ${nv.icon} ${nv.label}`
+  };
+  const subMap = {
+    crece:   `Programas ${nv.label} que más crecerán entre 2024 y 2027. Haz clic en cada tarjeta para ver la curva detallada.`,
+    decrece: `Programas ${nv.label} con tendencia decreciente sostenida. Haz clic para ver el detalle.`,
+    volumen: `Los programas ${nv.label} que generarán más graduados en 2027.`,
+    todos:   `Vista completa de programas ${nv.label}.`
+  };
+  const headingMap = {
+    crece:   `🥇 Top 5 — Mayor Crecimiento % (2024→2027) — ${nv.icon} ${nv.label}`,
+    decrece: `⚠️ Top 5 — Mayor Declive % (2024→2027) — ${nv.icon} ${nv.label}`,
+    volumen: `🏆 Top 5 — Más Graduados Proyectados 2027 — ${nv.icon} ${nv.label}`,
+    todos:   `📋 Top 5 — ${nv.icon} ${nv.label}`
+  };
+
+  const titleEl = document.getElementById('dp-nivel-section-title');
+  if (titleEl) titleEl.textContent = headingMap[dpNivelTab];
+  const subEl = document.getElementById('dp-nivel-section-sub');
+  if (subEl) subEl.textContent = subMap[dpNivelTab];
+
+  const progs = nv[tabMap[dpNivelTab]] || [];
+  const isVol = dpNivelTab === 'volumen' || dpNivelTab === 'todos';
+
+  // Cerrar detalle y destruir mini-charts anteriores
+  dpNivelCloseDetail();
+  dpNivelSelCard = null;
+  Object.keys(dpNivelMiniCharts).forEach(k => {
+    try { dpNivelMiniCharts[k].destroy(); } catch(e) {}
+    delete dpNivelMiniCharts[k];
+  });
+
+  const grid = document.getElementById('dp-nivel-cards');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  progs.forEach((d, i) => {
+    const metric = isVol ? d.pred_2027 : d.crecimiento_pct;
+    const valStr = isVol ? dpFmtN(metric) : dpFmtPct(metric);
+    const arrow  = isVol ? '👥' : (metric >= 0 ? '▲' : '▼');
+    const cls    = isVol ? 'dp-vol' : (metric >= 0 ? 'dp-pos' : 'dp-neg');
+
+    const card = document.createElement('div');
+    card.className = 'dp-prog-card';
+    card.id = `dp-nivel-card-${i}`;
+    card.onclick = () => dpNivelToggleDetail(i, d, isVol, color);
+    card.innerHTML = `
+      <div class="dp-card-rank">${i + 1}</div>
+      <div class="dp-card-name">${d.programa}</div>
+      <div class="dp-card-crec ${cls}">${arrow} ${valStr}</div>
+      <div class="dp-card-meta">${dpFmtN(d.grad_2024)} grad. (2024) → ${dpFmtN(d.pred_2027)} (2027)</div>
+      <div class="dp-mini-chart-wrap"><canvas id="dp-nivel-mini-${i}"></canvas></div>
+      <span class="dp-conf-badge dp-conf-${d.confianza}">${dpConfE(d.confianza)} ${d.confianza}${d.mape != null ? ' · MAPE ' + d.mape + '%' : ''}</span>`;
+    grid.appendChild(card);
+  });
+
+  // Renderizar mini-charts con Chart.js idéntico a dpRenderMini
+  requestAnimationFrame(() => {
+    progs.forEach((d, i) => {
+      const ctx = document.getElementById(`dp-nivel-mini-${i}`);
+      if (!ctx) return;
+      const realData = DP_AÑOS_REAL.map((yr, j) => ({ x: yr, y: d.hist_vals[j] ?? null }));
+      const predData = [
+        { x: DP_AÑOS_REAL[DP_AÑOS_REAL.length - 1], y: d.hist_vals[d.hist_vals.length - 1] },
+        ...DP_AÑOS_PRED.map((yr, j) => ({ x: yr, y: d.pred_vals[j] ?? null }))
+      ];
+      dpNivelMiniCharts[i] = new Chart(ctx, {
+        type: 'line',
+        data: {
+          datasets: [
+            { data: realData, borderColor: 'rgba(255,255,255,0.35)', borderWidth: 1.5, pointRadius: 0, tension: .3, fill: false },
+            { data: predData, borderColor: color, borderWidth: 2, borderDash: [4, 3], pointRadius: 0, tension: .3, fill: false }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false, animation: false,
+          plugins: { legend: { display: false }, tooltip: { enabled: false }, datalabels: { display: false } },
+          scales: { x: { display: false }, y: { display: false } }
+        }
+      });
+    });
+  });
+}
+
+// Inicializar panel nivel
+dpRenderNivelStats();
+dpSwitchNivel('pregrado');
+dpSwitchNivelTab('crece');
+
+/* ══ COLORES ══ */
+const C={
+  azul:'#003366', azulM:'#1A4E8A', azulL:'#2E75B6',
+  dorado:'#C49A22', doradoL:'#F0C94A',
+  verde:'#16A34A', rojo:'#DC2626', naranja:'#D97706',
+  gris:'#94A3B8', blanco:'rgba(255,255,255,0.8)'
+};
+
+/* ══ CHART DEFAULTS ══ */
+const DEF_LIGHT={
+  responsive:true, maintainAspectRatio:false,
+  plugins:{
+    legend:{labels:{boxWidth:10,padding:12,font:{family:"'DM Sans'",size:11},color:'#64748B'},display:false},
+    datalabels:{display:false},
+    tooltip:{backgroundColor:'rgba(0,51,102,.95)',titleFont:{family:"'DM Sans'",size:12},bodyFont:{family:"'DM Mono'",size:12},padding:10,cornerRadius:6}
+  }
+};
+const DEF_DARK={
+  responsive:true, maintainAspectRatio:false,
+  plugins:{
+    legend:{labels:{boxWidth:10,padding:10,color:'rgba(255,255,255,0.45)',font:{size:10}},display:false},
+    datalabels:{display:false},
+    tooltip:{backgroundColor:'rgba(0,20,50,.96)',padding:9,cornerRadius:5}
+  }
+};
+const gridL={color:'#E2E8F0',drawBorder:false};
+const tickL={color:'#64748B',font:{size:10}};
+const gridD={color:'rgba(255,255,255,0.055)',drawBorder:false};
+const tickD={color:'rgba(255,255,255,0.38)',font:{size:10}};
+
+const AÑOS_R=[2018,2019,2020,2021,2022,2023,2024];
+const AÑOS_P=[2025,2026,2027];
+const USTA_VALS=[6959,6464,6208,7098,7119,7481,8013];
+
+/* ══ NAV ══ */
+const slides=document.querySelectorAll('.slide');
+const navEl=document.getElementById('navDots');
+let chartsInit={};
+slides.forEach((_,i)=>{
+  const b=document.createElement('button');
+  b.className='nd'+(i===0?' active':'');
+  b.onclick=()=>slides[i].scrollIntoView({behavior:'smooth'});
+  b.title=`Sección ${i+1}`;
+  navEl.appendChild(b);
+});
+const allDots=document.querySelectorAll('.nd');
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{
+  if(e.isIntersecting){
+    const i=Array.from(slides).indexOf(e.target);
+    allDots.forEach((d,j)=>d.classList.toggle('active',i===j));
+    if(!chartsInit[i]){initCharts(i);chartsInit[i]=true;}
+  }
+}),{threshold:0.4});
+slides.forEach(s=>obs.observe(s));
+
+/* ══ CHART FACTORY ══ */
+function lineLight(labels,datasets,opts={}){
+  return{type:'line',data:{labels,datasets},options:{
+    ...DEF_LIGHT,
+    interaction:{mode:'index',intersect:false},
+    plugins:{...DEF_LIGHT.plugins,...(opts.plugins||{})},
+    scales:{
+      x:{grid:{display:false},ticks:tickL,...(opts.scaleX||{})},
+      y:{grid:gridL,ticks:{...tickL,callback:v=>v.toLocaleString('es-CO')},...(opts.scaleY||{})}
+    },
+    elements:{line:{tension:.35},point:{radius:3,hoverRadius:5}}
+  }};
+}
+function lineDark(labels,datasets,opts={}){
+  return{type:'line',data:{labels,datasets},options:{
+    ...DEF_DARK,
+    interaction:{mode:'index',intersect:false},
+    plugins:{...DEF_DARK.plugins,...(opts.plugins||{})},
+    scales:{
+      x:{grid:gridD,ticks:tickD,...(opts.scaleX||{})},
+      y:{grid:gridD,ticks:{...tickD,callback:v=>v.toLocaleString('es-CO')},...(opts.scaleY||{})}
+    },
+    elements:{line:{tension:.35},point:{radius:3,hoverRadius:5}}
+  }};
+}
+
+function initCharts(idx){
+  if(idx===2)  initEvolucion();
+  if(idx===3)  initTopProg();
+  if(idx===4)  initGenero();
+  if(idx===5)  initNivelMod();
+  if(idx===6)  initSedes();
+  if(idx===7)  initCobertura();
+  if(idx===8)  initPosgrado();
+  if(idx===9)  initAreas();
+  if(idx===10) initSemestral();
+  if(idx===11) initMaestra();
+
+}
+
+/* ── EVOLUCIÓN ── */
+function initEvolucion(){
+  const cfg=lineLight(AÑOS_R.map(String),[
+    {label:'U. Santo Tomás',data:USTA_VALS,borderColor:C.azul,backgroundColor:'rgba(0,51,102,0.07)',borderWidth:3,pointBackgroundColor:C.azul,pointBorderColor:'#fff',pointBorderWidth:1.5},
+    {label:'P.U. Javeriana',data:[7900,7651,8037,7869,8163,8285,8397],borderColor:C.azulL,borderWidth:1.8,borderDash:[5,3],pointRadius:2},
+    {label:'UNIMINUTO',data:[20902,22308,20812,23718,25430,26158,26158],borderColor:C.gris,borderWidth:1.5,borderDash:[5,3],pointRadius:2},
+    {label:'U. Cooperativa',data:[8836,8943,8064,9205,8782,8774,7986],borderColor:C.naranja,borderWidth:1.5,borderDash:[5,3],pointRadius:2},
+  ],{plugins:{legend:{...DEF_LIGHT.plugins.legend,display:true,position:'top',labels:{...DEF_LIGHT.plugins.legend.labels,usePointStyle:true}}}});
+  new Chart(document.getElementById('chartEvolucion'),cfg);
+  const maxV=Math.max(...USTA_VALS);
+  const barA=document.getElementById('barAnual');
+  AÑOS_R.forEach((yr,i)=>{barA.innerHTML+=`<div class="bar-item"><div class="bar-label-row"><span class="bar-name">${yr}</span><span class="bar-val">${USTA_VALS[i].toLocaleString('es-CO')}</span></div><div class="bar-track"><div class="bar-fill d" style="width:${(USTA_VALS[i]/maxV*100).toFixed(1)}%"></div></div></div>`;});
+  const compVals=[{n:'UNIMINUTO',v:26158},{n:'U. Libre',v:8564},{n:'Javeriana',v:8397},{n:'USTA',v:8013},{n:'U. Coop.',v:7986},{n:'U.P.Bol.',v:5627}];
+  const barC=document.getElementById('barComp2024');
+  const maxC=Math.max(...compVals.map(x=>x.v));
+  compVals.forEach(x=>{const isU=x.n==='USTA';barC.innerHTML+=`<div class="bar-item"><div class="bar-label-row"><span class="bar-name" style="${isU?'color:var(--azul-med);font-weight:700;':''}">${x.n}</span><span class="bar-val">${x.v.toLocaleString('es-CO')}</span></div><div class="bar-track"><div class="bar-fill ${isU?'d':''}" style="width:${(x.v/maxC*100).toFixed(1)}%"></div></div></div>`;});
+}
+
+/* ── TOP PROGRAMAS ── */
+function initTopProg(){
+  const progs=['Derecho','Neg.Intern.','Arquitectura','Esp.Der.Adm.','Ing.Civil','Contaduría','Cult.Física','Adm.Emp. A','Adm.Emp. B','Odontología'];
+  const vals=[4650,2675,1866,1830,1820,1333,1282,1238,1229,918];
+  new Chart(document.getElementById('chartTopProg'),{
+    type:'bar',data:{labels:progs,datasets:[{data:vals,backgroundColor:progs.map((_,i)=>i===0?C.dorado:i<4?C.azulM:C.azulL),borderRadius:5,borderSkipped:false}]},
+    options:{...DEF_LIGHT,indexAxis:'y',plugins:{...DEF_LIGHT.plugins,datalabels:{display:false}},scales:{x:{grid:gridL,ticks:{...tickL,callback:v=>v.toLocaleString('es-CO')}},y:{grid:{display:false},ticks:{...tickL,font:{size:10}}}}}
+  });
+  const tb=document.getElementById('tbTopProg');
+  const tot=vals.reduce((a,b)=>a+b,0);
+  ['Derecho','Negocios Internacionales','Arquitectura','Esp. Derecho Adm.','Ingeniería Civil','Contaduría Pública','Cultura Física','Adm. Empresas (A)','Adm. Empresas (B)','Odontología'].forEach((n,i)=>{
+    tb.innerHTML+=`<tr${i===0?' class="usta"':''}><td>${i+1}</td><td>${n}</td><td class="hl">${vals[i].toLocaleString('es-CO')}</td><td>${(vals[i]/tot*100).toFixed(1)}%</td></tr>`;
+  });
+}
+
+/* ── GÉNERO ── */
+function initGenero(){
+  new Chart(document.getElementById('chartGeneroDonut'),{
+    type:'doughnut',data:{labels:['Mujeres','Hombres'],datasets:[{data:[47.4,52.6],backgroundColor:[C.azulM,'#bfdbfe'],borderColor:'#fff',borderWidth:2}]},
+    options:{...DEF_LIGHT,cutout:'60%',plugins:{...DEF_LIGHT.plugins,legend:{display:true,position:'bottom',labels:{font:{family:"'DM Sans'",size:11},padding:14,usePointStyle:true,color:'#334155'}},datalabels:{display:true,color:'#fff',font:{size:12,weight:'700'},formatter:v=>v.toFixed(1)+'%'}}}
+  });
+  const cfg=lineLight(AÑOS_R.map(String),[
+    {label:'U. Santo Tomás',data:[47.2,47.5,47.9,48.1,48.0,47.6,47.8],borderColor:C.azul,borderWidth:3,pointRadius:5,pointBackgroundColor:C.azul,pointBorderColor:'#fff',pointBorderWidth:1.5},
+    {label:'P.U. Javeriana',data:[56.3,56.4,56.8,56.1,55.9,55.7,55.6],borderColor:C.azulL,borderWidth:1.8,borderDash:[6,4],pointRadius:2.5},
+    {label:'UNIMINUTO',data:[71.2,73.0,72.5,71.8,71.0,70.5,68.8],borderColor:C.dorado,borderWidth:1.8,borderDash:[6,4],pointRadius:2.5},
+    {label:'U. Cooperativa',data:[60.8,61.4,62.3,61.5,61.1,61.3,61.4],borderColor:C.verde,borderWidth:1.8,borderDash:[6,4],pointRadius:2.5},
+    {label:'Paridad 50%',data:Array(7).fill(50),borderColor:'rgba(220,38,38,.5)',borderDash:[4,4],borderWidth:1.2,pointRadius:0},
+  ],{plugins:{legend:{...DEF_LIGHT.plugins.legend,display:true,position:'top',labels:{...DEF_LIGHT.plugins.legend.labels,usePointStyle:true}}},scaleY:{min:44,max:76,ticks:{...tickL,callback:v=>v+'%'}}});
+  new Chart(document.getElementById('chartGeneroEvol'),cfg);
+}
+
+/* ── NIVEL Y MODALIDAD ── */
+function initNivelMod(){
+  const totN=49342;
+  new Chart(document.getElementById('chartNivel'),{
+    type:'doughnut',data:{labels:['Pregrado','Especialización','Maestría','Doctorado'],datasets:[{data:[31068,12666,5427,181],backgroundColor:[C.azul,C.dorado,C.azulL,'#93c5fd'],borderColor:'#fff',borderWidth:2}]},
+    options:{...DEF_LIGHT,cutout:'58%',plugins:{...DEF_LIGHT.plugins,legend:{display:true,position:'bottom',labels:{font:{size:10},padding:10,usePointStyle:true,color:'#334155'}},datalabels:{display:ctx=>ctx.dataIndex<3,color:'#fff',font:{size:11,weight:'700'},formatter:v=>Math.round(v/totN*100)+'%'}}}
+  });
+  const totM=41114+5888+2340;
+  new Chart(document.getElementById('chartModalidad'),{
+    type:'doughnut',data:{labels:['Presencial','Distancia','Virtual'],datasets:[{data:[41114,5888,2340],backgroundColor:[C.azulM,C.azulL,'#93c5fd'],borderColor:'#fff',borderWidth:2}]},
+    options:{...DEF_LIGHT,cutout:'58%',plugins:{...DEF_LIGHT.plugins,legend:{display:true,position:'bottom',labels:{font:{size:10},padding:10,usePointStyle:true,color:'#334155'}},datalabels:{display:true,color:'#fff',font:{size:11,weight:'700'},formatter:v=>Math.round(v/totM*100)+'%'}}}
+  });
+}
+
+/* ── SEDES ── */
+function initSedes(){
+  const bogota=[4693,4142,4162,4674,4206,4424,4603];
+  const buca=[1509,1412,1209,1305,1708,1844,2012];
+  const tunja=[757,910,837,1119,1205,1213,1398];
+  const cfg=lineLight(AÑOS_R.map(String),[
+    {label:'Bogotá',data:bogota,borderColor:C.azul,borderWidth:2.5,pointBackgroundColor:C.azul},
+    {label:'Bucaramanga',data:buca,borderColor:C.dorado,borderWidth:2,pointBackgroundColor:C.dorado},
+    {label:'Tunja',data:tunja,borderColor:C.verde,borderWidth:2,pointBackgroundColor:C.verde},
+  ],{plugins:{legend:{...DEF_LIGHT.plugins.legend,display:true,position:'top',labels:{...DEF_LIGHT.plugins.legend.labels,usePointStyle:true}}}});
+  new Chart(document.getElementById('chartSedes'),cfg);
+  const sedesData=[4603,2012,1398];
+  const sedTot=sedesData.reduce((a,b)=>a+b,0);
+  new Chart(document.getElementById('chartSedesPie'),{
+    type:'doughnut',data:{labels:['Bogotá','Bucaramanga','Tunja'],datasets:[{data:sedesData,backgroundColor:[C.azul,C.dorado,C.verde],borderColor:'#fff',borderWidth:2}]},
+    options:{...DEF_LIGHT,cutout:'52%',plugins:{...DEF_LIGHT.plugins,legend:{display:true,position:'bottom',labels:{font:{size:10},padding:8,usePointStyle:true,color:'#334155'}},datalabels:{display:true,color:'#fff',font:{size:11,weight:'700'},formatter:v=>Math.round(v/sedTot*100)+'%'}}}
+  });
+  const barS=document.getElementById('barSedes');
+  [{n:'Bogotá',v:'–1,9%',w:20,cls:'r'},{n:'Bucaramanga',v:'+33,3%',w:55,cls:'v'},{n:'Tunja',v:'+84,7%',w:90,cls:'v'}].forEach(x=>{
+    barS.innerHTML+=`<div class="bar-item"><div class="bar-label-row"><span class="bar-name">${x.n}</span><span class="bar-val">${x.v}</span></div><div class="bar-track"><div class="bar-fill ${x.cls}" style="width:${x.w}%"></div></div></div>`;
+  });
+}
+
+/* ── COBERTURA ── */
+function initCobertura(){
+  const univs=['UNIMINUTO','U. Santo Tomás','U. Coop.','U.P.Bol.','U. Libre','Javeriana','Nacional','Tadeo','U.Cat.','Gr.Col.'];
+  const vals=[23,23,16,16,10,10,9,9,4,3];
+  new Chart(document.getElementById('chartCobertura'),{
+    type:'bar',data:{labels:univs,datasets:[{data:vals,backgroundColor:univs.map(u=>u.includes('Santo')?C.dorado:'rgba(46,117,182,0.45)'),borderRadius:5}]},
+    options:{...DEF_LIGHT,scales:{x:{grid:{display:false},ticks:{...tickL,font:{size:10}}},y:{grid:gridL,ticks:tickL,max:30}}}
+  });
+  const barC=document.getElementById('barCobertura');
+  univs.forEach((u,i)=>{const isU=u.includes('Santo');barC.innerHTML+=`<div class="bar-item"><div class="bar-label-row"><span class="bar-name" style="${isU?'color:var(--azul-med);font-weight:700;':''}">${u}</span><span class="bar-val">${vals[i]} dptos.</span></div><div class="bar-track"><div class="bar-fill ${isU?'d':''}" style="width:${(vals[i]/23*100).toFixed(0)}%"></div></div></div>`;});
+}
+
+/* ── POSGRADO ── */
+function initPosgrado(){
+  const univs=['U. Católica','U. Libre','Javeriana','U.P.Bol.','Tadeo','Nacional','U. Santo Tomás','Gr.Col.','UNIMINUTO','U. Coop.'];
+  const vals=[52.8,47.1,43.7,43.4,39.7,39.2,37.0,29.0,23.0,15.7];
+  new Chart(document.getElementById('chartPosgrado'),{
+    type:'bar',data:{labels:univs,datasets:[{data:vals,backgroundColor:univs.map(u=>u.includes('Santo')?C.dorado:'rgba(46,117,182,0.42)'),borderRadius:5}]},
+    options:{...DEF_LIGHT,indexAxis:'y',plugins:{...DEF_LIGHT.plugins,tooltip:{...DEF_LIGHT.plugins.tooltip,callbacks:{label:ctx=>`${ctx.parsed.x}%`}}},scales:{x:{grid:gridL,ticks:{...tickL,callback:v=>v+'%'},max:65},y:{grid:{display:false},ticks:{...tickL,font:{size:10}}}}}
+  });
+}
+
+/* ── ÁREAS ── */
+function initAreas(){
+  const areas=['Cs.Sociales','Ing.&Arq.','Econ.&Adm.','Cs.Salud','Cs.Educ.','Mat.&C.Nat.','Bellas Artes'];
+  new Chart(document.getElementById('chartAreas'),{
+    type:'bar',data:{labels:areas,datasets:[
+      {label:'2018',data:[1892,1341,2060,417,1121,73,37],backgroundColor:'rgba(0,51,102,0.15)',borderColor:C.azulM,borderWidth:1.5,borderRadius:4},
+      {label:'2024',data:[2228,2097,1687,402,401,129,61],backgroundColor:C.azulM,borderRadius:4},
+    ]},
+    options:{...DEF_LIGHT,plugins:{...DEF_LIGHT.plugins,legend:{...DEF_LIGHT.plugins.legend,display:true,position:'top',labels:{...DEF_LIGHT.plugins.legend.labels,usePointStyle:true}}},scales:{x:{grid:{display:false},ticks:{...tickL,font:{size:10}}},y:{grid:gridL,ticks:{...tickL,callback:v=>v.toLocaleString('es-CO')}}}}
+  });
+}
+
+/* ── SEMESTRAL ── */
+function initSemestral(){
+  new Chart(document.getElementById('chartSemestral'),{
+    type:'bar',data:{labels:AÑOS_R.map(String),datasets:[
+      {label:'Semestre 1',data:[2605,2768,2894,3296,2988,2886,3347],backgroundColor:C.azulL,borderRadius:[0,0,4,4],stack:'s'},
+      {label:'Semestre 2',data:[4354,3696,3314,3802,4131,4595,4666],backgroundColor:C.azul,borderRadius:[4,4,0,0],stack:'s'},
+    ]},
+    options:{...DEF_LIGHT,plugins:{...DEF_LIGHT.plugins,legend:{...DEF_LIGHT.plugins.legend,display:true,position:'top',labels:{...DEF_LIGHT.plugins.legend.labels,usePointStyle:true}}},scales:{x:{grid:{display:false},ticks:tickL,stacked:true},y:{grid:gridL,stacked:true,ticks:{...tickL,callback:v=>v.toLocaleString('es-CO')}}}}
+  });
+}
+
+/* ── TABLA MAESTRA ── */
+function initMaestra(){
+  const data=[
+    {u:'UNIMINUTO',t:171183,g18:20902,g24:26158,cr:25.1,pg:23.0,mj:70.8,dp:23},
+    {u:'U. Nacional',t:64838,g18:10041,g24:9459,cr:-5.8,pg:39.2,mj:41.6,dp:9},
+    {u:'U. Libre',t:56892,g18:8087,g24:8564,cr:5.9,pg:47.1,mj:58.9,dp:10},
+    {u:'Javeriana',t:56759,g18:7900,g24:8397,cr:6.3,pg:43.7,mj:56.3,dp:10},
+    {u:'U. Cooperativa',t:62592,g18:8836,g24:7986,cr:-9.6,pg:15.7,mj:61.4,dp:16},
+    {u:'U. Santo Tomás',t:49342,g18:6959,g24:8013,cr:15.1,pg:37.0,mj:54.7,dp:23,usta:true},
+    {u:'U. Católica',t:22312,g18:3161,g24:2975,cr:-5.9,pg:52.8,mj:55.0,dp:4},
+    {u:'Gr. Colombia',t:20861,g18:2722,g24:2916,cr:7.1,pg:29.0,mj:51.6,dp:3},
+    {u:'U.P. Bolivariana',t:39723,g18:5621,g24:5627,cr:0.1,pg:43.4,mj:54.3,dp:16},
+    {u:'Tadeo Lozano',t:18753,g18:3064,g24:1926,cr:-37.1,pg:39.7,mj:60.1,dp:9},
+  ].sort((a,b)=>b.t-a.t);
+  const tb=document.getElementById('tbMaestra');
+  data.forEach(r=>{
+    const cls=r.usta?' class="usta"':'';
+    tb.innerHTML+=`<tr${cls}><td>${r.u}</td><td class="hl">${r.t.toLocaleString('es-CO')}</td><td>${r.g18.toLocaleString('es-CO')}</td><td>${r.g24.toLocaleString('es-CO')}</td><td class="${r.cr>0?'up':'dn'}">${r.cr>0?'+':''}${r.cr}%</td><td>${r.pg}%</td><td>${r.mj}%</td><td>${r.dp}</td></tr>`;
+  });
+}
+
+/* ── PRED TOTAL ── */
+/* inicializar primer slide */
+initCharts(0);
+</script>
+</body>
+</html>
