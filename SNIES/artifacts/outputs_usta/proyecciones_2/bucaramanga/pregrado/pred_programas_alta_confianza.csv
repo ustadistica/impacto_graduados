@@ -1,0 +1,6 @@
+programa,nivel,total_2018_2024,grad_2024,modelo,mape_pct,confianza,confianza_emoji,pred_2025,pred_2026,pred_2027,ic_inf_2027,ic_sup_2027,crecimiento_pct,_hist_vals,_pred_vals,_ic_inf,_ic_sup,total_pred_2025_2027
+DERECHO,Pregrado,1396,228,SES,10.4,ALTA,🟢,228,228,228,133,323,0.0,"[218, 184, 154, 181, 195, 236, 228]","[228, 228, 228]","[173, 150, 133]","[283, 306, 323]",684
+INGENIERIA MECATRONICA,Pregrado,126,28,Polinómico,5.5,ALTA,🟢,34,41,49,26,72,75.0,"[9, 23, 12, 9, 23, 22, 28]","[34, 41, 49]","[10, 17, 26]","[57, 64, 72]",124
+NEGOCIOS INTERNACIONALES,Pregrado,833,157,Holt,7.6,ALTA,🟢,174,187,201,67,335,28.0,"[95, 124, 50, 69, 181, 157, 157]","[174, 187, 201]","[96, 78, 67]","[251, 297, 335]",562
+OPTOMETRIA,Pregrado,249,36,Holt,14.4,ALTA,🟢,42,44,46,28,63,27.8,"[32, 34, 28, 31, 45, 43, 36]","[42, 44, 46]","[32, 30, 28]","[52, 58, 63]",132
+TECNOLOGIA EN LABORATORIO DENTAL,Pregrado,193,26,SES,7.8,ALTA,🟢,28,28,28,4,51,7.7,"[23, 27, 18, 37, 36, 26, 26]","[28, 28, 28]","[14, 9, 4]","[41, 46, 51]",84

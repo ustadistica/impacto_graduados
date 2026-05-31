@@ -1,0 +1,4 @@
+programa,nivel,total_2018_2024,grad_2024,modelo,mape_pct,confianza,confianza_emoji,pred_2025,pred_2026,pred_2027,ic_inf_2027,ic_sup_2027,crecimiento_pct,_hist_vals,_pred_vals,_ic_inf,_ic_sup,total_pred_2025_2027
+ESPECIALIZACION EN DERECHO ADMINISTRATIVO,Posgrado,414,125,Polinómico,15.6,MEDIA,🟡,166,211,261,224,299,108.8,"[13, 40, 26, 42, 65, 103, 125]","[166, 211, 261]","[129, 173, 224]","[204, 248, 299]",638
+ESPECIALIZACION EN GEOTECNIA VIAL Y PAVIMENTOS,Posgrado,331,46,SES,15.5,MEDIA,🟡,46,46,46,0,101,0.0,"[29, 24, 62, 63, 59, 48, 46]","[46, 46, 46]","[15, 2, 0]","[78, 91, 101]",138
+ESPECIALIZACION EN PSICOLOGIA JURIDICA Y FORENSE,Posgrado,81,13,Polinómico,15.6,MEDIA,🟡,8,2,0,0,6,-100.0,"[1, 7, 12, 18, 14, 16, 13]","[8, 2, 0]","[2, 0, 0]","[14, 8, 6]",10

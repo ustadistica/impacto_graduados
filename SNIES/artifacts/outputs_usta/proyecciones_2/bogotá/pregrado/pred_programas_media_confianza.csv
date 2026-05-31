@@ -1,0 +1,10 @@
+programa,nivel,total_2018_2024,grad_2024,modelo,mape_pct,confianza,confianza_emoji,pred_2025,pred_2026,pred_2027,ic_inf_2027,ic_sup_2027,crecimiento_pct,_hist_vals,_pred_vals,_ic_inf,_ic_sup,total_pred_2025_2027
+COMUNICACION SOCIAL,Pregrado,742,70,Lineal,26.4,MEDIA,🟡,35,17,0,0,138,-100.0,"[125, 204, 117, 94, 71, 61, 70]","[35, 17, 0]","[0, 0, 0]","[151, 144, 138]",52
+ECONOMIA,Pregrado,509,60,Polinómico,19.3,MEDIA,🟡,37,13,0,0,89,-100.0,"[46, 112, 82, 54, 91, 64, 60]","[37, 13, 0]","[0, 0, 0]","[126, 102, 89]",50
+ESTADISTICA,Pregrado,297,61,Holt,17.5,MEDIA,🟡,66,70,74,39,109,21.3,"[41, 26, 30, 33, 45, 61, 61]","[66, 70, 74]","[46, 42, 39]","[87, 99, 109]",210
+INGENIERIA EN INFORMATICA,Pregrado,135,16,SES,20.2,MEDIA,🟡,19,19,19,0,38,18.8,"[18, 10, 20, 20, 28, 23, 16]","[19, 19, 19]","[8, 4, 0]","[30, 35, 38]",57
+INGENIERIA MECANICA,Pregrado,604,80,SES,15.6,MEDIA,🟡,86,86,86,21,151,7.5,"[86, 53, 75, 105, 98, 107, 80]","[86, 86, 86]","[49, 33, 21]","[124, 139, 151]",258
+LICENCIATURA EN FILOSOFIA Y EDUCACION RELIGIOSA,Pregrado,226,1,Holt,21.5,MEDIA,🟡,0,0,0,0,16,-100.0,"[59, 54, 52, 30, 17, 13, 1]","[0, 0, 0]","[0, 0, 0]","[9, 13, 16]",0
+LICENCIATURA EN LENGUA CASTELLANA Y LITERATURA,Pregrado,104,8,Holt,28.9,MEDIA,🟡,7,4,2,0,12,-75.0,"[21, 22, 13, 16, 10, 14, 8]","[7, 4, 2]","[1, 0, 0]","[12, 12, 12]",13
+LICENCIATURA EN LENGUAS EXTRANJERAS INGLES,Pregrado,244,61,SES,20.7,MEDIA,🟡,41,41,41,0,85,-32.8,"[0, 25, 32, 51, 38, 37, 61]","[41, 41, 41]","[15, 4, 0]","[66, 77, 85]",123
+LICENCIATURA EN TEOLOGIA,Pregrado,118,21,Polinómico,16.9,MEDIA,🟡,27,32,39,30,48,85.7,"[18, 11, 16, 14, 17, 21, 21]","[27, 32, 39]","[18, 23, 30]","[36, 41, 48]",98

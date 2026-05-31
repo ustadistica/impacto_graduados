@@ -1,0 +1,11 @@
+anio,tipo,graduados,ic_inf,ic_sup,modelo,mape_pct,confianza
+2018,real,757,,,Lineal,,
+2019,real,910,,,Lineal,,
+2020,real,837,,,Lineal,,
+2021,real,1119,,,Lineal,,
+2022,real,1205,,,Lineal,,
+2023,real,1213,,,Lineal,,
+2024,real,1398,,,Lineal,,
+2025,proyectado,1477,1232.0,1721.0,Lineal,5.1,ALTA
+2026,proyectado,1580,1313.0,1847.0,Lineal,5.1,ALTA
+2027,proyectado,1684,1392.0,1975.0,Lineal,5.1,ALTA

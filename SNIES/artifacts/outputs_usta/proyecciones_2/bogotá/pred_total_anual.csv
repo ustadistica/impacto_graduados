@@ -1,0 +1,11 @@
+anio,tipo,graduados,ic_inf,ic_sup,modelo,mape_pct,confianza
+2018,real,4693,,,Polinómico,,
+2019,real,4142,,,Polinómico,,
+2020,real,4162,,,Polinómico,,
+2021,real,4674,,,Polinómico,,
+2022,real,4206,,,Polinómico,,
+2023,real,4424,,,Polinómico,,
+2024,real,4603,,,Polinómico,,
+2025,proyectado,4846,3952.0,5740.0,Polinómico,2.0,ALTA
+2026,proyectado,5145,4251.0,6040.0,Polinómico,2.0,ALTA
+2027,proyectado,5508,4614.0,6403.0,Polinómico,2.0,ALTA

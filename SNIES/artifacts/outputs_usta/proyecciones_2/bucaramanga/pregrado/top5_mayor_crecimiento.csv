@@ -1,0 +1,6 @@
+programa,nivel,modelo,mape_pct,confianza,grad_2024,pred_2025,pred_2026,pred_2027,ic_inf_2027,ic_sup_2027,crecimiento_pct,total_pred_2025_2027,total_2018_2024,ranking
+QUIMICA AMBIENTAL,Pregrado,Polinómico,19.2,MEDIA,9,14,20,29,18,39,222.2,63,81,1
+ECONOMIA,Pregrado,Polinómico,15.3,MEDIA,25,31,39,50,45,55,100.0,120,152,2
+INGENIERIA MECATRONICA,Pregrado,Polinómico,5.5,ALTA,28,34,41,49,26,72,75.0,124,126,3
+ADMINISTRACION DE EMPRESAS,Pregrado,SES,55.8,BAJA,20,27,27,27,0,59,35.0,81,191,4
+ARQUITECTURA,Pregrado,Lineal,30.6,BAJA,148,173,186,199,73,326,34.5,558,839,5

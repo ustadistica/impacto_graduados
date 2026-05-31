@@ -1,0 +1,7 @@
+programa,nivel,total_2018_2024,grad_2024,modelo,mape_pct,confianza,confianza_emoji,pred_2025,pred_2026,pred_2027,ic_inf_2027,ic_sup_2027,crecimiento_pct,_hist_vals,_pred_vals,_ic_inf,_ic_sup,total_pred_2025_2027
+ESPECIALIZACION EN ADMINISTRACION DEPORTIVA,Posgrado,200,45,Lineal,8.7,ALTA,🟢,50,56,61,18,104,35.6,"[14, 5, 41, 27, 25, 43, 45]","[50, 56, 61]","[14, 16, 18]","[87, 95, 104]",167
+ESPECIALIZACION EN DERECHO ADMINISTRATIVO,Posgrado,342,48,SES,10.4,ALTA,🟢,49,49,49,2,96,2.1,"[70, 48, 25, 51, 42, 58, 48]","[49, 49, 49]","[22, 10, 2]","[76, 87, 96]",147
+ESPECIALIZACION EN DERECHO CONSTITUCIONAL,Posgrado,105,19,SES,13.7,ALTA,🟢,15,15,15,0,39,-21.1,"[25, 12, 15, 18, 2, 14, 19]","[15, 15, 15]","[1, 0, 0]","[29, 35, 39]",45
+ESPECIALIZACION EN ENDODONCIA,Posgrado,236,39,SES,14.7,ALTA,🟢,34,34,34,0,70,-12.8,"[45, 33, 39, 12, 31, 37, 39]","[34, 34, 34]","[13, 4, 0]","[54, 63, 70]",102
+ESPECIALIZACION EN ORTODONCIA,Posgrado,82,11,SES,4.6,ALTA,🟢,12,12,12,7,16,9.1,"[13, 12, 12, 9, 13, 12, 11]","[12, 12, 12]","[9, 8, 7]","[14, 16, 16]",36
+MAESTRIA EN ADMINISTRACION,Posgrado,187,22,SES,11.8,ALTA,🟢,22,22,22,0,47,0.0,"[46, 38, 29, 14, 17, 21, 22]","[22, 22, 22]","[8, 2, 0]","[36, 42, 47]",66

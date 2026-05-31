@@ -1,0 +1,4 @@
+programa,nivel,total_2018_2024,grad_2024,modelo,mape_pct,confianza,confianza_emoji,pred_2025,pred_2026,pred_2027,ic_inf_2027,ic_sup_2027,crecimiento_pct,_hist_vals,_pred_vals,_ic_inf,_ic_sup,total_pred_2025_2027
+ESPECIALIZACION EN AUDITORIA DE SALUD,Posgrado,148,29,Polinómico,5.0,ALTA,🟢,35,43,52,38,66,79.3,"[19, 23, 12, 22, 19, 24, 29]","[35, 43, 52]","[21, 28, 38]","[50, 57, 66]",130
+ESPECIALIZACION EN ESTRUCTURAS,Posgrado,318,74,Holt,11.6,ALTA,🟢,74,82,89,68,109,20.3,"[25, 37, 30, 49, 46, 57, 74]","[74, 82, 89]","[63, 65, 68]","[86, 98, 109]",245
+ESPECIALIZACION EN GERENCIA DE PROYECTOS DE CONSTRUCCION,Posgrado,429,87,Lineal,5.8,ALTA,🟢,92,100,107,75,140,23.0,"[35, 47, 67, 50, 66, 77, 87]","[92, 100, 107]","[64, 70, 75]","[120, 130, 140]",299

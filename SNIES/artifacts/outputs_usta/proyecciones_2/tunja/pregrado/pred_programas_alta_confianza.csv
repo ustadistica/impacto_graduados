@@ -1,0 +1,4 @@
+programa,nivel,total_2018_2024,grad_2024,modelo,mape_pct,confianza,confianza_emoji,pred_2025,pred_2026,pred_2027,ic_inf_2027,ic_sup_2027,crecimiento_pct,_hist_vals,_pred_vals,_ic_inf,_ic_sup,total_pred_2025_2027
+ADMINISTRACION DE EMPRESAS,Pregrado,387,71,SES,5.7,ALTA,🟢,71,71,71,38,104,0.0,"[36, 41, 42, 68, 65, 64, 71]","[71, 71, 71]","[52, 44, 38]","[90, 98, 104]",213
+ARQUITECTURA,Pregrado,630,94,Lineal,1.7,ALTA,🟢,96,97,99,55,143,5.3,"[72, 94, 100, 99, 79, 92, 94]","[96, 97, 99]","[59, 57, 55]","[133, 138, 143]",292
+INGENIERIA CIVIL,Pregrado,1063,101,Polinómico,14.1,ALTA,🟢,78,46,11,0,49,-89.1,"[187, 161, 165, 172, 146, 131, 101]","[78, 46, 11]","[39, 8, 0]","[116, 85, 49]",135

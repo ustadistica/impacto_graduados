@@ -1,0 +1,11 @@
+anio,tipo,graduados,ic_inf,ic_sup,modelo,mape_pct,confianza
+2018,real,1509,,,Holt,,
+2019,real,1412,,,Holt,,
+2020,real,1209,,,Holt,,
+2021,real,1305,,,Holt,,
+2022,real,1708,,,Holt,,
+2023,real,1844,,,Holt,,
+2024,real,2012,,,Holt,,
+2025,proyectado,2184,1799.0,2569.0,Holt,7.5,ALTA
+2026,proyectado,2357,1812.0,2901.0,Holt,7.5,ALTA
+2027,proyectado,2529,1862.0,3196.0,Holt,7.5,ALTA
