@@ -1,0 +1,238 @@
+% =====================================================================
+%  Guía de cruce de las tablas de entrega — Graduados USTA 2026-1
+%  Cómo combinar los datasets entregados. Compilar: pdflatex (2 veces).
+% =====================================================================
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage[letterpaper,margin=2.3cm,top=2.4cm,bottom=2.2cm]{geometry}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{float}
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{ustaazul}{HTML}{1F3A93}
+\definecolor{ustadorado}{HTML}{E8A317}
+\definecolor{ustarojo}{HTML}{B22222}
+\definecolor{ustagris}{HTML}{444444}
+\definecolor{ustagrisclaro}{HTML}{F2F4F8}
+\definecolor{ustacrema}{HTML}{FBF3DC}
+\definecolor{ustaverde}{HTML}{1B998B}
+\definecolor{codebg}{HTML}{F4F6FA}
+
+\pagestyle{fancy}\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\footrulewidth}{0.4pt}
+\fancyhead[L]{\footnotesize\color{ustagris}Guía de cruce de las tablas de entrega}
+\fancyhead[R]{\footnotesize\color{ustagris}Graduados USTA $\cdot$ 2026-1}
+\fancyfoot[C]{\footnotesize\color{ustagris}\thepage}
+
+\titleformat{\section}{\large\bfseries\color{ustaazul}}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{ustarojo}}{\thesubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{12pt}{5pt}
+\titlespacing*{\subsection}{0pt}{8pt}{3pt}
+\setlist[itemize]{leftmargin=1.3em, itemsep=2pt, topsep=2pt}
+\renewcommand{\labelitemi}{\textcolor{ustadorado}{\textbullet}}
+\newcommand{\col}[1]{\texttt{\small #1}}
+\newcommand{\file}[1]{{\small\textbf{\texttt{#1}}}}
+
+\newtcolorbox{caja}{colback=ustacrema, colframe=ustadorado, boxrule=1pt,
+  borderline west={3pt}{0pt}{ustarojo}, arc=2pt, left=10pt, right=8pt, top=7pt, bottom=7pt}
+\newtcolorbox{cajazul}{colback=ustagrisclaro, colframe=ustaazul, boxrule=1pt,
+  borderline west={3pt}{0pt}{ustaverde}, arc=2pt, left=10pt, right=8pt, top=7pt, bottom=7pt}
+\newtcolorbox{code}{colback=codebg, colframe=ustaborde, boxrule=0.5pt, arc=1pt,
+  left=8pt, right=6pt, top=5pt, bottom=5pt, before skip=4pt, after skip=4pt}
+\definecolor{ustaborde}{HTML}{D5DAE3}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries\color{ustaazul} Cómo cruzar las tablas de entrega}\\[3pt]
+  {\large\color{ustarojo} Guía práctica de los datasets de graduados USTA y sus enlaces}\\[4pt]
+  {\footnotesize\color{ustagris} Consultorio de Estadística $\cdot$ Organización \texttt{ustadistica} $\cdot$ Periodo 2026-1}
+\end{center}
+\vspace{2pt}\hrule height 0.8pt\vspace{8pt}
+
+\noindent Las seis tablas del paquete describen la misma población de graduados vista desde fuentes distintas. Esta guía explica, en lenguaje sencillo, qué contiene cada una, cuál es la llave que las une y cómo combinarlas para responder preguntas, tanto en Excel como en Python.
+
+\begin{caja}
+\textbf{La idea en una frase.} Casi todo se cruza por la \textbf{cédula} (columna \col{identificacion}). Y para la mayoría de las preguntas \emph{no hace falta cruzar nada}: la tabla maestra \file{06\_impacto\_consolidado.csv} ya trae, en una sola fila por persona, las tres dimensiones juntas.
+\end{caja}
+
+\section{La llave común: la cédula}
+
+Cada graduado se identifica por su número de documento, normalizado a \textbf{solo dígitos} (sin puntos, espacios ni guiones) en la columna \col{identificacion}. Esa columna es la misma en todas las tablas de personas, de modo que unir dos tablas es, simplemente, emparejar las filas que comparten la cédula.
+
+\begin{center}
+\begin{tikzpicture}[font=\footnotesize,
+  tabla/.style={draw=ustaazul, fill=ustagrisclaro, rounded corners=2pt, align=center, inner sep=4pt, minimum width=2.6cm, text=ustagris},
+  llave/.style={draw=ustarojo, fill=ustacrema, rounded corners=3pt, align=center, inner sep=6pt, font=\bfseries},
+  enl/.style={-{Latex[length=2mm]}, ustadorado, thick}]
+  \node[llave] (k) {\color{ustarojo}identificacion\\ \footnotesize(cédula)};
+  \node[tabla] (s) [above left=1.0cm and 1.6cm of k] {02\_proveedores\\\_secop};
+  \node[tabla] (r) [above right=1.0cm and 1.6cm of k] {03\_emprendedores\\\_rues};
+  \node[tabla] (i) [left=1.9cm of k] {01\_graduados\\\_integrado};
+  \node[tabla] (c) [right=1.9cm of k] {04\_investigadores\\\_cvlac};
+  \node[tabla,draw=ustaverde,fill=ustacrema] (m) [below=1.0cm of k] {\textbf{06\_impacto}\\\textbf{\_consolidado}\\\footnotesize(tabla maestra)};
+  \draw[enl] (k) -- (s); \draw[enl] (k) -- (r); \draw[enl] (k) -- (i);
+  \draw[enl] (k) -- (c); \draw[enl,ustaverde] (k) -- (m);
+\end{tikzpicture}
+\end{center}
+
+\noindent La sexta tabla, \file{05\_cvlac\_usta\_no\_graduados.csv}, es la excepción deliberada: reúne perfiles CvLAC con vínculo USTA que \emph{no} son graduados de la base, así que no comparte cédula con las demás y no se cruza con ellas; es un inventario aparte para futuros enlaces.
+
+\section{Qué es cada tabla y a qué nivel está}
+
+Antes de cruzar conviene saber la \textbf{unidad de cada fila} (el «grano»). Mezclar tablas de grano distinto sin cuidado es la causa más común de cifras infladas.
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}l c >{\raggedright\arraybackslash}X r@{}}
+\toprule
+\rowcolor{ustaazul}\textbf{\color{white}Tabla} & \textbf{\color{white}Llave} & \textbf{\color{white}Una fila por\dots} & \textbf{\color{white}Filas} \\
+\midrule
+01\_graduados\_integrado      & identificacion & registro de grado (una persona puede tener varios) & 197.273 \\
+\rowcolor{ustagrisclaro}
+02\_proveedores\_secop        & identificacion & graduado proveedor del Estado & 42.889 \\
+03\_emprendedores\_rues       & identificacion & graduado con matrícula mercantil & 37.544 \\
+\rowcolor{ustagrisclaro}
+04\_investigadores\_cvlac     & identificacion / cod\_rh & coincidencia graduado--perfil CvLAC & 3.403 \\
+05\_cvlac\_usta\_no\_graduados & cod\_rh & perfil CvLAC USTA que \emph{no} es graduado & 3.266 \\
+\rowcolor{ustacrema}
+\textbf{06\_impacto\_consolidado} & identificacion & \textbf{persona única (todo cruzado)} & \textbf{174.685} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{cajazul}
+\textbf{Atajo.} Si la pregunta es «¿cuántas personas\dots?» o «¿qué proporción\dots?», trabaja sobre \file{06\_impacto\_consolidado.csv} y filtra columnas. Allí cada persona aparece \textbf{una sola vez} con \col{es\_proveedor\_secop}, \col{en\_rues}, \col{en\_cvlac}, \col{n\_dimensiones} y \col{perfil\_impacto} ya calculados. Las tablas 02--04 solo se necesitan cuando quieres el \emph{detalle} de una dimensión (la cámara de comercio, el código CIIU, la URL del CvLAC, etc.).
+\end{cajazul}
+
+\section{Cruzar en Excel}
+
+\begin{enumerate}[leftmargin=1.5em]
+\item Abre las dos tablas que quieras unir (por ejemplo, la maestra y \file{03\_emprendedores\_rues}).
+\item Asegúrate de que \col{identificacion} esté como \textbf{texto} en ambas (ver advertencia abajo).
+\item En la tabla destino, agrega una columna y usa \textbf{BUSCARV} (o \textbf{XLOOKUP}/\textbf{BUSCARX} en versiones nuevas):
+\begin{code}\ttfamily\small
+=BUSCARV([@identificacion]; '03\_rues'!A:H; 8; FALSO)
+\end{code}
+trae el dato de la columna 8 de la tabla RUES para esa cédula.
+\item Para conteos y proporciones, una \textbf{tabla dinámica} sobre \file{06\_impacto\_consolidado.csv} resuelve casi todo: lleva \col{sede\_principal} a filas y \col{es\_proveedor\_secop} a valores (cuenta), y tendrás proveedores por sede sin escribir una sola fórmula.
+\end{enumerate}
+
+\section{Cruzar en Python (pandas)}
+
+Leer y unir por cédula es directo. La clave es forzar \col{identificacion} a texto (\col{dtype=str}) para que no se pierdan ceros ni se desborde el número.
+
+\begin{code}\ttfamily\small
+import pandas as pd\\
+KEY = \{"identificacion": str\}\\
+mae  = pd.read\_csv("datasets/06\_impacto\_consolidado.csv", dtype=KEY)\\
+rues = pd.read\_csv("datasets/03\_emprendedores\_rues.csv",  dtype=KEY)\\
+\\
+\# unir la cámara de comercio a la tabla maestra\\
+df = mae.merge(rues[["identificacion","camara\_comercio","ciiu\_principal"]],\\
+\hspace*{3.2em}on="identificacion", how="left")
+\end{code}
+
+\subsection{Ejemplos resueltos}
+
+\textbf{a) Personas que son proveedoras del Estado \emph{y} están matriculadas en el RUES} (sin cruzar nada, sobre la maestra):
+\begin{code}\ttfamily\small
+ambas = mae[mae.es\_proveedor\_secop \& mae.en\_rues]\\
+print(len(ambas))   \# 11.452 personas
+\end{code}
+
+\textbf{b) Valor total contratado por sede:}
+\begin{code}\ttfamily\small
+mae.groupby("sede\_principal").secop\_valor\_total.sum().sort\_values(ascending=False)
+\end{code}
+
+\textbf{c) Cámaras de comercio de los graduados de Arquitectura} (la sede/carrera está en la maestra o en 03; el detalle de cámara, en 03):
+\begin{code}\ttfamily\small
+arq = rues[rues.programa.str.contains("ARQUITECT", case=False, na=False)]\\
+arq.camara\_comercio.value\_counts().head(10)
+\end{code}
+
+\textbf{d) Perfil multidimensional} (cuántos dejan huella en 1, 2 o 3 fuentes):
+\begin{code}\ttfamily\small
+mae.n\_dimensiones.value\_counts().sort\_index()
+\end{code}
+
+\section{El caso especial de CvLAC}
+
+CvLAC no publica la cédula: cada investigador se identifica por un código interno, \col{cod\_rh}. Por eso la tabla \file{04\_investigadores\_cvlac} trae \emph{dos} llaves: \col{identificacion} (para cruzar con el resto de la entrega) y \col{cod\_rh} (para cruzar con las tablas analíticas de investigación, que viven en la carpeta \col{salidas/}). Ese \col{cod\_rh} es el puente.
+
+\begin{center}
+\begin{tikzpicture}[font=\footnotesize, node distance=4pt,
+  t/.style={draw=ustaazul, fill=ustagrisclaro, rounded corners=2pt, align=center, inner sep=4pt, text=ustagris, minimum height=0.95cm},
+  e/.style={-{Latex[length=2mm]}, ustadorado, thick}]
+  \node[t] (m) {06 / 04\\\footnotesize cédula $\leftrightarrow$ cod\_rh};
+  \node[t] (ip) [right=1.7cm of m] {cvlac\_indice\_plus\\\footnotesize por cod\_rh};
+  \node[t] (is) [right=1.7cm of ip] {cvlac\_issn\\\footnotesize cod\_rh $\to$ issn};
+  \node[t] (oa) [below=0.7cm of is] {cvlac\_issn\_openalex\\\footnotesize por issn};
+  \draw[e] (m) -- node[above,font=\scriptsize\bfseries,text=ustarojo]{cod\_rh} (ip);
+  \draw[e] (ip) -- node[above,font=\scriptsize\bfseries,text=ustarojo]{cod\_rh} (is);
+  \draw[e] (is) -- node[right,font=\scriptsize\bfseries,text=ustarojo]{issn} (oa);
+\end{tikzpicture}
+\end{center}
+
+\noindent\textbf{Ejemplo: revistas donde publican los investigadores de Derecho.}
+\begin{code}\ttfamily\small
+cv   = pd.read\_csv("datasets/04\_investigadores\_cvlac.csv", dtype=\{"identificacion":str,"cod\_rh":str\})\\
+issn = pd.read\_csv("salidas/cvlac\_issn.csv",          dtype=str)  \# cod\_rh, issn\\
+oa   = pd.read\_csv("salidas/cvlac\_issn\_openalex.csv", dtype=str)  \# issn, name, country, doaj\\
+\\
+der = cv[cv.programa.str.contains("DERECHO", case=False, na=False)]\\
+rev = der.merge(issn, on="cod\_rh").merge(oa, on="issn")\\
+rev.name.value\_counts().head(10)
+\end{code}
+
+\begin{caja}
+\textbf{Dos conteos de CvLAC que no hay que confundir.} La tabla 04 tiene \textbf{3.403 filas} (coincidencias nombre--documento) que corresponden a \textbf{2.547 personas únicas} (cédulas) y a \textbf{2.535 perfiles} de investigador (\col{cod\_rh}). Para contar \emph{personas} usa \col{identificacion} con \col{nunique()}; para contar \emph{perfiles} usa \col{cod\_rh}. La cifra que entra a la maestra y a las tasas del informe es la de personas: \textbf{2.547} (el 1,5\,\%).
+\end{caja}
+
+\section{Tablas analíticas de apoyo (carpeta \texttt{salidas/})}
+
+Cuando se necesita un desglose más fino que el de la entrega, la carpeta \col{salidas/} contiene tablas «largas» listas para tabla dinámica o \col{groupby}. Todas se cruzan por \col{identificacion} (salvo las de revistas, por \col{cod\_rh}/\col{issn}):
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{@{}l l >{\raggedright\arraybackslash}X@{}}
+\toprule
+\rowcolor{ustaazul}\textbf{\color{white}Tabla} & \textbf{\color{white}Llave} & \textbf{\color{white}Desglose que aporta} \\
+\midrule
+secop\_regional   & identificacion & contratos y valor por \textbf{departamento} de ejecución \\
+\rowcolor{ustagrisclaro}
+secop\_dims       & identificacion & por tipo de contrato, modalidad y nivel de la entidad \\
+secop\_unspsc     & identificacion & por código \textbf{UNSPSC} del objeto contratado (SECOP II) \\
+\rowcolor{ustagrisclaro}
+rues\_dims        & identificacion & por estado de matrícula, organización jurídica y \textbf{CIIU} \\
+cvlac\_issn       & cod\_rh $\to$ issn & revista (ISSN) de cada artículo \\
+\rowcolor{ustagrisclaro}
+cvlac\_issn\_openalex & issn & país, DOAJ, campo y dominio de cada revista \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Tres advertencias para no equivocarse}
+
+\begin{itemize}
+\item \textbf{La cédula es texto, no número.} Si Excel o pandas la leen como número, los documentos con ceros a la izquierda pierden dígitos y el cruce falla en silencio. Fuérzala a texto (\col{dtype=str} en pandas; formato \emph{Texto} en Excel) \emph{antes} de cruzar.
+\item \textbf{No sumes a través de granos distintos.} Si unes la maestra (una fila por persona) con una tabla larga (varias filas por persona, como \col{secop\_regional}), la persona se duplica; suma o cuenta \emph{después} de agrupar, nunca antes.
+\item \textbf{Las cifras de RUES y CvLAC son pisos.} El RUES solo capta a la persona natural (no las sociedades por NIT) y CvLAC es cobertura parcial validada por evidencia; léelas como mínimos, no como totales.
+\end{itemize}
+
+\vspace{4pt}\hrule height 0.4pt\vspace{4pt}
+\noindent{\footnotesize\color{ustagris} El diccionario columna por columna está en \file{diccionario\_datos.csv}; los indicadores principales, en \file{resumen\_indicadores.csv}; y la lectura analítica completa, en el informe de hallazgos. Datos de carácter personal: uso interno institucional sujeto a la política de tratamiento de datos de la Universidad.}
+
+\end{document}

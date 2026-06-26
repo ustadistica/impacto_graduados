@@ -1,0 +1,54 @@
+\section{Datos y método}
+
+El trabajo previo del equipo —Natalia González, Ximena Arias y Paula Gordillo— dejó planteada una tensión que esta sección busca resolver de manera operativa: caracterizar la participación de los graduados de la Universidad Santo Tomás exige confrontar nuestros propios registros institucionales con fuentes nacionales heterogéneas, cada una con su lógica de identificación, su escala y sus límites de acceso. El método que describimos a continuación no parte de un universo descargado y luego filtrado, sino de la pregunta inversa: a quién, de entre nuestros graduados, encuentran las fuentes externas. Esa inversión es la que hace viable —y reproducible— el cruce.
+
+\subsection{Base unificada de graduados}
+
+El primer requisito fue construir una sola base de graduados a partir de cuatro insumos institucionales que hasta ahora vivían por separado. El insumo central es la base SPB-CM-CAU, que reúne la Sede Principal de Bogotá, el Campus Medellín y los centros VUAD de educación a distancia; a este se suman la base de Bucaramanga, la de la Seccional Tunja y la de la Seccional Villavicencio. Cada insumo se proyectó sobre un esquema común, conservando una columna de procedencia que garantiza la \emph{trazabilidad de la fuente}: en todo momento es posible saber de cuál de las bases proviene cada registro, condición indispensable para los análisis por sede que sostienen el resto del artículo.
+
+La integración produjo \textbf{197.273} registros de grado asociados a \textbf{174.685} documentos únicos, con una cobertura temporal que va de \textbf{1970} a \textbf{2026}. La diferencia entre ambas cifras no es ruido: refleja que una misma persona puede figurar con más de un grado (por ejemplo, pregrado y posgrado, o dos posgrados, eventualmente en sedes distintas), de modo que el registro es la unidad documental y el documento es la unidad poblacional sobre la que se mide la participación.
+
+La incorporación de la base SPB-CM-CAU resuelve la principal limitación de la fase anterior, en la que la Sede Principal de Bogotá no estaba presente. Con su integración, el universo de análisis cubre las seis sedes de la Universidad y queda representado en la totalidad de los cruces posteriores, de manera que la participación de los egresados bogotanos deja de ser una ampliación pendiente y pasa a formar parte del alcance de este informe.
+
+Dos normalizaciones fueron decisivas para que el enlace posterior no fracasara por motivos formales. La primera recae sobre la identificación: cada documento se reduce a \emph{solo dígitos}, eliminando puntos, espacios, guiones y prefijos, de manera que una misma cédula escrita de distintas maneras en distintas bases converja a una única clave de cruce. La segunda recae sobre los nombres de programa, homogeneizados para que variantes ortográficas o de mayúsculas no fragmenten un mismo programa en categorías espurias. La Tabla~\ref{tab:base_unificada} resume el aporte de cada sede, distinguiendo el total de registros incorporados de los graduados efectivamente consolidados en la base unificada.
+
+\begin{table}[htbp]
+\centering
+\caption{Composición de la base unificada de graduados por sede.}
+\label{tab:base_unificada}
+\begin{tabularx}{\linewidth}{Xrr}
+\toprule
+\rowcolor{ustaazul}
+\textbf{\color{white}Sede} & \textbf{\color{white}Registros} & \textbf{\color{white}Graduados} \\
+\midrule
+Bogotá & 115.473 & 104.468 \\
+Bucaramanga & 40.989 & 37.370 \\
+Tunja & 17.925 & 14.859 \\
+Villavicencio & 7.619 & 7.030 \\
+Medellín & 3.634 & 3.374 \\
+VUAD & 11.633 & 11.098 \\
+\midrule
+\textbf{Total (suma por sede)} & \textbf{197.273} & \textbf{178.199} \\
+\textbf{Total (personas únicas)} & & \textbf{174.685} \\
+\bottomrule
+\end{tabularx}
+\\[3pt]{\footnotesize\color{ustagris} La suma de graduados por sede (178.199) supera el total de personas únicas (174.685) porque 3.514 personas obtuvieron títulos en más de una sede y se contabilizan en cada una. La unidad poblacional del resto del informe es la persona única.}
+\end{table}
+
+\subsection{Enlace por documento contra registros nacionales (SECOP y RUES)}
+
+Las dos fuentes que identifican a las personas por número de documento —el Sistema Electrónico de Contratación Pública y el Registro Único Empresarial y Social— se publican como conjuntos de datos abiertos en plataformas Socrata, lo que abre una vía de enlace que evita por completo descargar el universo. La clave está en resolver el cruce \emph{del lado del servidor}: en lugar de traer los datos a casa y filtrarlos, se le pide a la API que sea ella quien filtre.
+
+Concretamente, se emplea el lenguaje de consulta SoQL para enviar peticiones por lotes con la forma \code{documento IN (lista\_de\_cédulas)}, agrupadas por documento. La API recibe un subconjunto de nuestras cédulas, busca las coincidencias dentro del registro nacional y devuelve únicamente los resultados agregados por persona; el resto del universo nunca viaja por la red. Esta arquitectura es la que vuelve tratable un problema que, abordado por fuerza bruta, sería prohibitivo: el SECOP Integrado (\code{rpmr-utcd}) contiene del orden de 22 millones de contratos y el RUES (\code{c82u-588k}) cerca de 9,3 millones de matrículas mercantiles. De manera complementaria, se recuperó el clasificador UNSPSC del objeto contractual desde SECOP II (\code{jbjy-vk9h}), que describe la naturaleza de los bienes y servicios contratados. Descargar y cruzar localmente esos volúmenes carecería de sentido cuando lo que nos interesa es, apenas, la intersección con \textbf{174.685} cédulas.
+
+La eficiencia del enfoque es notable. Las 174.685 cédulas se despachan por lotes y cada fuente completa su barrido sin almacenamiento intermedio del universo ni costos de transferencia desproporcionados. El resultado es un cruce que puede repetirse a voluntad —por ejemplo, cuando se actualicen los registros nacionales— con un costo computacional marginal.
+
+\subsection{Validación por evidencia académica (CvLAC)}
+
+La tercera fuente, el CvLAC de Minciencias, obliga a cambiar de estrategia porque no comparte la lógica de las dos anteriores. El CvLAC no publica el número de documento ni admite búsqueda por cédula: cada hoja de vida se identifica mediante un código interno, el \code{cod\_rh}. En consecuencia, el único punto de contacto inmediato con nuestra base es el nombre, y el cruce por nombre es, por construcción, ambiguo —homónimos, abreviaturas y variantes hacen que una coincidencia de cadena no constituya, por sí sola, prueba de identidad ni de vínculo institucional.
+
+Para no contaminar el análisis con falsos positivos, se exigió \emph{evidencia} de vínculo con la Universidad Santo Tomás antes de aceptar cualquier coincidencia. Esa evidencia adopta dos formas, no excluyentes: la aparición de la Universidad Santo Tomás en la formación académica declarada en el perfil, y la pertenencia a un grupo de investigación USTA según GrupLAC, donde el enlace es exacto porque el integrante queda asociado a su \code{cod\_rh}. Cada coincidencia recibe finalmente un \emph{score} en una escala de 0 a 100, que pondera la fuerza de la evidencia y permite separar enlaces sólidos de meras aproximaciones nominales.
+
+\begin{cajaobs}
+La cobertura de las tres fuentes es asimétrica y debe leerse en consecuencia. SECOP y RUES se enlazan por documento sobre la totalidad de los graduados, de modo que sus tasas son comparables y casi exhaustivas. El CvLAC, en cambio, se valida por evidencia y sobre un subconjunto necesariamente parcial: la ausencia de búsqueda por cédula y la exigencia probatoria implican que una persona con producción académica real puede no aparecer si no media evidencia explícita de su vínculo USTA. Las cifras de las tres dimensiones, por tanto, no deben leerse en pie de igualdad.
+\end{cajaobs}

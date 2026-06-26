@@ -1,0 +1,273 @@
+{
+  "n_emprendedores": 37544,
+  "n_activa": 11125,
+  "pct_activa": 29.6,
+  "org_top": {
+    "PERSONA NATURAL": 99.9,
+    "SOCIEDAD LIMITADA": 0.0,
+    "OTRAS SOCIEDADES": 0.0,
+    "EMPRESAS ASOCIATIVAS DE TRABAJO": 0.0,
+    "EMPRESAS UNIPERSONALES": 0.0
+  },
+  "estado_top": {
+    "CANCELADA": 73.4,
+    "ACTIVA": 24.7,
+    "MATRÍCULA CANCELADA POR TRASLADO DE DOMICILIO": 0.8,
+    "MATRÍCULA CANCELADA LEY 1429": 0.8,
+    "MATRÍCULA NUEVA, CONSTITUCIÓN POR TRASLADO": 0.1,
+    "MATRICULA INACTIVA POR PERDIDA DE CALIDAD DE COMERCIANTE": 0.1
+  },
+  "sector_top": [
+    {
+      "sector": "Comercio",
+      "n": 9535,
+      "pct": 25.4
+    },
+    {
+      "sector": "Alojamiento y comida",
+      "n": 3841,
+      "pct": 10.2
+    },
+    {
+      "sector": "Profesionales y técnicas",
+      "n": 3499,
+      "pct": 9.3
+    },
+    {
+      "sector": "Industria manufacturera",
+      "n": 1869,
+      "pct": 5.0
+    },
+    {
+      "sector": "Salud y asistencia social",
+      "n": 1454,
+      "pct": 3.9
+    },
+    {
+      "sector": "Servicios administrativos",
+      "n": 1251,
+      "pct": 3.3
+    },
+    {
+      "sector": "Construcción",
+      "n": 1077,
+      "pct": 2.9
+    },
+    {
+      "sector": "Transporte y logística",
+      "n": 832,
+      "pct": 2.2
+    },
+    {
+      "sector": "Educación",
+      "n": 796,
+      "pct": 2.1
+    },
+    {
+      "sector": "Otros servicios",
+      "n": 789,
+      "pct": 2.1
+    }
+  ],
+  "carrera_top": [
+    {
+      "prog": "DERECHO",
+      "emprendedores": 3393,
+      "pct_activa": 29.0
+    },
+    {
+      "prog": "CONTADURIA PUBLICA",
+      "emprendedores": 2328,
+      "pct_activa": 27.0
+    },
+    {
+      "prog": "ECONOMIA",
+      "emprendedores": 1914,
+      "pct_activa": 24.7
+    },
+    {
+      "prog": "NEGOCIOS INTERNACIONALES",
+      "emprendedores": 1903,
+      "pct_activa": 44.7
+    },
+    {
+      "prog": "ARQUITECTURA",
+      "emprendedores": 1879,
+      "pct_activa": 30.8
+    },
+    {
+      "prog": "INGENIERIA CIVIL",
+      "emprendedores": 1629,
+      "pct_activa": 32.4
+    },
+    {
+      "prog": "ESPECIALIZACION EN DERECHO ADMINISTRATIVO",
+      "emprendedores": 1248,
+      "pct_activa": 21.4
+    },
+    {
+      "prog": "ODONTOLOGIA",
+      "emprendedores": 1234,
+      "pct_activa": 35.7
+    },
+    {
+      "prog": "ADMINISTRACION DE EMPRESAS",
+      "emprendedores": 1180,
+      "pct_activa": 41.7
+    },
+    {
+      "prog": "PSICOLOGIA",
+      "emprendedores": 855,
+      "pct_activa": 26.8
+    },
+    {
+      "prog": "ADMINISTRACION DE EMPRESAS AGROPECUARIAS",
+      "emprendedores": 751,
+      "pct_activa": 44.1
+    },
+    {
+      "prog": "LICENCIATURA EN EDUCACION PREESCOLAR Y PROMOCION DE LA FAMILIA",
+      "emprendedores": 750,
+      "pct_activa": 16.3
+    }
+  ],
+  "carrera_sector": {
+    "DERECHO": {
+      "Comercio": 42.4,
+      "Alojamiento y comida": 21.4,
+      "Profesionales y técnicas": 23.1,
+      "Industria manufacturera": 6.2,
+      "Salud y asistencia social": 0.7,
+      "Servicios administrativos": 5.6,
+      "Construcción": 0.6
+    },
+    "CONTADURIA PUBLICA": {
+      "Comercio": 48.7,
+      "Alojamiento y comida": 15.8,
+      "Profesionales y técnicas": 20.4,
+      "Industria manufacturera": 9.4,
+      "Salud y asistencia social": 0.4,
+      "Servicios administrativos": 4.6,
+      "Construcción": 0.7
+    },
+    "ECONOMIA": {
+      "Comercio": 48.0,
+      "Alojamiento y comida": 18.6,
+      "Profesionales y técnicas": 13.1,
+      "Industria manufacturera": 12.4,
+      "Salud y asistencia social": 0.8,
+      "Servicios administrativos": 6.3,
+      "Construcción": 0.7
+    },
+    "NEGOCIOS INTERNACIONALES": {
+      "Comercio": 53.0,
+      "Alojamiento y comida": 21.4,
+      "Profesionales y técnicas": 6.4,
+      "Industria manufacturera": 11.1,
+      "Salud y asistencia social": 0.2,
+      "Servicios administrativos": 7.2,
+      "Construcción": 0.8
+    },
+    "ARQUITECTURA": {
+      "Comercio": 24.2,
+      "Alojamiento y comida": 13.1,
+      "Profesionales y técnicas": 36.0,
+      "Industria manufacturera": 6.8,
+      "Salud y asistencia social": 0.1,
+      "Servicios administrativos": 2.5,
+      "Construcción": 17.3
+    },
+    "INGENIERIA CIVIL": {
+      "Comercio": 26.8,
+      "Alojamiento y comida": 12.0,
+      "Profesionales y técnicas": 22.3,
+      "Industria manufacturera": 4.6,
+      "Salud y asistencia social": 0.1,
+      "Servicios administrativos": 3.1,
+      "Construcción": 31.0
+    },
+    "ESPECIALIZACION EN DERECHO ADMINISTRATIVO": {
+      "Comercio": 42.3,
+      "Alojamiento y comida": 23.0,
+      "Profesionales y técnicas": 21.1,
+      "Industria manufacturera": 5.8,
+      "Salud y asistencia social": 0.7,
+      "Servicios administrativos": 5.5,
+      "Construcción": 1.5
+    },
+    "ODONTOLOGIA": {
+      "Comercio": 24.2,
+      "Alojamiento y comida": 8.7,
+      "Profesionales y técnicas": 1.2,
+      "Industria manufacturera": 5.7,
+      "Salud y asistencia social": 57.8,
+      "Servicios administrativos": 2.3,
+      "Construcción": 0.1
+    }
+  },
+  "superv_carrera": {
+    "OPTOMETRIA": 59.2,
+    "INGENIERIA AMBIENTAL": 56.0,
+    "INGENIERIA INDUSTRIAL": 53.1,
+    "INGENIERIA MECANICA": 45.1,
+    "CULTURA FISICA, DEPORTE Y RECREACION": 44.9,
+    "NEGOCIOS INTERNACIONALES": 44.7,
+    "ADMINISTRACION DE EMPRESAS AGROPECUARIAS": 44.1,
+    "ESPECIALIZACION EN SEGURIDAD Y SALUD EN EL TRABAJO": 43.5,
+    "COMUNICACION SOCIAL": 42.5,
+    "ADMINISTRACION DE EMPRESAS": 41.7,
+    "ADMINISTRACION AMBIENTAL Y DE LOS RECURSOS NATURALES": 40.0,
+    "LICENCIATURA EN EDUCACION PREESCOLAR": 39.4
+  },
+  "superv_cohorte": {
+    "1990": 9.8,
+    "1995": 11.3,
+    "2000": 13.3,
+    "2005": 18.0,
+    "2010": 23.1,
+    "2015": 34.1,
+    "2020": 66.1
+  },
+  "superv_seccional": {
+    "Bogotá": 24.1,
+    "Bucaramanga": 31.6,
+    "Tunja": 40.1,
+    "Villavicencio": 55.3,
+    "Medellín": 33.5,
+    "VUAD": 29.3
+  },
+  "superv_seccional_cohorte": {
+    "2005": {
+      "Bogotá": 14.4,
+      "Bucaramanga": 22.9,
+      "Tunja": 17.5,
+      "Villavicencio": 29.1,
+      "Medellín": 15.9,
+      "VUAD": 21.7
+    },
+    "2010": {
+      "Bogotá": 19.2,
+      "Bucaramanga": 27.2,
+      "Tunja": 25.3,
+      "Villavicencio": 31.5,
+      "Medellín": 11.6,
+      "VUAD": 22.9
+    },
+    "2015": {
+      "Bogotá": 30.8,
+      "Bucaramanga": 35.7,
+      "Tunja": 35.7,
+      "Villavicencio": 42.9,
+      "Medellín": 35.8,
+      "VUAD": 33.5
+    },
+    "2020": {
+      "Bogotá": 67.5,
+      "Bucaramanga": 64.1,
+      "Tunja": 64.1,
+      "Villavicencio": 72.4,
+      "Medellín": 61.2,
+      "VUAD": 61.9
+    }
+  }
+}

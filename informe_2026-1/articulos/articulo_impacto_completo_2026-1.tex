@@ -1,0 +1,93 @@
+% =====================================================================
+%  Articulo COMPLETO - Observatorio de Participación de Graduados USTA 2026-1
+%  Hallazgos del cruce: SECOP, RUES y CvLAC, con vision por seccionales
+%  Secciones redactadas por subagentes -> _build_cruce/sec_*.tex
+%  Compilar: pdflatex (MiKTeX) dos veces.
+% =====================================================================
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage[letterpaper,margin=2.3cm,top=2.6cm,bottom=2.4cm]{geometry}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{abstract}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\sisetup{group-separator={.}, group-minimum-digits=4, output-decimal-marker={,}, detect-weight=true, detect-family=true}
+\usepackage{csquotes}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{ustaazul}{HTML}{1F3A93}
+\definecolor{ustadorado}{HTML}{E8A317}
+\definecolor{ustarojo}{HTML}{B22222}
+\definecolor{ustagris}{HTML}{444444}
+\definecolor{ustagrisclaro}{HTML}{F2F4F8}
+\definecolor{ustacrema}{HTML}{FBF3DC}
+\definecolor{ustaverde}{HTML}{1B998B}
+\definecolor{ustaborde}{HTML}{D5DAE3}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyhead[L]{\footnotesize\color{ustagris}Observatorio de Participación de Graduados}
+\fancyhead[R]{\footnotesize\color{ustagris}Consultorio de Estadística $\cdot$ 2026-1}
+\fancyfoot[C]{\footnotesize\color{ustagris}\thepage}
+
+\titleformat{\section}{\large\bfseries\color{ustaazul}}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{ustarojo}}{\thesubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{12pt}{5pt}
+\titlespacing*{\subsection}{0pt}{8pt}{3pt}
+
+\setlist[itemize]{leftmargin=1.3em, itemsep=1.5pt, topsep=2pt}
+\renewcommand{\labelitemi}{\textcolor{ustadorado}{\textbullet}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcommand{\code}[1]{\texttt{\small #1}}
+
+\newtcolorbox{cajaobs}{colback=ustacrema, colframe=ustadorado, boxrule=1pt,
+  borderline west={3pt}{0pt}{ustarojo}, arc=2pt, left=10pt, right=8pt, top=8pt, bottom=8pt}
+\newtcolorbox{cajahallazgo}{colback=ustagrisclaro, colframe=ustaazul, boxrule=1pt,
+  borderline west={3pt}{0pt}{ustaverde}, arc=2pt, left=10pt, right=8pt, top=8pt, bottom=8pt}
+
+\begin{document}
+
+\begin{center}
+  \includegraphics[width=2.4cm]{UstaLogo.png}\\[4pt]
+  {\footnotesize\color{ustagris} Universidad Santo Tomás $\cdot$ Facultad de Estadística\\
+  Consultorio de Estadística $\cdot$ Organización \texttt{ustadistica}}\\[10pt]
+  {\LARGE\bfseries\color{ustaazul} Observatorio de Participación de Graduados}\\[4pt]
+  {\large\color{ustarojo} Trayectoria de los graduados de la USTA en SECOP, RUES y CvLAC,\\ con análisis por seccional}\\[3pt]
+  {\normalsize\itshape Informe de hallazgos --- Periodo 2026-1 (fase de integración y análisis)}\\[10pt]
+  {\normalsize\bfseries Consultorio de Estadística}\\[3pt]
+  {\footnotesize\color{ustagris} Sobre la base de fuentes recolectada y catalogada por Natalia González, Ximena Arias y Paula Gordillo\\
+  Repositorio de referencia: \href{https://github.com/ustadistica/impacto_graduados}{\code{ustadistica/impacto\_graduados}}}
+\end{center}
+\vspace{4pt}\hrule height 0.8pt\vspace{8pt}
+
+\begin{abstract}
+\noindent El informe anterior del \emph{Observatorio de Participación de Graduados} concluyó que el trabajo de 2026-1 recolectó y catalogó con solvencia tres fuentes oficiales ---CvLAC/GrupLAC, RUES y SNIES--- pero que el \textbf{cruce integrado} entre ellas, razón de ser del observatorio, había quedado pendiente. Este artículo retoma ese punto y reporta, con análisis descriptivo, comparación por sedes y cruce de variables, los hallazgos de \textbf{ejecutar el cruce}. Sobre una base unificada de \textbf{174.685 graduados} de la Universidad Santo Tomás (seis sedes: Sede Principal de Bogotá, Bucaramanga, Tunja, Villavicencio, Medellín y los centros VUAD de educación a distancia; 1970--2026), se enlazó a cada egresado ---por documento de identidad--- con el \textbf{SECOP Integrado} (contratación pública) y el \textbf{RUES} (registro mercantil), y ---por evidencia académica--- con \textbf{CvLAC} (investigación). Los resultados perfilan por primera vez de forma integrada la huella del egresado: el \textbf{24,6\,\%} aparece como proveedor del Estado, el \textbf{21,5\,\%} ha registrado empresa y un grupo selecto figura como investigador con vínculo USTA comprobado. En conjunto, \textbf{el 40,3\,\% deja huella en al menos una de las tres dimensiones} y un núcleo de \textbf{227 personas} lo hace en las tres. El análisis por sedes revela patrones contrastantes ---Tunja lidera en contratación pública e investigación, Bucaramanga en matrícula mercantil, y Bogotá figura entre las tasas más bajas pese a su enorme volumen--- y un fuerte arraigo territorial: cada sede contrata y se registra en el RUES sobre todo en su propio departamento. El cruce de variables muestra, además, que los investigadores contratan y se registran en el RUES muy por encima del promedio. El cruce que el observatorio tenía pendiente es, hoy, su primer mapa de la participación del egresado. \\[4pt]
+\noindent\textbf{Palabras clave:} egresados, participación, cruce de fuentes, resolución de identidades, seccionales, SECOP, RUES, CvLAC, datos abiertos, API Socrata.
+\end{abstract}
+\vspace{2pt}
+
+\input{_build_cruce/sec_intro.tex}
+\input{_build_cruce/sec_datos.tex}
+\input{_build_cruce/sec_caracterizacion.tex}
+\input{_build_cruce/sec_secop.tex}
+\input{_build_cruce/sec_rues.tex}
+\input{_build_cruce/sec_cvlac.tex}
+\input{_build_cruce/sec_cruce.tex}
+\input{_build_cruce/sec_territorial.tex}
+\input{_build_cruce/sec_cierre.tex}
+
+\end{document}

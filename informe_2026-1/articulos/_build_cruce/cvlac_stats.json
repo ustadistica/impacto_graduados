@@ -1,0 +1,170 @@
+{
+  "n_validados": 2535,
+  "n_registros": 3403,
+  "nivel": {
+    "Maestría": 1023,
+    "Pregrado": 488,
+    "Doctorado": 469,
+    "No identificado": 303,
+    "Especialización": 248,
+    "Posdoctorado": 4
+  },
+  "pct_posgrado": 68.6,
+  "categoria": {
+    "Sin categoría": 2247,
+    "Investigador Junior (IJ)": 164,
+    "Investigador Asociado (I)": 91,
+    "Investigador Senior (IS)": 31,
+    "Investigador Emérito (IE)": 2
+  },
+  "n_categorizados": 288,
+  "prod_total": 13080,
+  "prod_top": {
+    "Artículos": 6434,
+    "Textos no científicos": 2422,
+    "Libros": 1323,
+    "Capítulos de libro": 909,
+    "Demás trabajos": 497,
+    "Documentos de trabajo": 368,
+    "Otra prod. bibliográfica": 292,
+    "Consultorías": 264,
+    "Innovación de proceso": 164,
+    "Informes técnicos": 134
+  },
+  "carrera_top": [
+    {
+      "prog": "DERECHO",
+      "investigadores": 273,
+      "pct_doc": 24.1
+    },
+    {
+      "prog": "PSICOLOGIA",
+      "investigadores": 115,
+      "pct_doc": 13.0
+    },
+    {
+      "prog": "INGENIERIA ELECTRONICA",
+      "investigadores": 113,
+      "pct_doc": 8.0
+    },
+    {
+      "prog": "ECONOMIA",
+      "investigadores": 99,
+      "pct_doc": 20.2
+    },
+    {
+      "prog": "MAESTRIA EN EDUCACION",
+      "investigadores": 80,
+      "pct_doc": 31.2
+    },
+    {
+      "prog": "INGENIERIA CIVIL",
+      "investigadores": 78,
+      "pct_doc": 11.5
+    },
+    {
+      "prog": "CULTURA FISICA, DEPORTE Y RECREACION",
+      "investigadores": 78,
+      "pct_doc": 5.1
+    },
+    {
+      "prog": "CONTADURIA PUBLICA",
+      "investigadores": 71,
+      "pct_doc": 5.6
+    },
+    {
+      "prog": "INGENIERIA AMBIENTAL",
+      "investigadores": 69,
+      "pct_doc": 1.4
+    },
+    {
+      "prog": "INGENIERIA DE TELECOMUNICACIONES",
+      "investigadores": 64,
+      "pct_doc": 10.9
+    },
+    {
+      "prog": "ARQUITECTURA",
+      "investigadores": 60,
+      "pct_doc": 16.7
+    },
+    {
+      "prog": "NEGOCIOS INTERNACIONALES",
+      "investigadores": 54,
+      "pct_doc": 0.0
+    }
+  ],
+  "carrera_area": {
+    "DERECHO": {
+      "Ciencias Sociales": 93.6,
+      "Ingeniería y Tecnología": 0.4,
+      "Humanidades": 5.6,
+      "Ciencias Médicas y de la Salud": 0.4,
+      "Ciencias Naturales": 0.0,
+      "Ciencias Agrícolas": 0.0
+    },
+    "PSICOLOGIA": {
+      "Ciencias Sociales": 92.1,
+      "Ingeniería y Tecnología": 0.0,
+      "Humanidades": 5.3,
+      "Ciencias Médicas y de la Salud": 2.6,
+      "Ciencias Naturales": 0.0,
+      "Ciencias Agrícolas": 0.0
+    },
+    "INGENIERIA ELECTRONICA": {
+      "Ciencias Sociales": 0.9,
+      "Ingeniería y Tecnología": 99.1,
+      "Humanidades": 0.0,
+      "Ciencias Médicas y de la Salud": 0.0,
+      "Ciencias Naturales": 0.0,
+      "Ciencias Agrícolas": 0.0
+    },
+    "ECONOMIA": {
+      "Ciencias Sociales": 96.9,
+      "Ingeniería y Tecnología": 1.0,
+      "Humanidades": 1.0,
+      "Ciencias Médicas y de la Salud": 0.0,
+      "Ciencias Naturales": 1.0,
+      "Ciencias Agrícolas": 0.0
+    },
+    "MAESTRIA EN EDUCACION": {
+      "Ciencias Sociales": 73.8,
+      "Ingeniería y Tecnología": 5.0,
+      "Humanidades": 13.8,
+      "Ciencias Médicas y de la Salud": 1.2,
+      "Ciencias Naturales": 5.0,
+      "Ciencias Agrícolas": 1.2
+    },
+    "INGENIERIA CIVIL": {
+      "Ciencias Sociales": 2.7,
+      "Ingeniería y Tecnología": 86.7,
+      "Humanidades": 1.3,
+      "Ciencias Médicas y de la Salud": 0.0,
+      "Ciencias Naturales": 9.3,
+      "Ciencias Agrícolas": 0.0
+    },
+    "CULTURA FISICA, DEPORTE Y RECREACION": {
+      "Ciencias Sociales": 16.7,
+      "Ingeniería y Tecnología": 1.3,
+      "Humanidades": 3.8,
+      "Ciencias Médicas y de la Salud": 76.9,
+      "Ciencias Naturales": 1.3,
+      "Ciencias Agrícolas": 0.0
+    }
+  },
+  "validados_seccional": {
+    "Bogotá": 1434,
+    "Bucaramanga": 528,
+    "Medellín": 34,
+    "Tunja": 388,
+    "VUAD": 72,
+    "Villavicencio": 83
+  },
+  "gran_area_top": {
+    "Ciencias Sociales": 1345,
+    "Ingeniería y Tecnología": 540,
+    "Humanidades": 298,
+    "Ciencias Médicas y de la Salud": 166,
+    "Ciencias Naturales": 123,
+    "Ciencias Agrícolas": 26
+  }
+}

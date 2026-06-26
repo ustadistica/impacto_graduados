@@ -1,0 +1,378 @@
+{
+  "n_prov": 42889,
+  "n_contratos": 347097,
+  "valor_total": 65901553315700.0,
+  "tipo_top": {
+    "Prestación De Servicios": {
+      "contratos": 321643,
+      "valor": 22803981446641.0,
+      "pct_c": 92.7
+    },
+    "Obra": {
+      "contratos": 6647,
+      "valor": 3941831904240.0,
+      "pct_c": 1.9
+    },
+    "Suministro": {
+      "contratos": 4610,
+      "valor": 308188273877.0,
+      "pct_c": 1.3
+    },
+    "Consultoría": {
+      "contratos": 2377,
+      "valor": 103758921976.0,
+      "pct_c": 0.7
+    },
+    "Otro Tipo De Contrato": {
+      "contratos": 2337,
+      "valor": 4602120144184.0,
+      "pct_c": 0.7
+    },
+    "Compraventa": {
+      "contratos": 2319,
+      "valor": 347368113113.0,
+      "pct_c": 0.7
+    },
+    "Decreto 092 De 2017": {
+      "contratos": 2164,
+      "valor": 72896970286.0,
+      "pct_c": 0.6
+    },
+    "Interventoría": {
+      "contratos": 1920,
+      "valor": 141625550861.0,
+      "pct_c": 0.6
+    },
+    "Arrendamiento": {
+      "contratos": 916,
+      "valor": 27180685433.0,
+      "pct_c": 0.3
+    },
+    "Arrendamiento De Inmuebles": {
+      "contratos": 728,
+      "valor": 41296395513.0,
+      "pct_c": 0.2
+    }
+  },
+  "modalidad_top": {
+    "Licitación Pública": {
+      "valor": 35961591408302.0,
+      "pct": 54.6
+    },
+    "Contratación Régimen Especial": {
+      "valor": 11021464764713.0,
+      "pct": 16.7
+    },
+    "Contratación Directa": {
+      "valor": 6423515270548.0,
+      "pct": 9.7
+    },
+    "Régimen Especial": {
+      "valor": 6098181656390.0,
+      "pct": 9.3
+    },
+    "Contratación Directa (Ley 1150 De 2007)": {
+      "valor": 4420097049168.0,
+      "pct": 6.7
+    },
+    "Selección Abreviada De Menor Cuantía (Ley 1150 De 2007)": {
+      "valor": 423278480144.0,
+      "pct": 0.6
+    },
+    "Contratación Régimen Especial (Con Ofertas)": {
+      "valor": 246961912778.0,
+      "pct": 0.4
+    },
+    "Selección Abreviada De Menor Cuantía": {
+      "valor": 228861751111.0,
+      "pct": 0.3
+    }
+  },
+  "nivel": {
+    "Nacional": {
+      "pct_c": 32.2,
+      "pct_v": 61.9
+    },
+    "Territorial": {
+      "pct_c": 67.8,
+      "pct_v": 38.1
+    },
+    "(sin dato)": {
+      "pct_c": 0.0,
+      "pct_v": 0.0
+    }
+  },
+  "outlier": {
+    "valor_max": 22201559287448.0,
+    "valor_total": 65901553315700.0,
+    "valor_total_sin_top1": 43699994028252.0,
+    "valor_mediana": 113241976.0,
+    "pct_top10_valor": 76.6
+  },
+  "carrera_top": [
+    {
+      "prog": "DERECHO",
+      "proveedores": 8284,
+      "contratos": 74243,
+      "vmed": 147653039.0,
+      "valor": 14061190051214.0
+    },
+    {
+      "prog": "ESPECIALIZACION EN DERECHO ADMINISTRATIVO",
+      "proveedores": 3317,
+      "contratos": 33795,
+      "vmed": 173918000.0,
+      "valor": 1147133666870.0
+    },
+    {
+      "prog": "INGENIERIA CIVIL",
+      "proveedores": 2159,
+      "contratos": 14884,
+      "vmed": 114596602.0,
+      "valor": 2464697979270.0
+    },
+    {
+      "prog": "ARQUITECTURA",
+      "proveedores": 1882,
+      "contratos": 13333,
+      "vmed": 77452920.5,
+      "valor": 4834970499672.0
+    },
+    {
+      "prog": "ECONOMIA",
+      "proveedores": 1230,
+      "contratos": 9468,
+      "vmed": 136299312.5,
+      "valor": 22662851921025.0
+    },
+    {
+      "prog": "CONTADURIA PUBLICA",
+      "proveedores": 1227,
+      "contratos": 8868,
+      "vmed": 76985000.0,
+      "valor": 339348260666.0
+    },
+    {
+      "prog": "PSICOLOGIA",
+      "proveedores": 1221,
+      "contratos": 8811,
+      "vmed": 102161077.0,
+      "valor": 8442428450978.0
+    },
+    {
+      "prog": "ESPECIALIZACION EN AUDITORIA DE SALUD",
+      "proveedores": 1090,
+      "contratos": 10734,
+      "vmed": 109629566.0,
+      "valor": 360870304512.0
+    },
+    {
+      "prog": "NEGOCIOS INTERNACIONALES",
+      "proveedores": 1068,
+      "contratos": 6303,
+      "vmed": 67082053.5,
+      "valor": 180799219464.0
+    },
+    {
+      "prog": "CULTURA FISICA, DEPORTE Y RECREACION",
+      "proveedores": 1008,
+      "contratos": 6852,
+      "vmed": 74896097.5,
+      "valor": 158891570083.0
+    },
+    {
+      "prog": "ODONTOLOGIA",
+      "proveedores": 907,
+      "contratos": 5410,
+      "vmed": 48880000.0,
+      "valor": 2792398389148.0
+    },
+    {
+      "prog": "INGENIERIA AMBIENTAL",
+      "proveedores": 761,
+      "contratos": 5203,
+      "vmed": 120250000.0,
+      "valor": 148813717103.0
+    }
+  ],
+  "unspsc_n_contratos": 136800,
+  "unspsc_generico_pct": 79.3,
+  "unspsc_categorias": {
+    "Apoyo profesional y gestión": 108535,
+    "Cívico y político": 6518,
+    "Jurídico": 6143,
+    "Salud": 4075,
+    "Ingeniería y TI": 3679,
+    "Otros": 2266,
+    "Educación": 2174,
+    "Ambiental": 1358,
+    "Financiero y contable": 1016,
+    "Construcción y obra": 678,
+    "Agro y recursos": 323,
+    "Transporte": 35
+  },
+  "carrera_unspsc": {
+    "DERECHO": {
+      "Jurídico": 61.7,
+      "Salud": 3.3,
+      "Ingeniería y TI": 1.1,
+      "Construcción y obra": 0.1,
+      "Financiero y contable": 0.6,
+      "Cívico y político": 28.9,
+      "Ambiental": 1.7,
+      "Educación": 2.5
+    },
+    "ESPECIALIZACION EN DERECHO ADMINISTRATIVO": {
+      "Jurídico": 52.1,
+      "Salud": 2.9,
+      "Ingeniería y TI": 1.5,
+      "Construcción y obra": 0.1,
+      "Financiero y contable": 1.9,
+      "Cívico y político": 35.5,
+      "Ambiental": 2.9,
+      "Educación": 2.9
+    },
+    "INGENIERIA CIVIL": {
+      "Jurídico": 1.6,
+      "Salud": 1.9,
+      "Ingeniería y TI": 65.0,
+      "Construcción y obra": 16.1,
+      "Financiero y contable": 1.1,
+      "Cívico y político": 8.1,
+      "Ambiental": 4.8,
+      "Educación": 1.4
+    },
+    "ARQUITECTURA": {
+      "Jurídico": 2.2,
+      "Salud": 3.4,
+      "Ingeniería y TI": 59.9,
+      "Construcción y obra": 8.8,
+      "Financiero y contable": 0.6,
+      "Cívico y político": 16.3,
+      "Ambiental": 1.2,
+      "Educación": 7.6
+    },
+    "ECONOMIA": {
+      "Jurídico": 4.3,
+      "Salud": 4.3,
+      "Ingeniería y TI": 22.9,
+      "Construcción y obra": 1.4,
+      "Financiero y contable": 14.1,
+      "Cívico y político": 30.4,
+      "Ambiental": 2.9,
+      "Educación": 19.8
+    },
+    "CONTADURIA PUBLICA": {
+      "Jurídico": 4.7,
+      "Salud": 8.9,
+      "Ingeniería y TI": 2.8,
+      "Construcción y obra": 0.4,
+      "Financiero y contable": 62.1,
+      "Cívico y político": 16.7,
+      "Ambiental": 0.4,
+      "Educación": 4.0
+    },
+    "PSICOLOGIA": {
+      "Jurídico": 0.5,
+      "Salud": 58.4,
+      "Ingeniería y TI": 0.6,
+      "Construcción y obra": 0.0,
+      "Financiero y contable": 0.4,
+      "Cívico y político": 29.2,
+      "Ambiental": 0.4,
+      "Educación": 10.4
+    },
+    "ESPECIALIZACION EN AUDITORIA DE SALUD": {
+      "Jurídico": 1.4,
+      "Salud": 85.5,
+      "Ingeniería y TI": 0.4,
+      "Construcción y obra": 0.0,
+      "Financiero y contable": 6.5,
+      "Cívico y político": 4.6,
+      "Ambiental": 0.2,
+      "Educación": 1.4
+    }
+  },
+  "carrera_region": {
+    "DERECHO": {
+      "Bogota D.C.": 42.6,
+      "Santander": 23.3,
+      "Boyaca": 11.9,
+      "Meta": 6.5,
+      "Cundinamarca": 2.4,
+      "Casanare": 2.6,
+      "Antioquia": 1.0,
+      "Otros": 9.7
+    },
+    "ESPECIALIZACION EN DERECHO ADMINISTRATIVO": {
+      "Bogota D.C.": 32.3,
+      "Santander": 11.1,
+      "Boyaca": 9.5,
+      "Meta": 8.3,
+      "Cundinamarca": 3.3,
+      "Casanare": 3.5,
+      "Antioquia": 5.2,
+      "Otros": 26.8
+    },
+    "INGENIERIA CIVIL": {
+      "Bogota D.C.": 34.6,
+      "Santander": 3.3,
+      "Boyaca": 31.3,
+      "Meta": 7.2,
+      "Cundinamarca": 5.3,
+      "Casanare": 4.6,
+      "Antioquia": 0.7,
+      "Otros": 12.9
+    },
+    "ARQUITECTURA": {
+      "Bogota D.C.": 12.6,
+      "Santander": 36.8,
+      "Boyaca": 21.6,
+      "Meta": 0.8,
+      "Cundinamarca": 1.3,
+      "Casanare": 2.8,
+      "Antioquia": 16.1,
+      "Otros": 8.1
+    },
+    "ECONOMIA": {
+      "Bogota D.C.": 57.5,
+      "Santander": 19.5,
+      "Boyaca": 2.2,
+      "Meta": 0.7,
+      "Cundinamarca": 3.9,
+      "Casanare": 0.6,
+      "Antioquia": 1.3,
+      "Otros": 14.3
+    },
+    "CONTADURIA PUBLICA": {
+      "Bogota D.C.": 31.9,
+      "Santander": 36.8,
+      "Boyaca": 8.8,
+      "Meta": 4.4,
+      "Cundinamarca": 7.7,
+      "Casanare": 1.2,
+      "Antioquia": 0.7,
+      "Otros": 8.5
+    },
+    "PSICOLOGIA": {
+      "Bogota D.C.": 67.1,
+      "Santander": 0.9,
+      "Boyaca": 2.5,
+      "Meta": 10.4,
+      "Cundinamarca": 6.6,
+      "Casanare": 2.0,
+      "Antioquia": 0.7,
+      "Otros": 9.9
+    },
+    "ESPECIALIZACION EN AUDITORIA DE SALUD": {
+      "Bogota D.C.": 37.9,
+      "Santander": 2.5,
+      "Boyaca": 33.5,
+      "Meta": 2.2,
+      "Cundinamarca": 14.1,
+      "Casanare": 3.5,
+      "Antioquia": 0.3,
+      "Otros": 6.0
+    }
+  }
+}

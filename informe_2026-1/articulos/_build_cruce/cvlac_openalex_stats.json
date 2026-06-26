@@ -1,0 +1,17 @@
+{
+  "n_menciones": 5640,
+  "n_issn": 1839,
+  "pct_indexada": 82.5,
+  "pct_colombia": 59.5,
+  "pct_doaj": 55.1,
+  "campo_top": {
+    "Social Sciences": 1905,
+    "Economics, Econometrics and Finance": 777,
+    "Computer Science": 351,
+    "Health Professions": 275,
+    "Arts and Humanities": 246,
+    "Medicine": 193,
+    "Psychology": 187,
+    "Engineering": 170
+  }
+}

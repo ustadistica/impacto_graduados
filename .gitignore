@@ -1,2 +1,18 @@
 # Ignorar carpeta de datos
 data/
+
+# ── Aporte informe_2026_01: datos personales y microdatos — NO publicar ──
+*.csv
+*.xlsx
+*.xls
+salidas/
+datos/
+**/datasets/
+# Intermedios LaTeX y caches
+*.aux
+*.log
+*.out
+*.synctex.gz
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

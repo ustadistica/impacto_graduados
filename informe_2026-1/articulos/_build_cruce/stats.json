@@ -1,0 +1,462 @@
+{
+  "n_registros": 197273,
+  "n_personas": 174685,
+  "anio_min": 1970,
+  "anio_max": 2026,
+  "grad_por_sede": {
+    "Bogotá": 104468,
+    "Bucaramanga": 37370,
+    "Tunja": 14859,
+    "Villavicencio": 7030,
+    "Medellín": 3374,
+    "VUAD": 11098
+  },
+  "registros_por_sede": {
+    "Bogotá": 115473,
+    "Bucaramanga": 40989,
+    "Tunja": 17925,
+    "Villavicencio": 7619,
+    "Medellín": 3634,
+    "VUAD": 11633
+  },
+  "pico_anual": {
+    "Bogotá": {
+      "anio": 1999,
+      "n": 6225
+    },
+    "Bucaramanga": {
+      "anio": 2025,
+      "n": 2024
+    },
+    "Tunja": {
+      "anio": 2025,
+      "n": 1620
+    },
+    "Villavicencio": {
+      "anio": 2024,
+      "n": 921
+    },
+    "Medellín": {
+      "anio": 2023,
+      "n": 238
+    },
+    "VUAD": {
+      "anio": 2018,
+      "n": 902
+    }
+  },
+  "top_programas": {
+    "DERECHO": 19086,
+    "CONTADURIA PUBLICA": 10254,
+    "ESPECIALIZACION EN DERECHO ADMINISTRATIVO": 8887,
+    "NEGOCIOS INTERNACIONALES": 7867,
+    "ECONOMIA": 7107,
+    "INGENIERIA CIVIL": 6574,
+    "ADMINISTRACION DE EMPRESAS": 6085,
+    "ARQUITECTURA": 6019,
+    "PSICOLOGIA": 5004,
+    "ODONTOLOGIA": 3964,
+    "LICENCIATURA EN EDUCACION PREESCOLAR Y PROMOCION DE LA FAMILIA": 3652,
+    "CULTURA FISICA, DEPORTE Y RECREACION": 3234,
+    "LICENCIATURA EN EDUCACION BASICA Y PROMOCION DE LA COMUNIDAD": 2803,
+    "INGENIERIA ELECTRONICA": 2661,
+    "ESPECIALIZACION EN DOCENCIA UNIVERSITARIA": 2646
+  },
+  "modalidad_sede": {
+    "Bogotá": {
+      "Posgrado": 47390,
+      "Pregrado": 68083
+    },
+    "Tunja": {
+      "Posgrado": 7747,
+      "Pregrado": 10178
+    },
+    "Villavicencio": {
+      "Posgrado": 1726,
+      "Pregrado": 5893
+    },
+    "Medellín": {
+      "Posgrado": 1287,
+      "Pregrado": 2347
+    },
+    "VUAD": {
+      "Posgrado": 2504,
+      "Pregrado": 9129
+    }
+  },
+  "tasas_sede": {
+    "Bogotá": {
+      "n": 104468,
+      "secop_pct": 20.0,
+      "rues_pct": 18.2,
+      "cvlac_pct": 1.5
+    },
+    "Bucaramanga": {
+      "n": 36554,
+      "secop_pct": 28.2,
+      "rues_pct": 29.0,
+      "cvlac_pct": 1.3
+    },
+    "Tunja": {
+      "n": 13803,
+      "secop_pct": 45.2,
+      "rues_pct": 24.8,
+      "cvlac_pct": 2.5
+    },
+    "Villavicencio": {
+      "n": 6697,
+      "secop_pct": 38.0,
+      "rues_pct": 24.2,
+      "cvlac_pct": 1.2
+    },
+    "Medellín": {
+      "n": 2936,
+      "secop_pct": 28.9,
+      "rues_pct": 17.8,
+      "cvlac_pct": 1.1
+    },
+    "VUAD": {
+      "n": 10227,
+      "secop_pct": 19.9,
+      "rues_pct": 23.3,
+      "cvlac_pct": 0.6
+    }
+  },
+  "dist_dimensiones": {
+    "0": 104308,
+    "1": 58001,
+    "2": 12149,
+    "3": 227
+  },
+  "con_al_menos_una": 70377,
+  "pct_al_menos_una": 40.3,
+  "combinaciones": {
+    "SECOP": 30790,
+    "RUES": 25815,
+    "SECOP+RUES": 11225,
+    "CvLAC": 1396,
+    "SECOP+CvLAC": 647,
+    "RUES+CvLAC": 277,
+    "SECOP+RUES+CvLAC": 227
+  },
+  "dimensiones_por_sede": {
+    "Bogotá": {
+      "0": 68479,
+      "1": 30609,
+      "2": 5279,
+      "3": 101
+    },
+    "Bucaramanga": {
+      "0": 18588,
+      "1": 14616,
+      "2": 3290,
+      "3": 60
+    },
+    "Tunja": {
+      "0": 5793,
+      "1": 6056,
+      "2": 1905,
+      "3": 49
+    },
+    "Villavicencio": {
+      "0": 3199,
+      "1": 2756,
+      "2": 736,
+      "3": 6
+    },
+    "Medellín": {
+      "0": 1747,
+      "1": 978,
+      "2": 209,
+      "3": 2
+    },
+    "VUAD": {
+      "0": 6502,
+      "1": 2986,
+      "2": 730,
+      "3": 9
+    }
+  },
+  "impacto_por_decada": {
+    "1970": {
+      "n": 1104,
+      "secop_pct": 8.3,
+      "rues_pct": 27.4,
+      "cvlac_pct": 0.8
+    },
+    "1980": {
+      "n": 9355,
+      "secop_pct": 11.1,
+      "rues_pct": 25.0,
+      "cvlac_pct": 0.8
+    },
+    "1990": {
+      "n": 36996,
+      "secop_pct": 11.0,
+      "rues_pct": 22.4,
+      "cvlac_pct": 0.7
+    },
+    "2000": {
+      "n": 35939,
+      "secop_pct": 24.9,
+      "rues_pct": 24.9,
+      "cvlac_pct": 1.6
+    },
+    "2010": {
+      "n": 50780,
+      "secop_pct": 33.8,
+      "rues_pct": 21.9,
+      "cvlac_pct": 2.6
+    },
+    "2020": {
+      "n": 40490,
+      "secop_pct": 28.6,
+      "rues_pct": 16.1,
+      "cvlac_pct": 0.8
+    }
+  },
+  "secop": {
+    "n_proveedores": 42889,
+    "n_contratos": 347097,
+    "valor_total": 65901553315700.0,
+    "valor_mediana": 113833134.0,
+    "contratos_mediana": 5.0
+  },
+  "secop_top_programas": {
+    "DERECHO": 8305,
+    "ESPECIALIZACIÓN EN DERECHO ADMINISTRATIVO": 2917,
+    "INGENIERÍA CIVIL": 2159,
+    "ARQUITECTURA": 1882,
+    "ECONOMÍA": 1230,
+    "CONTADURÍA PÚBLICA": 1227,
+    "PSICOLOGÍA": 1221,
+    "ESPECIALIZACIÓN EN AUDITORÍA DE SALUD": 1090,
+    "NEGOCIOS INTERNACIONALES": 1068,
+    "CULTURA FÍSICA, DEPORTE Y RECREACIÓN": 1008,
+    "ODONTOLOGÍA": 907,
+    "INGENIERÍA AMBIENTAL": 761
+  },
+  "rues": {
+    "n_emprendedores": 37544,
+    "n_activa": 11125
+  },
+  "rues_top_ciiu": {
+    "9999": 7759,
+    "5611": 1179,
+    "4771": 996,
+    "4711": 892,
+    "8622": 850,
+    "4773": 764,
+    "7110": 717,
+    "5630": 694,
+    "6910": 628,
+    "4761": 620,
+    "4719": 602,
+    "5613": 569
+  },
+  "cvlac": {
+    "n_validados_personas": 2535,
+    "n_validados_registros": 3403,
+    "por_formacion": 2991,
+    "por_grupo": 2375
+  },
+  "overlaps": {
+    "secop_y_rues": 11452,
+    "secop_y_cvlac": 874,
+    "rues_y_cvlac": 504,
+    "las_tres": 227,
+    "cvlac_tambien_secop_pct": 34.3,
+    "cvlac_tambien_rues_pct": 19.8
+  },
+  "heatmap_programa": {
+    "DERECHO": {
+      "secop": 44.1,
+      "rues": 18.0,
+      "cvlac": 1.5
+    },
+    "CONTADURÍA PÚBLICA": {
+      "secop": 12.0,
+      "rues": 22.8,
+      "cvlac": 0.7
+    },
+    "NEGOCIOS INTERNACIONALES": {
+      "secop": 14.0,
+      "rues": 24.8,
+      "cvlac": 0.7
+    },
+    "ESPECIALIZACIÓN EN DERECHO ADMINISTRATIVO": {
+      "secop": 57.7,
+      "rues": 20.1,
+      "cvlac": 0.8
+    },
+    "ECONOMÍA": {
+      "secop": 17.5,
+      "rues": 27.0,
+      "cvlac": 1.5
+    },
+    "INGENIERÍA CIVIL": {
+      "secop": 34.0,
+      "rues": 25.3,
+      "cvlac": 1.2
+    },
+    "ADMINISTRACIÓN DE EMPRESAS": {
+      "secop": 14.3,
+      "rues": 24.3,
+      "cvlac": 0.5
+    },
+    "ARQUITECTURA": {
+      "secop": 31.9,
+      "rues": 32.0,
+      "cvlac": 1.0
+    },
+    "PSICOLOGÍA": {
+      "secop": 24.9,
+      "rues": 17.2,
+      "cvlac": 2.3
+    },
+    "ODONTOLOGÍA": {
+      "secop": 22.9,
+      "rues": 31.1,
+      "cvlac": 0.9
+    },
+    "LICENCIATURA EN EDUCACIÓN PREESCOLAR Y PROMOCIÓN DE LA FAMILIA": {
+      "secop": 3.0,
+      "rues": 20.6,
+      "cvlac": 0.1
+    },
+    "CULTURA FÍSICA, DEPORTE Y RECREACIÓN": {
+      "secop": 31.5,
+      "rues": 18.3,
+      "cvlac": 2.4
+    }
+  },
+  "secop_top_departamento": {
+    "Bogota D.C.": 137117,
+    "Santander": 56876,
+    "Boyaca": 41709,
+    "Meta": 19694,
+    "Cundinamarca": 16858,
+    "Casanare": 9447,
+    "Antioquia": 8810,
+    "Norte De Santander": 5804,
+    "Cesar": 5320,
+    "Tolima": 4348,
+    "Norte de Santander": 3630,
+    "Huila": 3416
+  },
+  "rues_top_camara": {
+    "Bogota": 10238,
+    "Bucaramanga": 7747,
+    "Tunja": 3326,
+    "Villavicencio": 2516,
+    "Cucuta": 1151,
+    "Casanare": 821,
+    "Duitama": 815,
+    "Medellin Para Antioquia": 656,
+    "Sogamoso": 642,
+    "Barrancabermeja": 637,
+    "Huila": 627,
+    "Facatativa": 550
+  },
+  "territorial_secop": {
+    "Bogotá": {
+      "Bogota D.C.": 61.8,
+      "Santander": 2.2,
+      "Boyaca": 3.9,
+      "Meta": 2.9,
+      "Antioquia": 1.3,
+      "Otros": 27.9
+    },
+    "Bucaramanga": {
+      "Bogota D.C.": 17.7,
+      "Santander": 59.6,
+      "Boyaca": 2.2,
+      "Meta": 0.6,
+      "Antioquia": 1.4,
+      "Otros": 18.5
+    },
+    "Tunja": {
+      "Bogota D.C.": 23.1,
+      "Santander": 2.5,
+      "Boyaca": 59.2,
+      "Meta": 1.3,
+      "Antioquia": 0.3,
+      "Otros": 13.7
+    },
+    "Villavicencio": {
+      "Bogota D.C.": 18.7,
+      "Santander": 0.2,
+      "Boyaca": 0.7,
+      "Meta": 66.7,
+      "Antioquia": 0.1,
+      "Otros": 13.7
+    },
+    "Medellín": {
+      "Bogota D.C.": 13.4,
+      "Santander": 0.3,
+      "Boyaca": 1.5,
+      "Meta": 0.1,
+      "Antioquia": 69.6,
+      "Otros": 15.0
+    }
+  },
+  "territorial_rues": {
+    "Bogotá": {
+      "Bogota": 48.8,
+      "Bucaramanga": 4.2,
+      "Tunja": 4.9,
+      "Villavicencio": 3.8,
+      "Otras": 38.3
+    },
+    "Bucaramanga": {
+      "Bogota": 5.3,
+      "Bucaramanga": 63.4,
+      "Tunja": 1.4,
+      "Villavicencio": 1.1,
+      "Otras": 28.8
+    },
+    "Tunja": {
+      "Bogota": 5.6,
+      "Bucaramanga": 2.2,
+      "Tunja": 60.7,
+      "Villavicencio": 1.4,
+      "Otras": 30.1
+    },
+    "Villavicencio": {
+      "Bogota": 2.5,
+      "Bucaramanga": 0.2,
+      "Tunja": 0.2,
+      "Villavicencio": 88.1,
+      "Otras": 8.9
+    },
+    "Medellín": {
+      "Bogota": 3.6,
+      "Bucaramanga": 0.4,
+      "Tunja": 0.6,
+      "Villavicencio": 1.0,
+      "Otras": 94.5
+    }
+  },
+  "figuras": {
+    "01": "",
+    "02": "",
+    "03": "",
+    "04": "",
+    "05": "",
+    "06": "",
+    "07": "",
+    "08": "",
+    "09": "",
+    "10": "",
+    "11": "",
+    "12": "",
+    "13": "",
+    "14": "",
+    "15": "",
+    "16": "",
+    "17": "",
+    "18": "",
+    "19": "",
+    "20": ""
+  }
+}

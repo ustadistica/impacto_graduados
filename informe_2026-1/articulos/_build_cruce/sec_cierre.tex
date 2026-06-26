@@ -1,0 +1,62 @@
+\section{Discusión}
+
+El valor de este trabajo no reside en describir SECOP, RUES y CvLAC en paralelo, sino en cruzarlas sobre una misma población de 174.685 graduados de las seis sedes. Tres tablas yuxtapuestas describen tres mundos; una sola tabla resuelta sobre la identidad de la persona describe una trayectoria. Esa diferencia, más conceptual que técnica, es la que separa un inventario de fuentes de un observatorio de participación. Sobre esa base, el cruce muestra que el 40,3\% de los graduados deja al menos un rastro en alguna de las tres dimensiones.
+
+Donde existe una llave de identidad estable, el cruce es directo y masivo. El número de documento permite enlazar al graduado con su huella de contratación pública en SECOP y con su actividad como persona natural comerciante en RUES sin ambigüedad apreciable: por esa vía se confirman 42.889 graduados contratistas (24,6\%) y 37.544 matriculados en el RUES (21,5\%). La llave hace el trabajo y el cruce escala a decenas de miles de coincidencias verificables. El problema aparece donde la llave no existe: la plataforma CvLAC no expone el documento, de modo que el enlace solo puede intentarse por nombre, y coincidir por nombre es frágil por homónimos, variantes de tildes y nombres compuestos.
+
+La salida no fue renunciar a la dimensión científica, sino sustituir la coincidencia por evidencia. En lugar de aceptar el emparejamiento por nombre como prueba suficiente, se exigió respaldo verificable adicional, formación declarada compatible con un programa de la USTA o vínculo con un grupo de investigación, antes de validar a una persona; el resultado son 2.547 investigadores confirmados. De ahí la enseñanza metodológica que atraviesa el ejercicio: la resolución de identidades es lo que convierte un inventario en un observatorio, porque sin una política explícita sobre cuándo dos registros son la misma persona el cruce es una ilusión de precisión. Esa misma operación es la que produce los 227 graduados presentes en las tres dimensiones a la vez.
+
+El cruce reveló además una asociación que conviene subrayar con cautela. Entre los graduados validados en CvLAC, cerca del 34,3\% aparece también en SECOP y el 19,8\% en RUES: investigar, contratar y registrarse en el RUES no son trayectorias mutuamente excluyentes, sino que tienden a concurrir en las mismas personas. Se trata de una asociación, no de una relación causal, pues este artículo ejecutó el cruce pero no modeló el mecanismo; no puede afirmarse que investigar cause mayor contratación o matrícula mercantil, solo que ambos rasgos se observan juntos con una frecuencia que invita a estudiarlos. Por último, en CvLAC se adoptó un criterio deliberadamente conservador, que prefiere el falso negativo al falso positivo, de modo que las 2.547 personas confirmadas deben leerse como un piso y no como una estimación central de la participación investigativa real.
+
+\section{Limitaciones y trabajo futuro}
+
+\begin{itemize}\setlength\itemsep{2pt}
+  \item El RUES solo capta a quien figura como persona natural comerciante, así que el graduado que se registra en el RUES a través de una sociedad identificada por NIT no se enlaza por su cédula y la dimensión empresarial queda subestimada, sobre todo en su tramo de mayor escala.
+  \item La clasificación de bienes y servicios por código UNSPSC solo está disponible a partir de SECOP II, que cubre alrededor del 39\% de los contratos, por lo que el análisis sectorial de la contratación es todavía parcial.
+  \item Al no disponer de documento, la identidad en CvLAC se valida combinando nombre y evidencia, sin confirmación caso a caso; conviene auditar manualmente una muestra contra la hoja de vida pública de cada persona para estimar la tasa de error del criterio.
+  \item Falta incorporar el SNIES para enriquecer la caracterización académica y la cohorte de graduación para normalizar por antigüedad, de modo que se compare de forma justa a quien lleva décadas en el mercado con quien egresó hace pocos años, sin confundir madurez de trayectoria con mayor participación.
+  \item Queda dar el salto del cruce al modelo, pues este artículo cruzó las fuentes pero analizarlas estadísticamente, con modelos de los determinantes de la participación y de supervivencia condicionada que estimen el tiempo hasta el primer contrato o el primer registro empresarial, exige más que conteos.
+  \item Resta consolidar las tres dimensiones en un tablero unificado y automatizar la ingesta de las fuentes con una fecha de corte explícita, para que cada actualización sea reproducible y comparable con la anterior sin rehacer el proceso a mano.
+\end{itemize}
+
+\section{Nota de observaciones}
+
+En coherencia con el registro evaluativo que ha caracterizado a este equipo, esta nota separa lo que el ejercicio efectivamente logró de lo que apenas deja planteado. El balance es deliberadamente prudente: se ejecutó el cruce de las tres fuentes sobre la población completa, y ese es un avance real; pero la ejecución del cruce no debe confundirse con su explotación analítica, que apenas comienza.
+
+\begin{cajaobs}
+\textbf{Alcance de los hallazgos}
+
+El cruce de identidades se ejecutó sobre los 174.685 graduados y produce las tasas reportadas, pero el análisis estadístico, que modela asociaciones, controla por sede y cohorte y estima supervivencia, está en su inicio: lo que hoy se presenta describe, todavía no explica. Existe además una asimetría de cobertura entre fuentes, pues SECOP y RUES enlazan por documento sobre toda la población mientras CvLAC depende de una extracción parcial validada por nombre, de manera que las tasas por dimensión no son estrictamente comparables entre sí. Y como la subestimación es declarada, RUES omite la matrícula mercantil societario por NIT y el universo CvLAC es parcial y conservador, las cifras de matrícula mercantil e investigación deben leerse como pisos y no como estimaciones centrales.
+
+\textbf{Método y reproducibilidad}
+
+El enlace por documento es masivo y directo, pero no fue verificado caso a caso y descansa en la integridad del documento como llave, mientras que el enlace por nombre en CvLAC, aunque reforzado con evidencia, conserva un margen de error no cuantificado. El observatorio depende además de fuentes externas vivas, las APIs de datos abiertos y el portal de Minciencias, cuyo contenido cambia en el tiempo; por ello es imprescindible fechar cada extracción, ya que una cifra sin fecha de corte no es reproducible.
+\end{cajaobs}
+
+Con esta entrega el observatorio deja de estar en su etapa de cimientos: las fuentes ya no solo se recolectan, sino que se cruzan sobre una identidad común. La exigencia, en consecuencia, se desplaza de integrar a analizar, y es ahí donde se jugará el valor del proyecto en su siguiente entrega.
+
+\section{Conclusiones}
+
+El cruce de las tres fuentes sobre los 174.685 graduados arroja una primera respuesta, parcial pero firme, a la pregunta que da sentido al observatorio. Dentro de lo que tres registros públicos pueden ver ---la contratación con el Estado, la creación formal de empresa y la investigación reconocida---, el 40,3\% de los egresados deja una huella verificable. La cifra debe leerse por sus dos caras. Hacia un lado, confirma que cuatro de cada diez graduados participan de forma rastreable en la vida pública, económica o científica del país. Hacia el otro, recuerda que el 59,7\% restante es invisible para estas fuentes, no porque carezca de participación, sino porque su trayectoria ---el empleo asalariado, el ejercicio liberal, la docencia, la migración--- discurre por canales que ningún registro abierto captura. Lo que el observatorio mide, en rigor, no es la participación total del egresado, sino su huella en tres dominios concretos; y dentro de esa frontera bien delimitada, la huella es considerable.
+
+De ese cruce emerge, además, un retrato del egresado que ninguna fuente aislada permitía dibujar. Su forma más común de participación es la prestación de servicios al Estado territorial y la pequeña empresa de persona natural en el comercio y los servicios de proximidad; su huella se hace más probable y más densa a medida que avanza en la formación, pues el posgrado eleva la presencia en al menos una dimensión del 38,7\% al 43,9\% y eleva en nueve puntos la propensión a contratar; y, en su expresión más completa, converge en un núcleo reducido de 227 graduados que investigan, contratan y se registran en el RUES a la vez. La investigación, lejos de ser una actividad ensimismada, aparece asociada a las otras dos: uno de cada tres investigadores validados también contrata con el Estado. Son asociaciones, no relaciones causales, pero perfilan a un egresado activo cuyas formas de participación tienden a acompañarse antes que a excluirse.
+
+El hallazgo más nítido y, quizá, el de mayor valor para la institución es territorial. La huella del graduado no se dispersa por el país, sino que se arraiga en la región de su sede: entre el 59\% y el 70\% de los contratos y hasta el 88\% de las empresas se concentran en el departamento donde estudió. Cada sede presencial opera, en los hechos, como un motor de desarrollo de su propio territorio, mientras que la modalidad a distancia proyecta esa huella sobre departamentos donde la Universidad no tiene campus. La presencia de la institución en seis sedes se traduce así en una contribución regional medible, y no en una abstracción de su misión.
+
+Estos resultados habilitan acciones concretas que conviene enunciar:
+\begin{itemize}\setlength\itemsep{2pt}
+  \item Usar el mapa de participación por programa como instrumento de gestión curricular, de modo que cada facultad reconozca el canal de participación predominante de sus egresados ---contratación, empresa o investigación--- y refuerce el acompañamiento en las dimensiones donde su huella es débil.
+  \item Capitalizar el arraigo regional en la relación con el entorno, articulando a cada sede con las entidades y el tejido empresarial de su departamento, que es donde sus graduados efectivamente se insertan.
+  \item Convertir los pisos en estimaciones centrales cerrando las brechas de medición que más pesan: la matrícula mercantil societario por NIT en el RUES, la cohorte de graduación vía SNIES y la auditoría del enlace de CvLAC.
+  \item Tomar el 40,3\% como línea de base y dar el paso del cruce al modelo, para pasar de describir quién deja huella a explicar por qué, con seguimiento periódico y fecha de corte.
+\end{itemize}
+
+Con esta entrega, el observatorio deja atrás su fase de cimientos. Resolver la identidad de una misma persona a través de fuentes que no comparten llaves limpias no fue el trámite previo al análisis, sino su resultado principal, y es la condición sin la cual no hay observatorio posible. Sobre ese cruce ya construido, el trabajo que sigue ---interpretar, modelar y comunicar--- es el que dará al proyecto su valor definitivo.
+
+\begin{thebibliography}{99}\setlength\itemsep{1.5pt}
+\bibitem{participación} González, N.; Arias, X.; Gordillo, P. \emph{Observatorio de Impacto de Graduados: recolección y catalogación de fuentes (CvLAC/GrupLAC, RUES y SNIES)}. Consultorio de Estadística, USTA, 2026-1. \url{https://github.com/ustadistica/impacto_graduados}.
+\bibitem{datosgov} Gobierno de Colombia. \emph{Portal de Datos Abiertos --- datos.gov.co}. \url{https://www.datos.gov.co}.
+\bibitem{secop} Colombia Compra Eficiente. \emph{SECOP Integrado} (\code{rpmr-utcd}) y \emph{SECOP II} (\code{jbjy-vk9h}).
+\bibitem{rues} Confecámaras. \emph{Registro Único Empresarial y Social (RUES)} (\code{c82u-588k}). \url{https://www.rues.org.co}.
+\bibitem{cvlac} Minciencias. \emph{Plataforma ScienTI --- CvLAC y GrupLAC}. \url{https://scienti.minciencias.gov.co}.
+\end{thebibliography}
